@@ -1,0 +1,16 @@
+<resources>
+    <string name="app_name" translatable="false">Task Manager</string>
+
+    <!--  Tasks display: navigation  -->
+    <string name="inbox">Inbox</string>
+
+    <string name="next_actions">Next actions</string>
+    <string name="calendar">Calendar</string>
+    <string name="waiting_for">Waiting for</string>
+
+    <string name="someday_maybe">Someday/maybe</string>
+
+    <string name="completed">Completed</string>
+    <string name="deleted">Deleted</string>
+
+</resources>

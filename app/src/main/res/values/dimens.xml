@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!--  Navigation drawer  -->
+    <dimen name="drawer_header_padding">8dp</dimen>
+    <dimen name="drawer_icon_size">32dp</dimen>
+    <dimen name="drawer_text_margin_start">4dp</dimen>
+
+    <!--  TasksDisplay  -->
+    <dimen name="tasks_display_fab_margin">16dp</dimen>
+
+</resources>

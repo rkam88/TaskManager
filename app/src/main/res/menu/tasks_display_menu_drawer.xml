@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <group
+        android:id="@+id/group_inbox"
+        android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_inbox"
+            android:title="@string/inbox"
+            app:actionLayout="@layout/tasks_display_drawer_task_count" />
+    </group>
+
+    <group
+        android:id="@+id/group_active"
+        android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_next_actions"
+            android:title="@string/next_actions"
+            app:actionLayout="@layout/tasks_display_drawer_task_count" />
+        <item
+            android:id="@+id/nav_calendar"
+            android:title="@string/calendar"
+            app:actionLayout="@layout/tasks_display_drawer_task_count" />
+        <item
+            android:id="@+id/nav_waiting_for"
+            android:title="@string/waiting_for"
+            app:actionLayout="@layout/tasks_display_drawer_task_count" />
+    </group>
+
+    <group
+        android:id="@+id/group_postponed"
+        android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_someday_maybe"
+            android:title="@string/someday_maybe"
+            app:actionLayout="@layout/tasks_display_drawer_task_count" />
+    </group>
+
+    <group
+        android:id="@+id/group_completed"
+        android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_completed"
+            android:title="@string/completed"
+            app:actionLayout="@layout/tasks_display_drawer_task_count" />
+        <item
+            android:id="@+id/nav_deleted"
+            android:title="@string/deleted"
+            app:actionLayout="@layout/tasks_display_drawer_task_count" />
+    </group>
+
+</menu>

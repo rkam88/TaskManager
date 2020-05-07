@@ -7,16 +7,23 @@ import androidx.appcompat.widget.Toolbar
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.navigation.NavigationView
 import net.rusnet.taskmanager.R
+import net.rusnet.taskmanager.commons.app.injector
 
 class TasksDisplayActivity : AppCompatActivity() {
 
+    private val viewModel by lazy {
+        ViewModelProvider(
+            this,
+            injector.taskDisplayViewModelFactory
+        ).get(TasksDisplayViewModel::class.java)
+    }
     private val toolbar by lazy { findViewById<Toolbar>(R.id.toolbar) }
     private val navigationView by lazy { findViewById<NavigationView>(R.id.navigation_view) }
     private val drawerLayout by lazy { findViewById<DrawerLayout>(R.id.drawer_layout) }
-    private val viewModel by lazy { TasksDisplayViewModel() } // todo: inject this
     private val addButton by lazy { findViewById<FloatingActionButton>(R.id.button_add_task) }
 
     override fun onCreate(savedInstanceState: Bundle?) {

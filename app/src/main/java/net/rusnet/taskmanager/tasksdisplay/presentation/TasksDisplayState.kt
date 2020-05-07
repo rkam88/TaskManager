@@ -4,18 +4,12 @@ import android.view.View
 import androidx.annotation.IdRes
 import androidx.annotation.StringRes
 import net.rusnet.taskmanager.R
-import net.rusnet.taskmanager.tasksdisplay.presentation.TasksDisplayState.CALENDAR
-import net.rusnet.taskmanager.tasksdisplay.presentation.TasksDisplayState.COMPLETED
-import net.rusnet.taskmanager.tasksdisplay.presentation.TasksDisplayState.DELETED
-import net.rusnet.taskmanager.tasksdisplay.presentation.TasksDisplayState.INBOX
-import net.rusnet.taskmanager.tasksdisplay.presentation.TasksDisplayState.NEXT_ACTIONS
-import net.rusnet.taskmanager.tasksdisplay.presentation.TasksDisplayState.SOMEDAY_MAYBE
-import net.rusnet.taskmanager.tasksdisplay.presentation.TasksDisplayState.WAITING_FOR
+import net.rusnet.taskmanager.tasksdisplay.presentation.TasksDisplayState.*
 
 enum class TasksDisplayState(
-        @StringRes val toolbarTitle: Int,
-        @IdRes val navigationViewMenuId: Int,
-        val addButtonVisibility: Int
+    @StringRes val toolbarTitle: Int,
+    @IdRes val navigationViewMenuId: Int,
+    val addButtonVisibility: Int
 ) {
     INBOX         (R.string.inbox,         R.id.nav_inbox,         View.VISIBLE),
     NEXT_ACTIONS  (R.string.next_actions,  R.id.nav_next_actions,  View.VISIBLE),

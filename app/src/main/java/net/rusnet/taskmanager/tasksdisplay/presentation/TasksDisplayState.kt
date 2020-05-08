@@ -20,25 +20,7 @@ enum class TasksDisplayState(
     DELETED       (R.string.deleted,       R.id.nav_deleted,       View.GONE)
 }
 
-////@ExperimentalStdlibApi
-//val menuIdToTaskDisplayState = buildMap<Int, TasksDisplayState> {
-//    for (state in TasksDisplayState.values()) {
-//        put(state.menuId, state)
-//    }
-//}
-
-// todo: replace with above code when buildMap() is no longer experimental
-val menuIdToTaskDisplayState = mapOf(
-    INBOX.navigationViewMenuId to INBOX,
-    NEXT_ACTIONS.navigationViewMenuId to NEXT_ACTIONS,
-    CALENDAR.navigationViewMenuId to CALENDAR,
-    WAITING_FOR.navigationViewMenuId to WAITING_FOR,
-    SOMEDAY_MAYBE.navigationViewMenuId to SOMEDAY_MAYBE,
-    COMPLETED.navigationViewMenuId to COMPLETED,
-    DELETED.navigationViewMenuId to DELETED
-)
-
 fun @receiver:IdRes Int.getTasksDisplayState(): TasksDisplayState {
-    if (this !in menuIdToTaskDisplayState.keys) throw IllegalArgumentException("The resource ID must correspond to an ID from the navigation drawer menu!")
-    return requireNotNull(menuIdToTaskDisplayState[this])
+    return values().find { it.navigationViewMenuId == this }
+        ?: throw IllegalArgumentException("The resource ID must correspond to an ID from the navigation drawer menu!")
 }

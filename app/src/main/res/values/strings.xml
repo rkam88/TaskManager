@@ -10,8 +10,9 @@
     <string name="waiting_for">Waiting for</string>
 
     <string name="someday_maybe">Someday/maybe</string>
+    <string name="reference">Reference</string>
 
     <string name="completed">Completed</string>
-    <string name="deleted">Deleted</string>
+    <string name="trash">Trash</string>
 
 </resources>

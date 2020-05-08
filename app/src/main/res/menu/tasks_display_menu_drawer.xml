@@ -35,6 +35,10 @@
             android:id="@+id/nav_someday_maybe"
             android:title="@string/someday_maybe"
             app:actionLayout="@layout/tasks_display_drawer_task_count" />
+        <item
+            android:id="@+id/nav_reference"
+            android:title="@string/reference"
+            app:actionLayout="@layout/tasks_display_drawer_task_count" />
     </group>
 
     <group
@@ -45,8 +49,8 @@
             android:title="@string/completed"
             app:actionLayout="@layout/tasks_display_drawer_task_count" />
         <item
-            android:id="@+id/nav_deleted"
-            android:title="@string/deleted"
+            android:id="@+id/nav_trash"
+            android:title="@string/trash"
             app:actionLayout="@layout/tasks_display_drawer_task_count" />
     </group>
 

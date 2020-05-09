@@ -16,7 +16,6 @@ enum class TasksDisplayState(
     CALENDAR      (R.string.calendar,      R.id.nav_calendar,      View.VISIBLE),
     WAITING_FOR   (R.string.waiting_for,   R.id.nav_waiting_for,   View.VISIBLE),
     SOMEDAY_MAYBE (R.string.someday_maybe, R.id.nav_someday_maybe, View.VISIBLE),
-    REFERENCE     (R.string.reference,     R.id.nav_reference,     View.VISIBLE),
     COMPLETED     (R.string.completed,     R.id.nav_completed,     View.GONE),
     TRASH         (R.string.trash,         R.id.nav_trash,         View.GONE)
 }

@@ -11,22 +11,26 @@
             app:actionLayout="@layout/tasks_display_drawer_task_count" />
     </group>
 
-    <group
-        android:id="@+id/group_active"
-        android:checkableBehavior="single">
-        <item
-            android:id="@+id/nav_next_actions"
-            android:title="@string/next_actions"
-            app:actionLayout="@layout/tasks_display_drawer_task_count" />
-        <item
-            android:id="@+id/nav_calendar"
-            android:title="@string/calendar"
-            app:actionLayout="@layout/tasks_display_drawer_task_count" />
-        <item
-            android:id="@+id/nav_waiting_for"
-            android:title="@string/waiting_for"
-            app:actionLayout="@layout/tasks_display_drawer_task_count" />
-    </group>
+    <item android:title="@string/active">
+        <menu>
+            <group
+                android:id="@+id/group_active"
+                android:checkableBehavior="single">
+                <item
+                    android:id="@+id/nav_next_actions"
+                    android:title="@string/next_actions"
+                    app:actionLayout="@layout/tasks_display_drawer_task_count" />
+                <item
+                    android:id="@+id/nav_calendar"
+                    android:title="@string/calendar"
+                    app:actionLayout="@layout/tasks_display_drawer_task_count" />
+                <item
+                    android:id="@+id/nav_waiting_for"
+                    android:title="@string/waiting_for"
+                    app:actionLayout="@layout/tasks_display_drawer_task_count" />
+            </group>
+        </menu>
+    </item>
 
     <group
         android:id="@+id/group_postponed"

@@ -5,6 +5,7 @@
     <!--  Tasks display: navigation  -->
     <string name="inbox">Inbox</string>
 
+    <string name="active">Active</string>
     <string name="next_actions">Next actions</string>
     <string name="calendar">Calendar</string>
     <string name="waiting_for">Waiting for</string>

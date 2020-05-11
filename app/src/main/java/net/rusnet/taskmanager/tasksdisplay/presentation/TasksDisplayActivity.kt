@@ -3,6 +3,7 @@ package net.rusnet.taskmanager.tasksdisplay.presentation
 import android.os.Bundle
 import android.util.Log
 import android.view.MenuItem
+import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.core.view.GravityCompat
@@ -25,6 +26,16 @@ class TasksDisplayActivity : AppCompatActivity() {
     private val toolbar by lazy { findViewById<Toolbar>(R.id.toolbar) }
     private val navigationView by lazy { findViewById<NavigationView>(R.id.navigation_view) }
     private val drawerLayout by lazy { findViewById<DrawerLayout>(R.id.drawer_layout) }
+    private val taskCountViewMap by lazy {
+        TasksDisplayState.values().map {
+            it.navigationViewMenuId to
+                    navigationView
+                        .menu
+                        .findItem(it.navigationViewMenuId)
+                        .actionView
+                        .findViewById<TextView>(R.id.text_view_task_count)
+        }.toMap()
+    }
     private val addButton by lazy { findViewById<FloatingActionButton>(R.id.button_add_task) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -60,6 +71,12 @@ class TasksDisplayActivity : AppCompatActivity() {
             drawerLayout.closeDrawers()
             return@setNavigationItemSelectedListener true
         }
+
+        viewModel.currentTaskCount.observe(this, Observer { countMap ->
+            for ((menuItemId, count) in countMap) {
+                taskCountViewMap[menuItemId]?.text = count
+            }
+        })
     }
 
     private fun initStateObservation() {
@@ -72,7 +89,7 @@ class TasksDisplayActivity : AppCompatActivity() {
 
     private fun initTasksObservation() {
         viewModel.currentTasks.observe(this, Observer { newTaskList ->
-            Log.d("DEBUG_TAG", "newTaskList=[${newTaskList}]");
+            Log.d("DEBUG_TAG", "newTaskList=[${newTaskList}]")
             // todo: display tasks
         })
     }

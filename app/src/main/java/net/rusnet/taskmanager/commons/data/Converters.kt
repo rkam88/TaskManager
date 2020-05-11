@@ -8,7 +8,7 @@ object Converters {
 
     @JvmStatic
     @TypeConverter
-    fun fromTaskType(taskType: TaskType) = taskType.name
+    fun fromTaskType(taskType: TaskType?) = taskType?.name
 
     @JvmStatic
     @TypeConverter

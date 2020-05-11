@@ -1,6 +1,7 @@
 package net.rusnet.taskmanager.tasksdisplay.presentation
 
 import android.os.Bundle
+import android.util.Log
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
@@ -34,6 +35,7 @@ class TasksDisplayActivity : AppCompatActivity() {
         initNavigationDrawer()
         addButton.setOnClickListener { viewModel.onAddButtonClicked() }
         initStateObservation()
+        initTasksObservation()
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
@@ -65,6 +67,13 @@ class TasksDisplayActivity : AppCompatActivity() {
             supportActionBar?.title = getString(newState.toolbarTitle)
             navigationView.setCheckedItem(newState.navigationViewMenuId)
             addButton.visibility = newState.addButtonVisibility
+        })
+    }
+
+    private fun initTasksObservation() {
+        viewModel.currentTasks.observe(this, Observer { newTaskList ->
+            Log.d("DEBUG_TAG", "newTaskList=[${newTaskList}]");
+            // todo: display tasks
         })
     }
 

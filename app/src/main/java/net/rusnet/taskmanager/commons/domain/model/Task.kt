@@ -31,6 +31,9 @@ data class Task(
     @ColumnInfo(name = "is_in_trash")
     val isInTrash: Boolean = false,
 
+    @ColumnInfo(name = "is_waiting_for_task")
+    val isWaitingForTask: Boolean = false,
+
     @ColumnInfo(name = "reminder_date")
     val reminderDate: Date? = null
 

@@ -68,6 +68,10 @@ class EditActivity : AppCompatActivity() {
     }
 
     private fun initEventObservation() {
+        fun setToolbarTitle(newTitle: String) {
+            supportActionBar?.title = newTitle
+        }
+
         fun showExitConfirmationDialog() {
             AlertDialog.Builder(this)
                 .setTitle(R.string.exit_without_saving_warning)
@@ -82,14 +86,10 @@ class EditActivity : AppCompatActivity() {
 
         viewModel.event.observe(this, Observer { event ->
             when (event) {
-                EditEvents.SetTitleForNewTask ->
-                    supportActionBar?.title = getString(R.string.title_new_task)
-                EditEvents.SetTitleForExistingTask ->
-                    supportActionBar?.title = getString(R.string.title_existing_task)
-                EditEvents.NavigateBack ->
-                    super.onBackPressed()
-                EditEvents.ShowExitConfirmationDialog ->
-                    showExitConfirmationDialog()
+                EditEvents.SetTitleForNewTask -> setToolbarTitle(getString(R.string.title_new_task))
+                EditEvents.SetTitleForExistingTask -> setToolbarTitle(getString(R.string.title_existing_task))
+                EditEvents.NavigateBack -> super.onBackPressed()
+                EditEvents.ShowExitConfirmationDialog -> showExitConfirmationDialog()
             }.exhaustive
         })
     }

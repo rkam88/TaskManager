@@ -4,6 +4,7 @@ import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import net.rusnet.taskmanager.commons.domain.model.TaskType
+import java.io.Serializable
 import java.util.*
 
 @Entity(tableName = "task_table")
@@ -37,4 +38,4 @@ data class Task(
     @ColumnInfo(name = "reminder_date")
     val reminderDate: Date? = null
 
-)
+) : Serializable

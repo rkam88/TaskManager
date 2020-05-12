@@ -15,4 +15,13 @@
     <string name="completed">Completed</string>
     <string name="trash">Trash</string>
 
+    <!--  EditActivity  -->
+    <string name="title_new_task">New task</string>
+    <string name="title_existing_task">Edit task</string>
+
+    <!--  Dialog  -->
+    <string name="exit_without_saving_warning">Exit without saving?</string>
+    <string name="yes">YES</string>
+    <string name="no">NO</string>
+
 </resources>

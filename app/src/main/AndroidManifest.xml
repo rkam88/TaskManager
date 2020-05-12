@@ -19,7 +19,13 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".edit.presentation.EditActivity"/>
+        <activity
+            android:name=".edit.presentation.EditActivity"
+            android:parentActivityName=".tasksdisplay.presentation.TasksDisplayActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".tasksdisplay.presentation.TasksDisplayActivity" />
+        </activity>
 
     </application>
 

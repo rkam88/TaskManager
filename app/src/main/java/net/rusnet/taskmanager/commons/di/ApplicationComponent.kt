@@ -5,6 +5,7 @@ import dagger.BindsInstance
 import dagger.Component
 import net.rusnet.taskmanager.commons.app.Router
 import net.rusnet.taskmanager.commons.presentation.ViewModelFactory
+import net.rusnet.taskmanager.edit.presentation.EditViewModel
 import net.rusnet.taskmanager.tasksdisplay.presentation.TasksDisplayViewModel
 import javax.inject.Singleton
 
@@ -19,5 +20,6 @@ interface ApplicationComponent {
 
     val router: Router
     val taskDisplayViewModelFactory: ViewModelFactory<TasksDisplayViewModel>
+    val editViewModelFactory: ViewModelFactory<EditViewModel>
 
 }

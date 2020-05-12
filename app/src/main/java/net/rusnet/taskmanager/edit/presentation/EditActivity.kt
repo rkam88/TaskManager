@@ -5,7 +5,9 @@ import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.ViewModelProvider
 import net.rusnet.taskmanager.R
+import net.rusnet.taskmanager.commons.app.injector
 import net.rusnet.taskmanager.commons.domain.model.TaskType
 import net.rusnet.taskmanager_old.commons.domain.model.Task
 
@@ -25,6 +27,18 @@ class EditActivity : AppCompatActivity() {
             return Intent(activity, EditActivity::class.java).apply {
                 putExtra(EXTRA_TASK, existingTask)
             }
+        }
+    }
+
+    private val viewModel by lazy {
+        ViewModelProvider(
+            this,
+            injector.editViewModelFactory
+        ).get(EditViewModel::class.java).apply {
+            initViewModelFromIntent(
+                intent.getSerializableExtra(EXTRA_TASK) as? Task,
+                intent.getSerializableExtra(EXTRA_TASK_TYPE) as? TaskType
+            )
         }
     }
 

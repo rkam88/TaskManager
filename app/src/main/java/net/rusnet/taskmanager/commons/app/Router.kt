@@ -1,6 +1,7 @@
 package net.rusnet.taskmanager.commons.app
 
 import android.app.Activity
+import net.rusnet.taskmanager.commons.domain.model.TaskType
 import net.rusnet.taskmanager.edit.presentation.EditActivity
 import net.rusnet.taskmanager_old.commons.domain.model.Task
 import javax.inject.Inject
@@ -21,12 +22,12 @@ class Router @Inject constructor() : SimpleActivityLifecycleCallbacks {
 
     private fun activity() = activity ?: throw  IllegalStateException("Activity not ready")
 
-    fun navigateToEdit(task: Task? = null) {
-        if (task == null) {
-            activity().startActivity(EditActivity.getIntentForNewTask(activity()))
-        } else {
-            activity().startActivity(EditActivity.getIntentForExistingTask(activity(), task))
-        }
+    fun navigateToEdit(existingTask: Task) {
+        activity().startActivity(EditActivity.getIntentForExistingTask(activity(), existingTask))
+    }
+
+    fun navigateToEdit(newTaskType: TaskType) {
+        activity().startActivity(EditActivity.getIntentForNewTask(activity(), newTaskType))
     }
 
 }

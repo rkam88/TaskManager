@@ -15,7 +15,7 @@ data class Task(
     val id: Long = 0,
 
     @ColumnInfo(name = "name")
-    val name: String,
+    val name: String = "",
 
     @ColumnInfo(name = "type")
     val type: TaskType,

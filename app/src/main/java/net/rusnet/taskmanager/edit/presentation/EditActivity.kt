@@ -6,20 +6,24 @@ import android.os.Bundle
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import net.rusnet.taskmanager.R
+import net.rusnet.taskmanager.commons.domain.model.TaskType
 import net.rusnet.taskmanager_old.commons.domain.model.Task
 
 class EditActivity : AppCompatActivity() {
 
     companion object {
         private const val EXTRA_TASK = "EXTRA_TASK"
+        private const val EXTRA_TASK_TYPE = "EXTRA_TASK_TYPE"
 
-        fun getIntentForNewTask(activity: Activity): Intent {
-            return Intent(activity, EditActivity::class.java)
+        fun getIntentForNewTask(activity: Activity, newTaskType: TaskType): Intent {
+            return Intent(activity, EditActivity::class.java).apply {
+                putExtra(EXTRA_TASK_TYPE, newTaskType)
+            }
         }
 
-        fun getIntentForExistingTask(activity: Activity, task: Task): Intent {
+        fun getIntentForExistingTask(activity: Activity, existingTask: Task): Intent {
             return Intent(activity, EditActivity::class.java).apply {
-                putExtra(EXTRA_TASK, task)
+                putExtra(EXTRA_TASK, existingTask)
             }
         }
     }

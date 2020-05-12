@@ -36,7 +36,7 @@ class TasksDisplayViewModel @Inject constructor(
     }
 
     fun onAddButtonClicked() {
-        router.navigateToEdit()
+        router.navigateToEdit(currentTasksDisplayState.value!!.newTaskType)
     }
 
     private fun updateCurrentTasks(state: TasksDisplayState) {

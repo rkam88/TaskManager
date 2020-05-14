@@ -39,20 +39,20 @@
         app:layout_constraintTop_toBottomOf="@id/edit_text_task_name" />
 
     <ImageView
-        android:id="@+id/image_view_category"
+        android:id="@+id/image_view_task_type"
         style="@style/EditIcon"
-        android:src="@drawable/ic_category"
+        android:src="@drawable/ic_task_type"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/divider_task_name" />
 
     <Spinner
-        android:id="@+id/spinner_category"
+        android:id="@+id/spinner_task_type"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginEnd="@dimen/edit_horizontal_margin"
-        app:layout_constraintBottom_toBottomOf="@id/image_view_category"
+        app:layout_constraintBottom_toBottomOf="@id/image_view_task_type"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/guideline_vertical"
-        app:layout_constraintTop_toTopOf="@id/image_view_category" />
+        app:layout_constraintTop_toTopOf="@id/image_view_task_type" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

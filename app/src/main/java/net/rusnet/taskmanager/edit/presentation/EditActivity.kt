@@ -52,7 +52,7 @@ class EditActivity : AppCompatActivity() {
         }
     }
     private val taskName by lazy { findViewById<EditText>(R.id.edit_text_task_name) }
-    private val categorySpinner by lazy { findViewById<Spinner>(R.id.spinner_category) }
+    private val taskTypeSpinner by lazy { findViewById<Spinner>(R.id.spinner_task_type) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -60,7 +60,7 @@ class EditActivity : AppCompatActivity() {
 
         initActionBar()
         initTaskName()
-        initCategorySpinner()
+        initTaskTypeSpinner()
         initEventObservation()
 
     }
@@ -97,16 +97,16 @@ class EditActivity : AppCompatActivity() {
         }
     }
 
-    private fun initCategorySpinner() {
-        categorySpinner.adapter = ArrayAdapter(
+    private fun initTaskTypeSpinner() {
+        taskTypeSpinner.adapter = ArrayAdapter(
             this,
             R.layout.edit_spinner_display,
             TaskType.values().map { resources.getString(it.nameInUi) }
         ).apply { setDropDownViewResource(R.layout.edit_spinner_dropdown) }
 
-        categorySpinner.setSelection(viewModel.currentTask.type.spinnerPosition)
+        taskTypeSpinner.setSelection(viewModel.currentTask.type.spinnerPosition)
 
-        categorySpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+        taskTypeSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onNothingSelected(parent: AdapterView<*>?) {}
 
             override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {

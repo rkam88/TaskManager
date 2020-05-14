@@ -23,4 +23,7 @@
     <color name="itemSelectedBackground">#aaaaaa</color>
     <color name="itemCompletedBackground">#4cAf50</color>
 
+    <!--  Edit  -->
+    <color name="editIconColor">#656565</color>
+
 </resources>

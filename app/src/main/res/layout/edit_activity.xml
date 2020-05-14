@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".edit.presentation.EditActivity">
+
+    <include layout="@layout/default_toolbar" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline_vertical"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        app:layout_constraintGuide_begin="56dp" />
+
+    <EditText
+        android:id="@+id/edit_text_task_name"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/edit_vertical_margin"
+        android:layout_marginEnd="@dimen/edit_horizontal_margin"
+        android:background="@android:color/transparent"
+        android:hint="@string/task_name_hint"
+        android:importantForAutofill="no"
+        android:inputType="textMultiLine"
+        android:textAppearance="@style/PrimaryTextAppearance"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@id/guideline_vertical"
+        app:layout_constraintTop_toBottomOf="@id/toolbar" />
+
+    <View
+        android:id="@+id/divider_task_name"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginTop="@dimen/edit_vertical_margin"
+        android:background="@color/colorDivider"
+        app:layout_constraintTop_toBottomOf="@id/edit_text_task_name" />
+
+    <ImageView
+        android:id="@+id/image_view_category"
+        style="@style/EditIcon"
+        android:src="@drawable/ic_category"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/divider_task_name" />
+
+    <Spinner
+        android:id="@+id/spinner_category"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/edit_horizontal_margin"
+        app:layout_constraintBottom_toBottomOf="@id/image_view_category"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/guideline_vertical"
+        app:layout_constraintTop_toTopOf="@id/image_view_category" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

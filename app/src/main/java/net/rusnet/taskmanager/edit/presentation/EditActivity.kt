@@ -3,8 +3,16 @@ package net.rusnet.taskmanager.edit.presentation
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
+import android.view.View
+import android.widget.AdapterView
+import android.widget.ArrayAdapter
+import android.widget.EditText
+import android.widget.Spinner
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.widget.addTextChangedListener
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import net.rusnet.taskmanager.R
@@ -43,12 +51,16 @@ class EditActivity : AppCompatActivity() {
             )
         }
     }
+    private val taskName by lazy { findViewById<EditText>(R.id.edit_text_task_name) }
+    private val categorySpinner by lazy { findViewById<Spinner>(R.id.spinner_category) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_edit)
+        setContentView(R.layout.edit_activity)
 
         initActionBar()
+        initTaskName()
+        initCategorySpinner()
         initEventObservation()
 
     }
@@ -64,14 +76,46 @@ class EditActivity : AppCompatActivity() {
 
     private fun initActionBar() {
         setSupportActionBar(findViewById(R.id.toolbar))
-        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        supportActionBar?.apply {
+            setDisplayHomeAsUpEnabled(true)
+            title = resources.getString(viewModel.getToolbarTitleStringResId())
+        }
+    }
+
+    private fun initTaskName() {
+        taskName.setText(viewModel.currentTask.name)
+        taskName.addTextChangedListener {
+            object : TextWatcher {
+                override fun afterTextChanged(s: Editable?) {
+                    viewModel.onTaskNameChanged(s.toString())
+                }
+
+                override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+
+                override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
+            }
+        }
+    }
+
+    private fun initCategorySpinner() {
+        categorySpinner.adapter = ArrayAdapter(
+            this,
+            R.layout.edit_spinner_display,
+            TaskType.values().map { resources.getString(it.nameInUi) }
+        ).apply { setDropDownViewResource(R.layout.edit_spinner_dropdown) }
+
+        categorySpinner.setSelection(viewModel.currentTask.type.spinnerPosition)
+
+        categorySpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onNothingSelected(parent: AdapterView<*>?) {}
+
+            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+                viewModel.onTasksTypeSelected(position)
+            }
+        }
     }
 
     private fun initEventObservation() {
-        fun setToolbarTitle(newTitle: String) {
-            supportActionBar?.title = newTitle
-        }
-
         fun showExitConfirmationDialog() {
             AlertDialog.Builder(this)
                 .setTitle(R.string.exit_without_saving_warning)
@@ -86,8 +130,6 @@ class EditActivity : AppCompatActivity() {
 
         viewModel.event.observe(this, Observer { event ->
             when (event) {
-                EditEvents.SetTitleForNewTask -> setToolbarTitle(getString(R.string.title_new_task))
-                EditEvents.SetTitleForExistingTask -> setToolbarTitle(getString(R.string.title_existing_task))
                 EditEvents.NavigateBack -> super.onBackPressed()
                 EditEvents.ShowExitConfirmationDialog -> showExitConfirmationDialog()
             }.exhaustive

@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
+    <!--  Other  -->
+    <dimen name="primaryTextSize">20sp</dimen>
+
     <!--  Navigation drawer  -->
     <dimen name="drawer_header_padding">8dp</dimen>
     <dimen name="drawer_icon_size">32dp</dimen>
@@ -8,5 +11,10 @@
 
     <!--  TasksDisplay  -->
     <dimen name="tasks_display_fab_margin">16dp</dimen>
+
+    <!--  Edit  -->
+    <dimen name="edit_horizontal_margin">16dp</dimen>
+    <dimen name="edit_vertical_margin">16dp</dimen>
+    <dimen name="edit_icon_size">24dp</dimen>
 
 </resources>

@@ -4,9 +4,10 @@ import androidx.annotation.StringRes
 import net.rusnet.taskmanager.R
 
 enum class TaskType(
-    @StringRes val uiName: Int
+        val spinnerPosition: Int,
+        @StringRes val nameInUi: Int
 ) {
-    INBOX(R.string.inbox),
-    ACTIVE(R.string.active),
-    SOMEDAY_MAYBE(R.string.someday_maybe)
+    INBOX(0, R.string.inbox),
+    ACTIVE(1, R.string.active),
+    SOMEDAY_MAYBE(2, R.string.someday_maybe)
 }

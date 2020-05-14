@@ -1,4 +1,4 @@
-package net.rusnet.taskmanager_old.commons.domain.model
+package net.rusnet.taskmanager.commons.domain.model
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity

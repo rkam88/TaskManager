@@ -3,7 +3,7 @@ package net.rusnet.taskmanager.commons.app
 import android.app.Activity
 import net.rusnet.taskmanager.commons.domain.model.TaskType
 import net.rusnet.taskmanager.edit.presentation.EditActivity
-import net.rusnet.taskmanager_old.commons.domain.model.Task
+import net.rusnet.taskmanager.commons.domain.model.Task
 import javax.inject.Inject
 import javax.inject.Singleton
 

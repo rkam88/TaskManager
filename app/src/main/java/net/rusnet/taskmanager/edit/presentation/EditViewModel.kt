@@ -6,7 +6,7 @@ import net.rusnet.taskmanager.commons.SingleLiveEvent
 import net.rusnet.taskmanager.commons.domain.model.TaskType
 import net.rusnet.taskmanager.edit.presentation.EditEvents.NavigateBack
 import net.rusnet.taskmanager.edit.presentation.EditEvents.ShowExitConfirmationDialog
-import net.rusnet.taskmanager_old.commons.domain.model.Task
+import net.rusnet.taskmanager.commons.domain.model.Task
 import javax.inject.Inject
 
 class EditViewModel @Inject constructor() : ViewModel() {

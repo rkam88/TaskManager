@@ -8,7 +8,7 @@ import kotlinx.coroutines.launch
 import net.rusnet.taskmanager.commons.app.Router
 import net.rusnet.taskmanager.tasksdisplay.domain.GetTasksCountUseCase
 import net.rusnet.taskmanager.tasksdisplay.domain.GetTasksUseCase
-import net.rusnet.taskmanager_old.commons.domain.model.Task
+import net.rusnet.taskmanager.commons.domain.model.Task
 import javax.inject.Inject
 
 private const val COUNT_99_PLUS = "99+"

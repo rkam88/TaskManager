@@ -19,7 +19,7 @@ import net.rusnet.taskmanager.R
 import net.rusnet.taskmanager.commons.app.injector
 import net.rusnet.taskmanager.commons.domain.model.TaskType
 import net.rusnet.taskmanager.commons.exhaustive
-import net.rusnet.taskmanager_old.commons.domain.model.Task
+import net.rusnet.taskmanager.commons.domain.model.Task
 
 class EditActivity : AppCompatActivity() {
 

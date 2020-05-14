@@ -7,7 +7,7 @@ import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import androidx.room.Update
 import net.rusnet.taskmanager.commons.domain.model.TaskType
-import net.rusnet.taskmanager_old.commons.domain.model.Task
+import net.rusnet.taskmanager.commons.domain.model.Task
 
 @Dao
 interface TaskDao {

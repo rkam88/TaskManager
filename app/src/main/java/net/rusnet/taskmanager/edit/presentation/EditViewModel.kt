@@ -46,4 +46,8 @@ class EditViewModel @Inject constructor() : ViewModel() {
         currentTask = currentTask.copy(type = newType)
     }
 
+    fun onWaitingForStatusChanged(newStatus: Boolean) {
+        currentTask = currentTask.copy(isWaitingForTask = newStatus)
+    }
+
 }

@@ -20,7 +20,7 @@ class EditViewModel @Inject constructor() : ViewModel() {
         if (!this::initialTask.isInitialized) {
             initialTask = when {
                 intentTask != null -> intentTask
-                intentTaskType != null -> Task(type = intentTaskType)
+                intentTaskType != null -> Task(taskType = intentTaskType)
                 else -> throw IllegalArgumentException("EditViewModel: intentTask and taskType can't be both null")
             }
             currentTask = initialTask.copy()
@@ -43,7 +43,7 @@ class EditViewModel @Inject constructor() : ViewModel() {
 
     fun onTasksTypeSelected(position: Int) {
         val newType = TaskType.values().find { it.spinnerPosition == position }!!
-        currentTask = currentTask.copy(type = newType)
+        currentTask = currentTask.copy(taskType = newType)
     }
 
 }

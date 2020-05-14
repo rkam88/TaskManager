@@ -41,14 +41,14 @@ interface TaskDao {
                 "FROM task_table " +
                 "WHERE (is_in_trash = :isInTrash) " +
                 "AND (:isCompleted IS NULL OR is_completed = :isCompleted) " +
-                "AND (:type IS NULL OR type = :type) " +
+                "AND (:taskType IS NULL OR task_type = :taskType) " +
                 "AND (end_date IS NOT NULL = :hasDates) " +
                 "ORDER BY end_date IS NULL, end_date, start_date, id ASC"
     )
     suspend fun getTasks(
             isInTrash: Boolean,
             isCompleted: Boolean?,
-            type: TaskType?,
+            taskType: TaskType?,
             hasDates: Boolean?
     ): List<Task>
 
@@ -57,13 +57,13 @@ interface TaskDao {
                 "FROM task_table " +
                 "WHERE (is_in_trash = :isInTrash) " +
                 "AND (:isCompleted IS NULL OR is_completed = :isCompleted) " +
-                "AND (:type IS NULL OR type = :type) " +
+                "AND (:taskType IS NULL OR task_type = :taskType) " +
                 "AND (end_date IS NOT NULL = :hasDates)"
     )
     suspend fun getTasksCount(
             isInTrash: Boolean,
             isCompleted: Boolean?,
-            type: TaskType?,
+            taskType: TaskType?,
             hasDates: Boolean?
     ): Long
 

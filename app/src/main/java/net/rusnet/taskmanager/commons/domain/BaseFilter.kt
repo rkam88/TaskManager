@@ -3,10 +3,10 @@ package net.rusnet.taskmanager.commons.domain
 import net.rusnet.taskmanager.commons.domain.model.TaskType
 
 sealed class BaseFilter(
-    val isInTrash: Boolean,
-    val isCompleted: Boolean?,
-    val type: TaskType?,
-    val hasDates: Boolean?
+        val isInTrash: Boolean,
+        val isCompleted: Boolean?,
+        val taskType: TaskType?,
+        val hasDates: Boolean?
 ) {
     object InboxFilter :        BaseFilter(false, false, TaskType.INBOX,        null)
     object NextActionsFilter :  BaseFilter(false, false, TaskType.ACTIVE,       false)

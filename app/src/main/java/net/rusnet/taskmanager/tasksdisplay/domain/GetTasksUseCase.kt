@@ -13,7 +13,7 @@ class GetTasksUseCase @Inject constructor(private val taskDao: TaskDao) {
         return taskDao.getTasks(
             isInTrash = filter.isInTrash,
             isCompleted = filter.isCompleted,
-            type = filter.type,
+            taskType = filter.taskType,
             hasDates = filter.hasDates
         )
     }

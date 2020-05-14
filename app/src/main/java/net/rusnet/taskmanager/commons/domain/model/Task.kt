@@ -17,8 +17,8 @@ data class Task(
         @ColumnInfo(name = "name")
         val name: String = "",
 
-        @ColumnInfo(name = "type")
-        val type: TaskType,
+        @ColumnInfo(name = "task_type")
+        val taskType: TaskType,
 
         @ColumnInfo(name = "start_Date")
         val startDate: Date? = null,

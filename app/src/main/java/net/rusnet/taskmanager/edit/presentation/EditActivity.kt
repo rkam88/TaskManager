@@ -104,7 +104,7 @@ class EditActivity : AppCompatActivity() {
             TaskType.values().map { resources.getString(it.nameInUi) }
         ).apply { setDropDownViewResource(R.layout.edit_spinner_dropdown) }
 
-        taskTypeSpinner.setSelection(viewModel.currentTask.type.spinnerPosition)
+        taskTypeSpinner.setSelection(viewModel.currentTask.taskType.spinnerPosition)
 
         taskTypeSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onNothingSelected(parent: AdapterView<*>?) {}

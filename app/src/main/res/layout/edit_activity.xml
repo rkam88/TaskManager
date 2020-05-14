@@ -55,4 +55,103 @@
         app:layout_constraintStart_toEndOf="@id/guideline_vertical"
         app:layout_constraintTop_toTopOf="@id/image_view_task_type" />
 
+    <View
+        android:id="@+id/divider_task_type"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginTop="@dimen/edit_vertical_margin"
+        android:background="@color/colorDivider"
+        app:layout_constraintTop_toBottomOf="@id/spinner_task_type" />
+
+    <ImageView
+        android:id="@+id/image_view_date"
+        style="@style/EditIcon"
+        android:src="@drawable/ic_date"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/divider_task_type" />
+
+    <TextView
+        android:id="@+id/text_view_add_date"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/edit_horizontal_margin"
+        android:text="@string/add_date"
+        android:textAppearance="@style/ClickableTextAppearance"
+        android:visibility="visible"
+        app:layout_constraintBottom_toBottomOf="@id/image_view_date"
+        app:layout_constraintStart_toEndOf="@id/guideline_vertical"
+        app:layout_constraintTop_toTopOf="@id/image_view_date"
+        app:layout_constraintEnd_toEndOf="parent"
+        tools:visibility="gone" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/layout_date_added"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@id/guideline_vertical"
+        app:layout_constraintTop_toTopOf="@id/divider_task_type"
+        tools:visibility="visible">
+
+        <ImageView
+            android:id="@+id/image_view_delete_date"
+            style="@style/EditIcon"
+            android:src="@drawable/ic_clear"
+            android:tint="@color/colorTextSecondary"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/text_view_start_date"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/edit_vertical_margin"
+            android:textAppearance="@style/PrimaryTextAppearance"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/image_view_delete_date"
+            tools:text="13.06.2020" />
+
+        <TextView
+            android:id="@+id/text_view_start_time"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/edit_horizontal_margin"
+            android:textAppearance="@style/PrimaryTextAppearance"
+            app:layout_constraintBottom_toBottomOf="@id/text_view_start_date"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@id/text_view_start_date"
+            tools:text="12:00" />
+
+        <TextView
+            android:id="@+id/text_view_end_date"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/edit_vertical_margin"
+            android:textAppearance="@style/PrimaryTextAppearance"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/text_view_start_date"
+            tools:text="13.06.2020" />
+
+        <TextView
+            android:id="@+id/text_view_end_time"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/edit_horizontal_margin"
+            android:textAppearance="@style/PrimaryTextAppearance"
+            app:layout_constraintBottom_toBottomOf="@id/text_view_end_date"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@id/text_view_end_date"
+            tools:text="13:00" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <View
+        android:id="@+id/divider_date"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginTop="@dimen/edit_vertical_margin"
+        android:background="@color/colorDivider"
+        app:layout_constraintTop_toBottomOf="@id/layout_date_added" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

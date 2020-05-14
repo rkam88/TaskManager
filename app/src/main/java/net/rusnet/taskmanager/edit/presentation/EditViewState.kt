@@ -4,7 +4,10 @@ import androidx.annotation.StringRes
 import net.rusnet.taskmanager.commons.domain.model.TaskType
 
 data class EditViewState(
-        @StringRes val toolbarTitleStringResId: Int,
-        val taskName: String,
-        val taskType: TaskType
+    @StringRes val toolbarTitleStringResId: Int,
+    val taskName: String,
+    val taskType: TaskType,
+    val showDates: Boolean,
+    val startDate: Long,
+    val endDate: Long
 )

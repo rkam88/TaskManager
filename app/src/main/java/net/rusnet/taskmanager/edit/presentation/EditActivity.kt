@@ -3,11 +3,18 @@ package net.rusnet.taskmanager.edit.presentation
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
+import android.text.format.DateFormat
+import android.view.View
+import android.view.View.GONE
+import android.view.View.VISIBLE
 import android.widget.ArrayAdapter
 import android.widget.EditText
+import android.widget.ImageView
 import android.widget.Spinner
+import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.widget.doAfterTextChanged
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -17,6 +24,7 @@ import net.rusnet.taskmanager.commons.domain.model.Task
 import net.rusnet.taskmanager.commons.domain.model.TaskType
 import net.rusnet.taskmanager.commons.extensions.doOnItemSelected
 import net.rusnet.taskmanager.commons.extensions.exhaustive
+import kotlin.math.roundToInt
 
 class EditActivity : AppCompatActivity() {
 
@@ -50,6 +58,13 @@ class EditActivity : AppCompatActivity() {
     }
     private val taskNameEditText by lazy { findViewById<EditText>(R.id.edit_text_task_name) }
     private val taskTypeSpinner by lazy { findViewById<Spinner>(R.id.spinner_task_type) }
+    private val addDateButton by lazy { findViewById<TextView>(R.id.text_view_add_date) }
+    private val deleteDateButton by lazy { findViewById<ImageView>(R.id.image_view_delete_date) }
+    private val startDateButton by lazy { findViewById<TextView>(R.id.text_view_start_date) }
+    private val endDateButton by lazy { findViewById<TextView>(R.id.text_view_end_date) }
+    private val startTimeButton by lazy { findViewById<TextView>(R.id.text_view_start_time) }
+    private val endTimeButton by lazy { findViewById<TextView>(R.id.text_view_end_time) }
+    private val dateAddedLayout by lazy { findViewById<ConstraintLayout>(R.id.layout_date_added) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -82,6 +97,18 @@ class EditActivity : AppCompatActivity() {
             TaskType.values().map { resources.getString(it.nameInUi) }
         ).apply { setDropDownViewResource(R.layout.edit_spinner_dropdown) }
         taskTypeSpinner.doOnItemSelected { viewModel.onTasksTypeSelected(it) }
+
+        addDateButton.setOnClickListener { viewModel.onAddDatePressed() }
+        deleteDateButton.setOnClickListener { viewModel.onDeleteDatePressed() }
+
+        // todo: add listeners to date buttons
+
+        (findViewById<View>(R.id.divider_date).layoutParams as ConstraintLayout.LayoutParams).apply {
+            val verticalMargin = resources.getDimension(R.dimen.edit_vertical_margin)
+            val iconSize = resources.getDimension(R.dimen.edit_icon_size)
+            goneTopMargin = (verticalMargin * 2 + iconSize).roundToInt()
+        }
+
     }
 
     private fun initEventObservation() {
@@ -112,6 +139,12 @@ class EditActivity : AppCompatActivity() {
                 taskNameEditText.setText(newState.taskName)
             }
             taskTypeSpinner.setSelection(newState.taskType.spinnerPosition)
+            addDateButton.visibility = if (newState.showDates) GONE else VISIBLE
+            dateAddedLayout.visibility = if (newState.showDates) VISIBLE else GONE
+            startDateButton.text = DateFormat.getDateFormat(this).format(newState.startDate)
+            startTimeButton.text = DateFormat.getTimeFormat(this).format(newState.startDate)
+            endDateButton.text = DateFormat.getDateFormat(this).format(newState.endDate)
+            endTimeButton.text = DateFormat.getTimeFormat(this).format(newState.endDate)
         })
     }
 

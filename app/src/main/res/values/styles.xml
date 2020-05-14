@@ -21,6 +21,17 @@
         <item name="android:textSize">20sp</item>
     </style>
 
+    <style name="SecondaryTextAppearance">
+        <item name="android:textColor">@color/colorTextSecondary</item>
+        <item name="android:textSize">20sp</item>
+    </style>
+
+    <style name="ClickableTextAppearance">
+        <item name="android:textColor">?android:textColorHint</item>
+        <item name="android:textSize">20sp</item>
+    </style>
+
+
     <style name="EditIcon">
         <item name="tint">@color/editIconColor</item>
         <item name="android:layout_width">@dimen/edit_icon_size</item>

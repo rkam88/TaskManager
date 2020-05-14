@@ -8,6 +8,7 @@ import net.rusnet.taskmanager.commons.domain.model.TaskType
 import net.rusnet.taskmanager.commons.presentation.SingleLiveEvent
 import net.rusnet.taskmanager.edit.presentation.EditEvents.NavigateBack
 import net.rusnet.taskmanager.edit.presentation.EditEvents.ShowExitConfirmationDialog
+import java.util.Date
 import javax.inject.Inject
 
 class EditViewModel @Inject constructor() : ViewModel() {
@@ -46,12 +47,28 @@ class EditViewModel @Inject constructor() : ViewModel() {
         updateCurrentState(currentTask.copy(taskType = newType))
     }
 
+    fun onAddDatePressed() {
+        updateCurrentState(
+            currentTask.copy(
+                startDate = Date(),
+                endDate = Date()
+            )
+        )
+    }
+
+    fun onDeleteDatePressed() {
+        updateCurrentState(currentTask.copy(startDate = null, endDate = null))
+    }
+
     private fun updateCurrentState(updatedTask: Task) {
         currentTask = updatedTask
         val newState = EditViewState(
             toolbarTitleStringResId = if (initialTask.id == 0L) R.string.title_new_task else R.string.title_existing_task,
             taskName = currentTask.name,
-            taskType = currentTask.taskType
+            taskType = currentTask.taskType,
+            showDates = currentTask.startDate != null,
+            startDate = currentTask.startDate?.time ?: 0,
+            endDate = currentTask.endDate?.time ?: 0
         )
         editViewState.postValue(newState)
     }

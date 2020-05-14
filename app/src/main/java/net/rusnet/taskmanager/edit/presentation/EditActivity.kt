@@ -3,23 +3,20 @@ package net.rusnet.taskmanager.edit.presentation
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
-import android.text.Editable
-import android.text.TextWatcher
-import android.view.View
-import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.EditText
 import android.widget.Spinner
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.widget.addTextChangedListener
+import androidx.core.widget.doAfterTextChanged
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import net.rusnet.taskmanager.R
 import net.rusnet.taskmanager.commons.app.injector
-import net.rusnet.taskmanager.commons.domain.model.TaskType
-import net.rusnet.taskmanager.commons.exhaustive
 import net.rusnet.taskmanager.commons.domain.model.Task
+import net.rusnet.taskmanager.commons.domain.model.TaskType
+import net.rusnet.taskmanager.commons.extensions.doOnItemSelected
+import net.rusnet.taskmanager.commons.extensions.exhaustive
 
 class EditActivity : AppCompatActivity() {
 
@@ -51,17 +48,16 @@ class EditActivity : AppCompatActivity() {
             )
         }
     }
-    private val taskName by lazy { findViewById<EditText>(R.id.edit_text_task_name) }
+    private val taskNameEditText by lazy { findViewById<EditText>(R.id.edit_text_task_name) }
     private val taskTypeSpinner by lazy { findViewById<Spinner>(R.id.spinner_task_type) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.edit_activity)
 
-        initActionBar()
-        initTaskName()
-        initTaskTypeSpinner()
+        initViews()
         initEventObservation()
+        initStateObservation()
 
     }
 
@@ -74,45 +70,18 @@ class EditActivity : AppCompatActivity() {
         viewModel.onBackPressed()
     }
 
-    private fun initActionBar() {
+    private fun initViews() {
         setSupportActionBar(findViewById(R.id.toolbar))
-        supportActionBar?.apply {
-            setDisplayHomeAsUpEnabled(true)
-            title = resources.getString(viewModel.getToolbarTitleStringResId())
-        }
-    }
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
-    private fun initTaskName() {
-        taskName.setText(viewModel.currentTask.name)
-        taskName.addTextChangedListener {
-            object : TextWatcher {
-                override fun afterTextChanged(s: Editable?) {
-                    viewModel.onTaskNameChanged(s.toString())
-                }
+        taskNameEditText.doAfterTextChanged { viewModel.onTaskNameChanged(it.toString()) }
 
-                override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
-
-                override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
-            }
-        }
-    }
-
-    private fun initTaskTypeSpinner() {
         taskTypeSpinner.adapter = ArrayAdapter(
             this,
             R.layout.edit_spinner_display,
             TaskType.values().map { resources.getString(it.nameInUi) }
         ).apply { setDropDownViewResource(R.layout.edit_spinner_dropdown) }
-
-        taskTypeSpinner.setSelection(viewModel.currentTask.taskType.spinnerPosition)
-
-        taskTypeSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-            override fun onNothingSelected(parent: AdapterView<*>?) {}
-
-            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
-                viewModel.onTasksTypeSelected(position)
-            }
-        }
+        taskTypeSpinner.doOnItemSelected { viewModel.onTasksTypeSelected(it) }
     }
 
     private fun initEventObservation() {
@@ -133,6 +102,16 @@ class EditActivity : AppCompatActivity() {
                 EditEvents.NavigateBack -> super.onBackPressed()
                 EditEvents.ShowExitConfirmationDialog -> showExitConfirmationDialog()
             }.exhaustive
+        })
+    }
+
+    private fun initStateObservation() {
+        viewModel.editViewState.observe(this, Observer { newState ->
+            supportActionBar?.title = resources.getString(newState.toolbarTitleStringResId)
+            if (taskNameEditText.text.toString() != newState.taskName) {
+                taskNameEditText.setText(newState.taskName)
+            }
+            taskTypeSpinner.setSelection(newState.taskType.spinnerPosition)
         })
     }
 

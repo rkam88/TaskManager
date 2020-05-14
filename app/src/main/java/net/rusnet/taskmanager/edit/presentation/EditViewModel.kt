@@ -1,12 +1,13 @@
 package net.rusnet.taskmanager.edit.presentation
 
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import net.rusnet.taskmanager.R
-import net.rusnet.taskmanager.commons.SingleLiveEvent
+import net.rusnet.taskmanager.commons.domain.model.Task
 import net.rusnet.taskmanager.commons.domain.model.TaskType
+import net.rusnet.taskmanager.commons.presentation.SingleLiveEvent
 import net.rusnet.taskmanager.edit.presentation.EditEvents.NavigateBack
 import net.rusnet.taskmanager.edit.presentation.EditEvents.ShowExitConfirmationDialog
-import net.rusnet.taskmanager.commons.domain.model.Task
 import javax.inject.Inject
 
 class EditViewModel @Inject constructor() : ViewModel() {
@@ -15,6 +16,7 @@ class EditViewModel @Inject constructor() : ViewModel() {
     lateinit var currentTask: Task
         private set
     val event = SingleLiveEvent<EditEvents>()
+    val editViewState = MutableLiveData<EditViewState>()
 
     fun initViewModelFromIntent(intentTask: Task?, intentTaskType: TaskType?) {
         if (!this::initialTask.isInitialized) {
@@ -35,15 +37,23 @@ class EditViewModel @Inject constructor() : ViewModel() {
         }
     }
 
-    fun getToolbarTitleStringResId() = if (initialTask.id == 0L) R.string.title_new_task else R.string.title_existing_task
-
     fun onTaskNameChanged(newName: String) {
-        currentTask = currentTask.copy(name = newName)
+        updateCurrentState(currentTask.copy(name = newName))
     }
 
     fun onTasksTypeSelected(position: Int) {
         val newType = TaskType.values().find { it.spinnerPosition == position }!!
-        currentTask = currentTask.copy(taskType = newType)
+        updateCurrentState(currentTask.copy(taskType = newType))
+    }
+
+    private fun updateCurrentState(updatedTask: Task) {
+        currentTask = updatedTask
+        val newState = EditViewState(
+            toolbarTitleStringResId = if (initialTask.id == 0L) R.string.title_new_task else R.string.title_existing_task,
+            taskName = currentTask.name,
+            taskType = currentTask.taskType
+        )
+        editViewState.postValue(newState)
     }
 
 }

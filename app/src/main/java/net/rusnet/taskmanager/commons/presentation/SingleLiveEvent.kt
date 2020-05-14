@@ -1,4 +1,4 @@
-package net.rusnet.taskmanager.commons
+package net.rusnet.taskmanager.commons.presentation
 
 /*
  *  Copyright 2017 Google Inc.

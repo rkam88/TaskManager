@@ -13,7 +13,6 @@ class GetTasksCountUseCase @Inject constructor(private val taskDao: TaskDao) {
             isInTrash = filter.isInTrash,
             isCompleted = filter.isCompleted,
             type = filter.type,
-            isWaitingForTask = filter.isWaitingForTask,
             hasDates = filter.hasDates
         )
     }

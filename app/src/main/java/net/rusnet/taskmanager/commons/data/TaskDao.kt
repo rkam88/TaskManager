@@ -1,6 +1,11 @@
 package net.rusnet.taskmanager.commons.data
 
-import androidx.room.*
+import androidx.room.Dao
+import androidx.room.Delete
+import androidx.room.Insert
+import androidx.room.OnConflictStrategy
+import androidx.room.Query
+import androidx.room.Update
 import net.rusnet.taskmanager.commons.domain.model.TaskType
 import net.rusnet.taskmanager_old.commons.domain.model.Task
 
@@ -37,16 +42,14 @@ interface TaskDao {
                 "WHERE (is_in_trash = :isInTrash) " +
                 "AND (:isCompleted IS NULL OR is_completed = :isCompleted) " +
                 "AND (:type IS NULL OR type = :type) " +
-                "AND (:isWaitingForTask IS NULL OR is_waiting_for_task = :isWaitingForTask) " +
                 "AND (end_date IS NOT NULL = :hasDates) " +
                 "ORDER BY end_date IS NULL, end_date, start_date, id ASC"
     )
     suspend fun getTasks(
-        isInTrash: Boolean,
-        isCompleted: Boolean?,
-        type: TaskType?,
-        isWaitingForTask: Boolean?,
-        hasDates: Boolean?
+            isInTrash: Boolean,
+            isCompleted: Boolean?,
+            type: TaskType?,
+            hasDates: Boolean?
     ): List<Task>
 
     @Query(
@@ -55,15 +58,13 @@ interface TaskDao {
                 "WHERE (is_in_trash = :isInTrash) " +
                 "AND (:isCompleted IS NULL OR is_completed = :isCompleted) " +
                 "AND (:type IS NULL OR type = :type) " +
-                "AND (:isWaitingForTask IS NULL OR is_waiting_for_task = :isWaitingForTask) " +
                 "AND (end_date IS NOT NULL = :hasDates)"
     )
     suspend fun getTasksCount(
-        isInTrash: Boolean,
-        isCompleted: Boolean?,
-        type: TaskType?,
-        isWaitingForTask: Boolean?,
-        hasDates: Boolean?
+            isInTrash: Boolean,
+            isCompleted: Boolean?,
+            type: TaskType?,
+            hasDates: Boolean?
     ): Long
 
 }

@@ -10,7 +10,6 @@ import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.EditText
 import android.widget.Spinner
-import android.widget.Switch
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.widget.addTextChangedListener
@@ -54,7 +53,6 @@ class EditActivity : AppCompatActivity() {
     }
     private val taskName by lazy { findViewById<EditText>(R.id.edit_text_task_name) }
     private val categorySpinner by lazy { findViewById<Spinner>(R.id.spinner_category) }
-    private val isWaitingForSwitch by lazy { findViewById<Switch>(R.id.switch_is_waiting_for) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -63,7 +61,6 @@ class EditActivity : AppCompatActivity() {
         initActionBar()
         initTaskName()
         initCategorySpinner()
-        initWaitingForSwitch()
         initEventObservation()
 
     }
@@ -116,11 +113,6 @@ class EditActivity : AppCompatActivity() {
                 viewModel.onTasksTypeSelected(position)
             }
         }
-    }
-
-    private fun initWaitingForSwitch() {
-        isWaitingForSwitch.isChecked = viewModel.currentTask.isWaitingForTask
-        isWaitingForSwitch.setOnCheckedChangeListener { _, isChecked -> viewModel.onWaitingForStatusChanged(isChecked) }
     }
 
     private fun initEventObservation() {

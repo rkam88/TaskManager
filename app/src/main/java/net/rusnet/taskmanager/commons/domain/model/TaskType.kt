@@ -9,5 +9,6 @@ enum class TaskType(
 ) {
     INBOX(0, R.string.inbox),
     ACTIVE(1, R.string.active),
-    SOMEDAY_MAYBE(2, R.string.someday_maybe)
+    WAITING_FOR(2, R.string.waiting_for),
+    SOMEDAY_MAYBE(3, R.string.someday_maybe)
 }

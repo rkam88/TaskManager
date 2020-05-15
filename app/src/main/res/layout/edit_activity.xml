@@ -49,7 +49,7 @@
         android:id="@+id/spinner_task_type"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="@dimen/edit_horizontal_margin"
+        android:layout_marginEnd="@dimen/edit_spinner_margin_end"
         app:layout_constraintBottom_toBottomOf="@id/image_view_task_type"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/guideline_vertical"
@@ -79,9 +79,9 @@
         android:textAppearance="@style/ClickableTextAppearance"
         android:visibility="visible"
         app:layout_constraintBottom_toBottomOf="@id/image_view_date"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/guideline_vertical"
         app:layout_constraintTop_toTopOf="@id/image_view_date"
-        app:layout_constraintEnd_toEndOf="parent"
         tools:visibility="gone" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -91,7 +91,7 @@
         android:visibility="gone"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="@id/guideline_vertical"
-        app:layout_constraintTop_toTopOf="@id/divider_task_type"
+        app:layout_constraintTop_toBottomOf="@id/divider_task_type"
         tools:visibility="visible">
 
         <ImageView

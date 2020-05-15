@@ -15,6 +15,7 @@
     <!--  Edit  -->
     <dimen name="edit_horizontal_margin">16dp</dimen>
     <dimen name="edit_vertical_margin">16dp</dimen>
+    <dimen name="edit_spinner_margin_end">4dp</dimen>
     <dimen name="edit_icon_size">24dp</dimen>
 
 </resources>

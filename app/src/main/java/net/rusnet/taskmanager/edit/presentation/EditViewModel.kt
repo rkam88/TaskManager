@@ -8,7 +8,6 @@ import net.rusnet.taskmanager.commons.domain.model.TaskType
 import net.rusnet.taskmanager.commons.presentation.SingleLiveEvent
 import net.rusnet.taskmanager.edit.presentation.EditEvents.NavigateBack
 import net.rusnet.taskmanager.edit.presentation.EditEvents.ShowExitConfirmationDialog
-import java.util.Date
 import javax.inject.Inject
 
 class EditViewModel @Inject constructor() : ViewModel() {
@@ -50,8 +49,8 @@ class EditViewModel @Inject constructor() : ViewModel() {
     fun onAddDatePressed() {
         updateCurrentState(
             currentTask.copy(
-                startDate = Date(),
-                endDate = Date()
+                startDate = System.currentTimeMillis(),
+                endDate = System.currentTimeMillis()
             )
         )
     }
@@ -67,8 +66,8 @@ class EditViewModel @Inject constructor() : ViewModel() {
             taskName = currentTask.name,
             taskType = currentTask.taskType,
             showDates = currentTask.startDate != null,
-            startDate = currentTask.startDate?.time ?: 0,
-            endDate = currentTask.endDate?.time ?: 0
+            startDate = currentTask.startDate ?: 0,
+            endDate = currentTask.endDate ?: 0
         )
         editViewState.postValue(newState)
     }

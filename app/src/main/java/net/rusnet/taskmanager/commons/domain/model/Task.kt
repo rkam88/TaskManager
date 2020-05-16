@@ -21,10 +21,10 @@ data class Task(
         val taskType: TaskType,
 
         @ColumnInfo(name = "start_Date")
-        val startDate: Date? = null,
+        val startDate: Long? = null,
 
         @ColumnInfo(name = "end_date")
-        val endDate: Date? = null,
+        val endDate: Long? = null,
 
         @ColumnInfo(name = "is_completed")
         val isCompleted: Boolean = false,
@@ -33,6 +33,6 @@ data class Task(
         val isInTrash: Boolean = false,
 
         @ColumnInfo(name = "reminder_date")
-        val reminderDate: Date? = null
+        val reminderDate: Long? = null
 
 ) : Serializable

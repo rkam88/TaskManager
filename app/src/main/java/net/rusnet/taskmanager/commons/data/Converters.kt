@@ -16,12 +16,4 @@ object Converters {
         return requireNotNull(TaskType.values().find { it.name == taskTypeAsString })
     }
 
-    @JvmStatic
-    @TypeConverter
-    fun fromDate(date: Date?) = date?.time
-
-    @JvmStatic
-    @TypeConverter
-    fun toDate(dateAsLong: Long?) = dateAsLong?.let { Date(dateAsLong) }
-
 }

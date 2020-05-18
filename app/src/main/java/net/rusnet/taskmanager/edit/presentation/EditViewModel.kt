@@ -3,14 +3,23 @@ package net.rusnet.taskmanager.edit.presentation
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import net.rusnet.taskmanager.R
+import net.rusnet.taskmanager.commons.domain.model.DateType
+import net.rusnet.taskmanager.commons.domain.model.DateType.END_DATE
+import net.rusnet.taskmanager.commons.domain.model.DateType.START_DATE
 import net.rusnet.taskmanager.commons.domain.model.Task
 import net.rusnet.taskmanager.commons.domain.model.TaskType
+import net.rusnet.taskmanager.commons.extensions.exhaustive
 import net.rusnet.taskmanager.commons.presentation.SingleLiveEvent
 import net.rusnet.taskmanager.edit.presentation.EditEvents.NavigateBack
+import net.rusnet.taskmanager.edit.presentation.EditEvents.ShowDatePickerDialog
 import net.rusnet.taskmanager.edit.presentation.EditEvents.ShowExitConfirmationDialog
+import net.rusnet.taskmanager.edit.presentation.dialogs.DatePickerFragment
+import java.util.Calendar
 import javax.inject.Inject
 
-class EditViewModel @Inject constructor() : ViewModel() {
+class EditViewModel @Inject constructor() :
+    ViewModel(),
+    DatePickerFragment.OnDatePickerDialogResultListener {
 
     private lateinit var initialTask: Task
     lateinit var currentTask: Task
@@ -49,14 +58,57 @@ class EditViewModel @Inject constructor() : ViewModel() {
     fun onAddDatePressed() {
         updateCurrentState(
             currentTask.copy(
-                startDate = System.currentTimeMillis(),
-                endDate = System.currentTimeMillis()
+                startDate = getInitialStartDate(),
+                endDate = getInitialEndDate()
             )
         )
     }
 
     fun onDeleteDatePressed() {
         updateCurrentState(currentTask.copy(startDate = null, endDate = null))
+    }
+
+    fun onStartDateClicked() {
+        val initialDate = Calendar.getInstance().apply {
+            timeInMillis = currentTask.startDate ?: getInitialStartDate()
+        }
+        event.postValue(ShowDatePickerDialog(START_DATE, initialDate))
+    }
+
+    fun onEndDateClicker() {
+        val initialDate = Calendar.getInstance().apply {
+            timeInMillis = currentTask.endDate ?: getInitialEndDate()
+        }
+        event.postValue(ShowDatePickerDialog(END_DATE, initialDate))
+    }
+
+    override fun onDateSet(dateType: DateType, newDate: Calendar) {
+        when (dateType) {
+            START_DATE -> {
+                val newStartDate = newDate.timeInMillis
+                if (newStartDate > currentTask.endDate ?: getInitialEndDate()) {
+                    updateCurrentState(currentTask.copy(startDate = newStartDate, endDate = newStartDate))
+                } else {
+                    updateCurrentState(currentTask.copy(startDate = newStartDate))
+                }
+            }
+            END_DATE -> {
+                val newEndDate = newDate.timeInMillis
+                if (newEndDate < currentTask.startDate ?: getInitialStartDate()) {
+                    updateCurrentState(currentTask.copy(startDate = newEndDate, endDate = newEndDate))
+                } else {
+                    updateCurrentState(currentTask.copy(endDate = newEndDate))
+                }
+            }
+        }.exhaustive
+    }
+
+    fun onStartTimeClicked() {
+
+    }
+
+    fun onEndTimeClicker() {
+
     }
 
     private fun updateCurrentState(updatedTask: Task) {
@@ -71,5 +123,9 @@ class EditViewModel @Inject constructor() : ViewModel() {
         )
         editViewState.postValue(newState)
     }
+
+    private fun getInitialStartDate() = System.currentTimeMillis()
+
+    private fun getInitialEndDate() = System.currentTimeMillis()
 
 }

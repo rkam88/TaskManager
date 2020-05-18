@@ -20,13 +20,19 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import net.rusnet.taskmanager.R
 import net.rusnet.taskmanager.commons.app.injector
+import net.rusnet.taskmanager.commons.domain.model.DateType
 import net.rusnet.taskmanager.commons.domain.model.Task
 import net.rusnet.taskmanager.commons.domain.model.TaskType
 import net.rusnet.taskmanager.commons.extensions.doOnItemSelected
 import net.rusnet.taskmanager.commons.extensions.exhaustive
+import net.rusnet.taskmanager.edit.presentation.dialogs.DatePickerFragment
+import java.util.Calendar
 import kotlin.math.roundToInt
 
-class EditActivity : AppCompatActivity() {
+private const val TAG_DATE_PICKER_FRAGMENT = "TAG_DATE_PICKER_FRAGMENT"
+
+class EditActivity : AppCompatActivity(),
+                     DatePickerFragment.OnDatePickerDialogResultListener {
 
     companion object {
         private const val EXTRA_TASK = "EXTRA_TASK"
@@ -85,6 +91,10 @@ class EditActivity : AppCompatActivity() {
         viewModel.onBackPressed()
     }
 
+    override fun onDateSet(dateType: DateType, newDate: Calendar) {
+        viewModel.onDateSet(dateType, newDate)
+    }
+
     private fun initViews() {
         setSupportActionBar(findViewById(R.id.toolbar))
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
@@ -100,9 +110,12 @@ class EditActivity : AppCompatActivity() {
 
         addDateButton.setOnClickListener { viewModel.onAddDatePressed() }
         deleteDateButton.setOnClickListener { viewModel.onDeleteDatePressed() }
+        startDateButton.setOnClickListener { viewModel.onStartDateClicked() }
+        endDateButton.setOnClickListener { viewModel.onEndDateClicker() }
+        startTimeButton.setOnClickListener { viewModel.onStartTimeClicked() }
+        endTimeButton.setOnClickListener { viewModel.onEndTimeClicker() }
 
-        // todo: add listeners to date buttons
-
+        // programmatically set top margin for divider to consider icon size and vertical margin
         (findViewById<View>(R.id.divider_date).layoutParams as ConstraintLayout.LayoutParams).apply {
             val verticalMargin = resources.getDimension(R.dimen.edit_vertical_margin)
             val iconSize = resources.getDimension(R.dimen.edit_icon_size)
@@ -128,6 +141,10 @@ class EditActivity : AppCompatActivity() {
             when (event) {
                 EditEvents.NavigateBack -> super.onBackPressed()
                 EditEvents.ShowExitConfirmationDialog -> showExitConfirmationDialog()
+                is EditEvents.ShowDatePickerDialog -> {
+                    DatePickerFragment.newInstance(event.dateType, event.initialDialogDate)
+                        .show(supportFragmentManager, TAG_DATE_PICKER_FRAGMENT)
+                }
             }.exhaustive
         })
     }

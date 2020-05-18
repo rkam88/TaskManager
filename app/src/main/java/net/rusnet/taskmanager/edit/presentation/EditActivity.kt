@@ -26,13 +26,16 @@ import net.rusnet.taskmanager.commons.domain.model.TaskType
 import net.rusnet.taskmanager.commons.extensions.doOnItemSelected
 import net.rusnet.taskmanager.commons.extensions.exhaustive
 import net.rusnet.taskmanager.edit.presentation.dialogs.DatePickerFragment
+import net.rusnet.taskmanager.edit.presentation.dialogs.OnDatePickerResultListener
+import net.rusnet.taskmanager.edit.presentation.dialogs.TimePickerFragment
 import java.util.Calendar
 import kotlin.math.roundToInt
 
 private const val TAG_DATE_PICKER_FRAGMENT = "TAG_DATE_PICKER_FRAGMENT"
+private const val TAG_TIME_PICKER_FRAGMENT = "TAG_TIME_PICKER_FRAGMENT"
 
 class EditActivity : AppCompatActivity(),
-                     DatePickerFragment.OnDatePickerDialogResultListener {
+                     OnDatePickerResultListener {
 
     companion object {
         private const val EXTRA_TASK = "EXTRA_TASK"
@@ -144,6 +147,10 @@ class EditActivity : AppCompatActivity(),
                 is EditEvents.ShowDatePickerDialog -> {
                     DatePickerFragment.newInstance(event.dateType, event.initialDialogDate)
                         .show(supportFragmentManager, TAG_DATE_PICKER_FRAGMENT)
+                }
+                is EditEvents.ShowTimePickerDialog -> {
+                    TimePickerFragment.newInstance(event.dateType, event.initialDialogDate)
+                        .show(supportFragmentManager, TAG_TIME_PICKER_FRAGMENT)
                 }
             }.exhaustive
         })

@@ -1,14 +1,14 @@
 package net.rusnet.taskmanager.edit.presentation.dialogs
 
-import android.app.DatePickerDialog
 import android.app.Dialog
+import android.app.TimePickerDialog
 import android.content.Context
 import android.os.Bundle
 import androidx.fragment.app.DialogFragment
 import net.rusnet.taskmanager.commons.domain.model.DateType
 import java.util.Calendar
 
-class DatePickerFragment : DialogFragment() {
+class TimePickerFragment : DialogFragment() {
 
     private lateinit var callback: OnDatePickerResultListener
 
@@ -28,17 +28,17 @@ class DatePickerFragment : DialogFragment() {
         val tag = arguments?.getSerializable(KEY_DATE_TYPE) as DateType
         val initialDate = arguments?.getSerializable(KEY_INITIAL_DATE) as Calendar
 
-        return DatePickerDialog(
+        return TimePickerDialog(
             activity!!,
-            { _, year, month, dayOfMonth ->
+            { _, hourOfDay, minute ->
                 val newDate = Calendar.getInstance().apply { timeInMillis = initialDate.timeInMillis }
-                newDate.set(year, month, dayOfMonth)
+                newDate.set(Calendar.HOUR_OF_DAY, hourOfDay)
+                newDate.set(Calendar.MINUTE, minute)
                 callback.onDateSet(tag, newDate)
             },
-            initialDate[Calendar.YEAR],
-            initialDate[Calendar.MONTH],
-            initialDate[Calendar.DAY_OF_MONTH]
-
+            initialDate[Calendar.HOUR_OF_DAY],
+            initialDate[Calendar.MINUTE],
+            true
         )
     }
 
@@ -46,8 +46,8 @@ class DatePickerFragment : DialogFragment() {
         private const val KEY_DATE_TYPE = "KEY_DATE_TYPE"
         private const val KEY_INITIAL_DATE = "KEY_INITIAL_DATE"
 
-        fun newInstance(dateType: DateType, initialDialogDate: Calendar): DatePickerFragment {
-            return DatePickerFragment().apply {
+        fun newInstance(dateType: DateType, initialDialogDate: Calendar): TimePickerFragment {
+            return TimePickerFragment().apply {
                 arguments = Bundle().apply {
                     putSerializable(KEY_DATE_TYPE, dateType)
                     putSerializable(KEY_INITIAL_DATE, initialDialogDate)

@@ -7,4 +7,5 @@ sealed class EditEvents {
     object NavigateBack : EditEvents()
     object ShowExitConfirmationDialog : EditEvents()
     data class ShowDatePickerDialog(val dateType: DateType, val initialDialogDate: Calendar) : EditEvents()
+    data class ShowTimePickerDialog(val dateType: DateType, val initialDialogDate: Calendar) : EditEvents()
 }

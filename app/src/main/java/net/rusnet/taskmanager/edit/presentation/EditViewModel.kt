@@ -13,13 +13,13 @@ import net.rusnet.taskmanager.commons.presentation.SingleLiveEvent
 import net.rusnet.taskmanager.edit.presentation.EditEvents.NavigateBack
 import net.rusnet.taskmanager.edit.presentation.EditEvents.ShowDatePickerDialog
 import net.rusnet.taskmanager.edit.presentation.EditEvents.ShowExitConfirmationDialog
-import net.rusnet.taskmanager.edit.presentation.dialogs.DatePickerFragment
+import net.rusnet.taskmanager.edit.presentation.EditEvents.ShowTimePickerDialog
+import net.rusnet.taskmanager.edit.presentation.dialogs.OnDatePickerResultListener
 import java.util.Calendar
 import javax.inject.Inject
 
-class EditViewModel @Inject constructor() :
-    ViewModel(),
-    DatePickerFragment.OnDatePickerDialogResultListener {
+class EditViewModel @Inject constructor() : ViewModel(),
+                                            OnDatePickerResultListener {
 
     private lateinit var initialTask: Task
     lateinit var currentTask: Task
@@ -104,11 +104,17 @@ class EditViewModel @Inject constructor() :
     }
 
     fun onStartTimeClicked() {
-
+        val initialDate = Calendar.getInstance().apply {
+            timeInMillis = currentTask.startDate ?: getInitialStartDate()
+        }
+        event.postValue(ShowTimePickerDialog(START_DATE, initialDate))
     }
 
     fun onEndTimeClicker() {
-
+        val initialDate = Calendar.getInstance().apply {
+            timeInMillis = currentTask.endDate ?: getInitialEndDate()
+        }
+        event.postValue(ShowTimePickerDialog(END_DATE, initialDate))
     }
 
     private fun updateCurrentState(updatedTask: Task) {

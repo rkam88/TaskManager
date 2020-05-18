@@ -6,9 +6,9 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
 import net.rusnet.taskmanager.commons.app.Router
+import net.rusnet.taskmanager.commons.domain.model.Task
 import net.rusnet.taskmanager.tasksdisplay.domain.GetTasksCountUseCase
 import net.rusnet.taskmanager.tasksdisplay.domain.GetTasksUseCase
-import net.rusnet.taskmanager.commons.domain.model.Task
 import javax.inject.Inject
 
 private const val COUNT_99_PLUS = "99+"
@@ -36,7 +36,17 @@ class TasksDisplayViewModel @Inject constructor(
     }
 
     fun onAddButtonClicked() {
-        router.navigateToEdit(currentTasksDisplayState.value!!.newTaskType)
+        router.navigateToEdit(
+            currentTasksDisplayState.value!!.newTaskType,
+            TasksDisplayActivity.REQUEST_CODE_SAVE_TASK
+        )
+    }
+
+    fun onPositiveResultFromEditActivity() {
+        currentTasksDisplayState.value?.let {
+            updateCurrentTasks(it)
+            updateTasksCount()
+        }
     }
 
     private fun updateCurrentTasks(state: TasksDisplayState) {

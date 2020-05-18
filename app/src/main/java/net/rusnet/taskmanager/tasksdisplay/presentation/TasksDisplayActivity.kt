@@ -1,5 +1,7 @@
 package net.rusnet.taskmanager.tasksdisplay.presentation
 
+import android.app.Activity
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.MenuItem
@@ -16,6 +18,10 @@ import net.rusnet.taskmanager.R
 import net.rusnet.taskmanager.commons.app.injector
 
 class TasksDisplayActivity : AppCompatActivity() {
+
+    companion object {
+        const val REQUEST_CODE_SAVE_TASK = 1
+    }
 
     private val viewModel by lazy {
         ViewModelProvider(
@@ -58,6 +64,14 @@ class TasksDisplayActivity : AppCompatActivity() {
         }
 
         return super.onOptionsItemSelected(item)
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        if (requestCode == REQUEST_CODE_SAVE_TASK && resultCode == Activity.RESULT_OK) {
+            viewModel.onPositiveResultFromEditActivity()
+        } else {
+            super.onActivityResult(requestCode, resultCode, data)
+        }
     }
 
     private fun initToolbar() {

@@ -2,6 +2,8 @@ package net.rusnet.taskmanager.edit.presentation
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import kotlinx.coroutines.launch
 import net.rusnet.taskmanager.R
 import net.rusnet.taskmanager.commons.domain.model.DateType
 import net.rusnet.taskmanager.commons.domain.model.DateType.END_DATE
@@ -10,6 +12,7 @@ import net.rusnet.taskmanager.commons.domain.model.Task
 import net.rusnet.taskmanager.commons.domain.model.TaskType
 import net.rusnet.taskmanager.commons.extensions.exhaustive
 import net.rusnet.taskmanager.commons.presentation.SingleLiveEvent
+import net.rusnet.taskmanager.edit.domain.SaveTaskUseCase
 import net.rusnet.taskmanager.edit.presentation.EditEvents.NavigateBack
 import net.rusnet.taskmanager.edit.presentation.EditEvents.ShowDatePickerDialog
 import net.rusnet.taskmanager.edit.presentation.EditEvents.ShowExitConfirmationDialog
@@ -18,8 +21,12 @@ import net.rusnet.taskmanager.edit.presentation.dialogs.OnDatePickerResultListen
 import java.util.Calendar
 import javax.inject.Inject
 
-class EditViewModel @Inject constructor() : ViewModel(),
-                                            OnDatePickerResultListener {
+private const val EMPTY_STRING = ""
+
+class EditViewModel @Inject constructor(
+    private val saveTaskUseCase: SaveTaskUseCase
+) : ViewModel(),
+    OnDatePickerResultListener {
 
     private lateinit var initialTask: Task
     lateinit var currentTask: Task
@@ -115,6 +122,17 @@ class EditViewModel @Inject constructor() : ViewModel(),
             timeInMillis = currentTask.endDate ?: getInitialEndDate()
         }
         event.postValue(ShowTimePickerDialog(END_DATE, initialDate))
+    }
+
+    fun onSaveClicked() {
+        if (currentTask.name == EMPTY_STRING) {
+            event.postValue(EditEvents.ShowNoTaskNameMessage)
+        } else {
+            viewModelScope.launch {
+                saveTaskUseCase.execute(currentTask)
+                event.postValue(EditEvents.FinishActivityWithPositiveResult)
+            }
+        }
     }
 
     private fun updateCurrentState(updatedTask: Task) {

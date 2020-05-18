@@ -14,6 +14,7 @@ import android.widget.EditText
 import android.widget.ImageView
 import android.widget.Spinner
 import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintLayout
@@ -94,7 +95,7 @@ class EditActivity : AppCompatActivity(),
 
     override fun onOptionsItemSelected(item: MenuItem) = when (item.itemId) {
         R.id.save -> {
-            // todo: implement this
+            viewModel.onSaveClicked()
             true
         }
         else -> super.onOptionsItemSelected(item)
@@ -166,6 +167,13 @@ class EditActivity : AppCompatActivity(),
                 is EditEvents.ShowTimePickerDialog -> {
                     TimePickerFragment.newInstance(event.dateType, event.initialDialogDate)
                         .show(supportFragmentManager, TAG_TIME_PICKER_FRAGMENT)
+                }
+                EditEvents.ShowNoTaskNameMessage -> {
+                    Toast.makeText(this, R.string.message_empty_task_name, Toast.LENGTH_SHORT).show()
+                }
+                EditEvents.FinishActivityWithPositiveResult -> {
+                    setResult(Activity.RESULT_OK)
+                    finish()
                 }
             }.exhaustive
         })

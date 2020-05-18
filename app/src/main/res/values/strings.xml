@@ -18,6 +18,7 @@
     <!--  EditActivity  -->
     <string name="title_new_task">New task</string>
     <string name="title_existing_task">Edit task</string>
+    <string name="save">Save</string>
     <string name="task_name_hint">Enter a name</string>
     <string name="add_date">Add date</string>
 

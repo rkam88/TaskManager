@@ -4,6 +4,8 @@ import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.text.format.DateFormat
+import android.view.Menu
+import android.view.MenuItem
 import android.view.View
 import android.view.View.GONE
 import android.view.View.VISIBLE
@@ -83,6 +85,19 @@ class EditActivity : AppCompatActivity(),
         initEventObservation()
         initStateObservation()
 
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.edit_toolbar_menu, menu)
+        return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem) = when (item.itemId) {
+        R.id.save -> {
+            // todo: implement this
+            true
+        }
+        else -> super.onOptionsItemSelected(item)
     }
 
     override fun onSupportNavigateUp(): Boolean {

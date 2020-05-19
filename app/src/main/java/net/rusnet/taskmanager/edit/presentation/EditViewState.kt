@@ -8,6 +8,8 @@ data class EditViewState(
     val taskName: String,
     val taskType: TaskType,
     val showDates: Boolean,
-    val startDate: Long,
-    val endDate: Long
+    val startDate: String,
+    val startTime: String,
+    val endDate: String,
+    val endTime: String
 )

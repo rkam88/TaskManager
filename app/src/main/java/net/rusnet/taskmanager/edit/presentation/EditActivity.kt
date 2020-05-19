@@ -3,7 +3,6 @@ package net.rusnet.taskmanager.edit.presentation
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
-import android.text.format.DateFormat
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
@@ -191,10 +190,10 @@ class EditActivity : AppCompatActivity(),
             taskTypeSpinner.setSelection(newState.taskType.spinnerPosition)
             addDateButton.visibility = if (newState.showDates) GONE else VISIBLE
             dateAddedLayout.visibility = if (newState.showDates) VISIBLE else GONE
-            startDateButton.text = DateFormat.getDateFormat(this).format(newState.startDate)
-            startTimeButton.text = DateFormat.getTimeFormat(this).format(newState.startDate)
-            endDateButton.text = DateFormat.getDateFormat(this).format(newState.endDate)
-            endTimeButton.text = DateFormat.getTimeFormat(this).format(newState.endDate)
+            startDateButton.text = newState.startDate
+            startTimeButton.text = newState.startTime
+            endDateButton.text = newState.endDate
+            endTimeButton.text = newState.endTime
         })
     }
 

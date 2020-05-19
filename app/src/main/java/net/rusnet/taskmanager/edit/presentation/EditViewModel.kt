@@ -1,5 +1,7 @@
 package net.rusnet.taskmanager.edit.presentation
 
+import android.content.Context
+import android.text.format.DateFormat
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -25,6 +27,7 @@ import javax.inject.Inject
 private const val EMPTY_STRING = ""
 
 class EditViewModel @Inject constructor(
+    private val applicationContext: Context,
     private val saveTaskUseCase: SaveTaskUseCase
 ) : ViewModel(),
     OnDatePickerResultListener {
@@ -148,8 +151,10 @@ class EditViewModel @Inject constructor(
             taskName = currentTask.name,
             taskType = currentTask.taskType,
             showDates = currentTask.hasDates(),
-            startDate = currentTask.getOrInitStartDate(),
-            endDate = currentTask.getOrInitEndDate()
+            startDate = DateFormat.getDateFormat(applicationContext).format(currentTask.getOrInitStartDate()),
+            startTime = DateFormat.getTimeFormat(applicationContext).format(currentTask.getOrInitStartDate()),
+            endDate = DateFormat.getDateFormat(applicationContext).format(currentTask.getOrInitEndDate()),
+            endTime = DateFormat.getTimeFormat(applicationContext).format(currentTask.getOrInitEndDate())
         )
         editViewState.postValue(newState)
     }

@@ -19,7 +19,7 @@ enum class TasksDisplayState(
     INBOX         (R.string.inbox,         R.id.nav_inbox,         View.VISIBLE, InboxFilter,        TaskType.INBOX),
     NEXT_ACTIONS  (R.string.next_actions,  R.id.nav_next_actions,  View.VISIBLE, NextActionsFilter,  TaskType.ACTIVE),
     CALENDAR      (R.string.calendar,      R.id.nav_calendar,      View.VISIBLE, CalendarFilter,     TaskType.ACTIVE),
-    WAITING_FOR   (R.string.waiting_for,   R.id.nav_waiting_for,   View.VISIBLE, WaitingForFilter,   TaskType.ACTIVE),
+    WAITING_FOR   (R.string.waiting_for,   R.id.nav_waiting_for,   View.VISIBLE, WaitingForFilter,   TaskType.WAITING_FOR),
     SOMEDAY_MAYBE (R.string.someday_maybe, R.id.nav_someday_maybe, View.VISIBLE, SomedayMaybeFilter, TaskType.SOMEDAY_MAYBE),
     COMPLETED     (R.string.completed,     R.id.nav_completed,     View.GONE,    CompletedFilter,    TaskType.INBOX),
     TRASH         (R.string.trash,         R.id.nav_trash,         View.GONE,    TrashFilter,        TaskType.INBOX)

@@ -29,9 +29,9 @@ class Router @Inject constructor() : SimpleActivityLifecycleCallbacks {
         )
     }
 
-    fun navigateToEdit(newTaskType: TaskType, requestCode: Int) {
+    fun navigateToEdit(newTaskType: TaskType, showDates: Boolean, requestCode: Int) {
         activity().startActivityForResult(
-            EditActivity.getIntentForNewTask(activity(), newTaskType),
+            EditActivity.getIntentForNewTask(activity(), newTaskType, showDates),
             requestCode
         )
     }

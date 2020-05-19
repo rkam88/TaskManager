@@ -36,8 +36,11 @@ class TasksDisplayViewModel @Inject constructor(
     }
 
     fun onAddButtonClicked() {
+        val currentState = requireNotNull(currentTasksDisplayState.value)
+        val isCalendar = currentState == TasksDisplayState.CALENDAR
         router.navigateToEdit(
-            currentTasksDisplayState.value!!.newTaskType,
+            currentState.newTaskType,
+            isCalendar,
             TasksDisplayActivity.REQUEST_CODE_SAVE_TASK
         )
     }

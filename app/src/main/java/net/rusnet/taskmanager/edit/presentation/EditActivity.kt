@@ -43,10 +43,12 @@ class EditActivity : AppCompatActivity(),
     companion object {
         private const val EXTRA_TASK = "EXTRA_TASK"
         private const val EXTRA_TASK_TYPE = "EXTRA_TASK_TYPE"
+        private const val EXTRA_SHOW_DATES = "EXTRA_SHOW_DATES"
 
-        fun getIntentForNewTask(activity: Activity, newTaskType: TaskType): Intent {
+        fun getIntentForNewTask(activity: Activity, newTaskType: TaskType, showDates: Boolean): Intent {
             return Intent(activity, EditActivity::class.java).apply {
                 putExtra(EXTRA_TASK_TYPE, newTaskType)
+                putExtra(EXTRA_SHOW_DATES, showDates)
             }
         }
 
@@ -64,7 +66,8 @@ class EditActivity : AppCompatActivity(),
         ).get(EditViewModel::class.java).apply {
             initViewModelFromIntent(
                 intent.getSerializableExtra(EXTRA_TASK) as? Task,
-                intent.getSerializableExtra(EXTRA_TASK_TYPE) as? TaskType
+                intent.getSerializableExtra(EXTRA_TASK_TYPE) as? TaskType,
+                intent.getBooleanExtra(EXTRA_SHOW_DATES, false)
             )
         }
     }

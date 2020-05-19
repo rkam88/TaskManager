@@ -34,14 +34,19 @@ class EditViewModel @Inject constructor(
     val event = SingleLiveEvent<EditEvents>()
     val editViewState = MutableLiveData<EditViewState>()
 
-    fun initViewModelFromIntent(intentTask: Task?, intentTaskType: TaskType?) {
+    fun initViewModelFromIntent(intentTask: Task?, intentTaskType: TaskType?, showDates: Boolean) {
         if (!this::initialTask.isInitialized) {
             initialTask = when {
                 intentTask != null -> intentTask
-                intentTaskType != null -> Task(taskType = intentTaskType)
+                intentTaskType != null ->
+                    if (showDates) {
+                        Task(taskType = intentTaskType, startDate = getInitialStartDate(), endDate = getInitialEndDate())
+                    } else {
+                        Task(taskType = intentTaskType)
+                    }
                 else -> throw IllegalArgumentException("EditViewModel: intentTask and taskType can't be both null")
             }
-            currentTask = initialTask.copy()
+            updateCurrentState(initialTask.copy())
         }
     }
 

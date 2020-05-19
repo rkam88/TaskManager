@@ -22,6 +22,7 @@
     <string name="task_name_hint">Enter a name</string>
     <string name="add_date">Add date</string>
     <string name="message_empty_task_name">Please enter name for the task!</string>
+    <string name="complete">Complete</string>
 
     <!--  Dialog  -->
     <string name="exit_without_saving_warning">Exit without saving?</string>

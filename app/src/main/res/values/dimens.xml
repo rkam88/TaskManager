@@ -11,6 +11,8 @@
 
     <!--  TasksDisplay  -->
     <dimen name="tasks_display_fab_margin">16dp</dimen>
+    <dimen name="task_item_outer_padding">16dp</dimen>
+    <dimen name="task_item_inner_margin">8dp</dimen>
 
     <!--  Edit  -->
     <dimen name="edit_horizontal_margin">16dp</dimen>

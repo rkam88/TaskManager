@@ -13,6 +13,7 @@
     <!--  Misc.  -->
     <color name="ic_launcher_background">#002171</color>
     <color name="colorDivider">#BDBDBD</color>
+    <color name="iconColor">#656565</color>
 
     <!--  Text colors  -->
     <color name="colorTextPrimary">#000000</color>
@@ -24,6 +25,5 @@
     <color name="itemCompletedBackground">#4cAf50</color>
 
     <!--  Edit  -->
-    <color name="editIconColor">#656565</color>
 
 </resources>

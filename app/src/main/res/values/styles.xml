@@ -33,7 +33,7 @@
 
 
     <style name="EditIcon">
-        <item name="tint">@color/editIconColor</item>
+        <item name="tint">@color/iconColor</item>
         <item name="android:layout_width">@dimen/edit_icon_size</item>
         <item name="android:layout_height">@dimen/edit_icon_size</item>
         <item name="android:layout_marginTop">@dimen/edit_vertical_margin</item>

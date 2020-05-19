@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/task_item_background_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="@dimen/task_item_outer_padding"
+        android:background="@color/itemCompletedBackground">
+
+        <ImageView
+            android:id="@+id/image_view_mark_as_completed"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_mark_as_completed"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintLeft_toRightOf="@id/text_view_complete"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/text_view_complete"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/task_item_inner_margin"
+            android:text="@string/complete"
+            android:textColor="@android:color/white"
+            android:textSize="24sp"
+            app:layout_constraintBottom_toBottomOf="@id/image_view_mark_as_completed"
+            app:layout_constraintRight_toLeftOf="@id/image_view_mark_as_completed"
+            app:layout_constraintTop_toTopOf="@id/image_view_mark_as_completed" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <FrameLayout
+        tools:visibility="visible"
+        android:id="@+id/task_item_foreground_layout"
+        android:layout_width="match_parent"
+        android:background="@color/itemDefaultBackground"
+        android:layout_height="wrap_content">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="?android:attr/selectableItemBackground"
+            android:padding="@dimen/task_item_outer_padding"
+            android:clipToPadding="false">
+
+            <TextView
+                android:id="@+id/text_view_task_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="Some task name" />
+
+            <ImageView
+                android:id="@+id/image_view_task_date"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/task_item_inner_margin"
+                android:src="@drawable/ic_date"
+                android:tint="@color/iconColor"
+                app:layout_constraintEnd_toStartOf="@id/text_view_task_date"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="@id/text_view_task_name"
+                app:layout_constraintTop_toBottomOf="@id/text_view_task_name" />
+
+            <TextView
+                android:id="@+id/text_view_task_date"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/task_item_inner_margin"
+                tools:text="21.09.2020"
+                android:textAppearance="@style/TextAppearance.MaterialComponents.Body2"
+                app:layout_constraintBottom_toBottomOf="@id/image_view_task_date"
+                app:layout_constraintEnd_toEndOf="@id/text_view_task_name"
+                app:layout_constraintStart_toEndOf="@id/image_view_task_date"
+                app:layout_constraintTop_toTopOf="@id/image_view_task_date" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </FrameLayout>
+
+</FrameLayout>

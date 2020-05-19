@@ -2,7 +2,6 @@ package net.rusnet.taskmanager.commons.data
 
 import androidx.room.TypeConverter
 import net.rusnet.taskmanager.commons.domain.model.TaskType
-import java.util.*
 
 object Converters {
 

@@ -6,8 +6,8 @@ import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import androidx.room.Update
-import net.rusnet.taskmanager.commons.domain.model.TaskType
 import net.rusnet.taskmanager.commons.domain.model.Task
+import net.rusnet.taskmanager.commons.domain.model.TaskType
 
 @Dao
 interface TaskDao {
@@ -40,31 +40,37 @@ interface TaskDao {
         "SELECT * " +
                 "FROM task_table " +
                 "WHERE (is_in_trash = :isInTrash) " +
-                "AND (:isCompleted IS NULL OR is_completed = :isCompleted) " +
-                "AND (:taskType IS NULL OR task_type = :taskType) " +
-                "AND (end_date IS NOT NULL = :hasDates) " +
+                "AND (:checkCompletedStatus = 0 OR is_completed = :isCompleted) " +
+                "AND (:checkTaskType = 0 OR task_type = :taskType) " +
+                "AND (:checkDates = 0 OR end_date IS NOT NULL = :hasDates) " +
                 "ORDER BY end_date IS NULL, end_date, start_date, id ASC"
     )
     suspend fun getTasks(
-            isInTrash: Boolean,
-            isCompleted: Boolean?,
-            taskType: TaskType?,
-            hasDates: Boolean?
+        isInTrash: Boolean,
+        checkCompletedStatus: Boolean,
+        isCompleted: Boolean?,
+        checkTaskType: Boolean,
+        taskType: TaskType?,
+        checkDates: Boolean,
+        hasDates: Boolean?
     ): List<Task>
 
     @Query(
         "SELECT COUNT(*) " +
                 "FROM task_table " +
                 "WHERE (is_in_trash = :isInTrash) " +
-                "AND (:isCompleted IS NULL OR is_completed = :isCompleted) " +
-                "AND (:taskType IS NULL OR task_type = :taskType) " +
-                "AND (end_date IS NOT NULL = :hasDates)"
+                "AND (:checkCompletedStatus = 0 OR is_completed = :isCompleted) " +
+                "AND (:checkTaskType = 0 OR task_type = :taskType) " +
+                "AND (:checkDates = 0 OR end_date IS NOT NULL = :hasDates) "
     )
     suspend fun getTasksCount(
-            isInTrash: Boolean,
-            isCompleted: Boolean?,
-            taskType: TaskType?,
-            hasDates: Boolean?
+        isInTrash: Boolean,
+        checkCompletedStatus: Boolean,
+        isCompleted: Boolean?,
+        checkTaskType: Boolean,
+        taskType: TaskType?,
+        checkDates: Boolean,
+        hasDates: Boolean?
     ): Long
 
 }

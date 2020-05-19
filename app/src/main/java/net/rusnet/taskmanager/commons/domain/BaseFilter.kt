@@ -8,11 +8,11 @@ sealed class BaseFilter(
         val taskType: TaskType?,
         val hasDates: Boolean?
 ) {
-    object InboxFilter :        BaseFilter(false, false, TaskType.INBOX,        null)
-    object NextActionsFilter :  BaseFilter(false, false, TaskType.ACTIVE,       false)
-    object CalendarFilter :     BaseFilter(false, false, TaskType.ACTIVE,       true)
-    object WaitingForFilter :   BaseFilter(false, false, TaskType.WAITING_FOR,  null)
-    object SomedayMaybeFilter : BaseFilter(false, false, TaskType.SOMEDAY_MAYBE,null)
-    object CompletedFilter :    BaseFilter(false, true,  null,             null)
-    object TrashFilter :        BaseFilter(true,  null,  null,             null)
+    object InboxFilter :        BaseFilter(isInTrash = false, isCompleted = false, taskType = TaskType.INBOX,         hasDates = null)
+    object NextActionsFilter :  BaseFilter(isInTrash = false, isCompleted = false, taskType = TaskType.ACTIVE,        hasDates = false)
+    object CalendarFilter :     BaseFilter(isInTrash = false, isCompleted = false, taskType = TaskType.ACTIVE,        hasDates = true)
+    object WaitingForFilter :   BaseFilter(isInTrash = false, isCompleted = false, taskType = TaskType.WAITING_FOR,   hasDates = null)
+    object SomedayMaybeFilter : BaseFilter(isInTrash = false, isCompleted = false, taskType = TaskType.SOMEDAY_MAYBE, hasDates = null)
+    object CompletedFilter :    BaseFilter(isInTrash = false, isCompleted = true,  taskType = null,                   hasDates = null)
+    object TrashFilter :        BaseFilter(isInTrash = true,  isCompleted = null,  taskType = null,                   hasDates = null)
 }

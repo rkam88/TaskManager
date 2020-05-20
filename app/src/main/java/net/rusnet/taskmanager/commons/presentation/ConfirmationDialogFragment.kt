@@ -13,7 +13,6 @@ class ConfirmationDialogFragment : DialogFragment() {
 
     interface ConfirmationDialogListener {
         fun onPositiveResponse(dialogTag: String)
-        fun onNegativeResponse(dialogTag: String)
     }
 
     override fun onAttach(context: Context) {
@@ -36,11 +35,10 @@ class ConfirmationDialogFragment : DialogFragment() {
             .setTitle(dialogTitle)
             .setPositiveButton(R.string.yes) { dialog, _ ->
                 callback.onPositiveResponse(dialogTag)
-//                dialog.dismiss()
+                dialog.dismiss()
             }
             .setNegativeButton(R.string.no) { dialog, _ ->
-                callback.onNegativeResponse(dialogTag)
-//                dialog.dismiss()
+                dialog.dismiss()
             }.create()
     }
 

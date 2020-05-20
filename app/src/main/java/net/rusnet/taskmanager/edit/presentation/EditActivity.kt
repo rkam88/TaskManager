@@ -13,7 +13,6 @@ import android.widget.Spinner
 import android.widget.Switch
 import android.widget.TextView
 import android.widget.Toast
-import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.widget.doAfterTextChanged
@@ -26,6 +25,8 @@ import net.rusnet.taskmanager.commons.domain.model.Task
 import net.rusnet.taskmanager.commons.domain.model.TaskType
 import net.rusnet.taskmanager.commons.extensions.doOnItemSelected
 import net.rusnet.taskmanager.commons.extensions.exhaustive
+import net.rusnet.taskmanager.commons.presentation.ConfirmationDialogFragment
+import net.rusnet.taskmanager.commons.presentation.ConfirmationDialogFragment.ConfirmationDialogListener
 import net.rusnet.taskmanager.edit.presentation.dialogs.DatePickerFragment
 import net.rusnet.taskmanager.edit.presentation.dialogs.OnDatePickerResultListener
 import net.rusnet.taskmanager.edit.presentation.dialogs.TimePickerFragment
@@ -34,9 +35,11 @@ import kotlin.math.roundToInt
 
 private const val TAG_DATE_PICKER_FRAGMENT = "TAG_DATE_PICKER_FRAGMENT"
 private const val TAG_TIME_PICKER_FRAGMENT = "TAG_TIME_PICKER_FRAGMENT"
+private const val TAG_EXIT_CONFIRMATION = "TAG_EXIT_CONFIRMATION"
 
 class EditActivity : AppCompatActivity(),
-                     OnDatePickerResultListener {
+                     OnDatePickerResultListener,
+                     ConfirmationDialogListener {
 
     companion object {
         private const val EXTRA_TASK = "EXTRA_TASK"
@@ -116,6 +119,12 @@ class EditActivity : AppCompatActivity(),
         viewModel.onDateSet(dateType, newDate)
     }
 
+    override fun onPositiveResponse(dialogTag: String) {
+        when (dialogTag) {
+            TAG_EXIT_CONFIRMATION -> super.onBackPressed()
+        }
+    }
+
     private fun initViews() {
         setSupportActionBar(findViewById(R.id.toolbar))
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
@@ -147,22 +156,15 @@ class EditActivity : AppCompatActivity(),
     }
 
     private fun initEventObservation() {
-        fun showExitConfirmationDialog() {
-            AlertDialog.Builder(this)
-                .setTitle(R.string.exit_without_saving_warning)
-                .setPositiveButton(R.string.yes) { _, _ ->
-                    super.onBackPressed()
-                }
-                .setNegativeButton(R.string.no) { dialog, _ ->
-                    dialog.dismiss()
-                }
-                .show()
-        }
-
         viewModel.event.observe(this, Observer { event ->
             when (event) {
                 EditEvents.NavigateBack -> super.onBackPressed()
-                EditEvents.ShowExitConfirmationDialog -> showExitConfirmationDialog()
+                EditEvents.ShowExitConfirmationDialog -> {
+                    ConfirmationDialogFragment.newInstance(
+                        resources.getString(R.string.exit_without_saving_warning),
+                        TAG_EXIT_CONFIRMATION
+                    ).show(supportFragmentManager, TAG_EXIT_CONFIRMATION)
+                }
                 is EditEvents.ShowDatePickerDialog -> {
                     DatePickerFragment.newInstance(event.dateType, event.initialDialogDate)
                         .show(supportFragmentManager, TAG_DATE_PICKER_FRAGMENT)

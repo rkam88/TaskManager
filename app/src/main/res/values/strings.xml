@@ -21,6 +21,7 @@
     <string name="save">Save</string>
     <string name="task_name_hint">Enter a name</string>
     <string name="add_date">Add date</string>
+    <string name="all_day">All day</string>
     <string name="message_empty_task_name">Please enter name for the task!</string>
     <string name="complete">Complete</string>
 

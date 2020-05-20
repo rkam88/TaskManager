@@ -94,6 +94,19 @@
         app:layout_constraintTop_toBottomOf="@id/divider_task_type"
         tools:visibility="visible">
 
+        <Switch
+            android:id="@+id/switch_all_day"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:switchPadding="@dimen/edit_switch_padding"
+            android:switchTextAppearance="@style/ClickableTextAppearance"
+            android:text="@string/all_day"
+            android:textColor="?android:textColorHint"
+            android:textSize="@dimen/primaryTextSize"
+            app:layout_constraintBottom_toBottomOf="@id/image_view_delete_date"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@id/image_view_delete_date" />
+
         <ImageView
             android:id="@+id/image_view_delete_date"
             style="@style/EditIcon"
@@ -117,6 +130,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginEnd="@dimen/edit_horizontal_margin"
+            android:gravity="end"
             android:textAppearance="@style/PrimaryTextAppearance"
             app:layout_constraintBottom_toBottomOf="@id/text_view_start_date"
             app:layout_constraintEnd_toEndOf="parent"
@@ -128,6 +142,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/edit_vertical_margin"
+            android:gravity="end"
             android:textAppearance="@style/PrimaryTextAppearance"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/text_view_start_date"

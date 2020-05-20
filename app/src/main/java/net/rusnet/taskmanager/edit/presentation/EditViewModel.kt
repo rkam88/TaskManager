@@ -14,6 +14,7 @@ import net.rusnet.taskmanager.commons.domain.model.Task
 import net.rusnet.taskmanager.commons.domain.model.TaskType
 import net.rusnet.taskmanager.commons.extensions.exhaustive
 import net.rusnet.taskmanager.commons.extensions.hasDates
+import net.rusnet.taskmanager.commons.extensions.setDatesToAllDayAndCopy
 import net.rusnet.taskmanager.commons.presentation.SingleLiveEvent
 import net.rusnet.taskmanager.edit.domain.SaveTaskUseCase
 import net.rusnet.taskmanager.edit.presentation.EditEvents.NavigateBack
@@ -44,7 +45,7 @@ class EditViewModel @Inject constructor(
                 intentTask != null -> intentTask
                 intentTaskType != null ->
                     if (showDates) {
-                        Task(taskType = intentTaskType, startDate = getInitialStartDate(), endDate = getInitialEndDate())
+                        Task(taskType = intentTaskType, startDate = getInitialDate(), endDate = getInitialDate())
                     } else {
                         Task(taskType = intentTaskType)
                     }
@@ -74,10 +75,18 @@ class EditViewModel @Inject constructor(
     fun onAddDatePressed() {
         updateCurrentState(
             currentTask.copy(
-                startDate = getInitialStartDate(),
-                endDate = getInitialEndDate()
+                startDate = getInitialDate(),
+                endDate = getInitialDate()
             )
         )
+    }
+
+    fun onAllDaySwitchChange(isChecked: Boolean) {
+        if (isChecked) {
+            updateCurrentState(currentTask.setDatesToAllDayAndCopy(), true)
+        } else {
+            updateCurrentState(currentTask, false)
+        }
     }
 
     fun onDeleteDatePressed() {
@@ -102,10 +111,16 @@ class EditViewModel @Inject constructor(
         when (dateType) {
             START_DATE -> {
                 val newStartDate = newDate.timeInMillis
-                if (newStartDate > currentTask.getOrInitEndDate()) {
-                    updateCurrentState(currentTask.copy(startDate = newStartDate, endDate = newStartDate))
-                } else {
-                    updateCurrentState(currentTask.copy(startDate = newStartDate))
+                when {
+                    editViewState.value?.isAllDay == true -> {
+                        updateCurrentState(currentTask.copy(startDate = newStartDate).setDatesToAllDayAndCopy())
+                    }
+                    newStartDate > currentTask.getOrInitEndDate() -> {
+                        updateCurrentState(currentTask.copy(startDate = newStartDate, endDate = newStartDate))
+                    }
+                    else -> {
+                        updateCurrentState(currentTask.copy(startDate = newStartDate))
+                    }
                 }
             }
             END_DATE -> {
@@ -144,7 +159,7 @@ class EditViewModel @Inject constructor(
         }
     }
 
-    private fun updateCurrentState(updatedTask: Task) {
+    private fun updateCurrentState(updatedTask: Task, isAllDay: Boolean = editViewState.value?.isAllDay ?: false) {
         currentTask = updatedTask
         val newState = EditViewState(
             toolbarTitleStringResId = if (initialTask.id == 0L) R.string.title_new_task else R.string.title_existing_task,
@@ -152,6 +167,7 @@ class EditViewModel @Inject constructor(
             taskType = currentTask.taskType,
             showDates = currentTask.hasDates(),
             startDate = DateFormat.getDateFormat(applicationContext).format(currentTask.getOrInitStartDate()),
+            isAllDay = isAllDay,
             startTime = DateFormat.getTimeFormat(applicationContext).format(currentTask.getOrInitStartDate()),
             endDate = DateFormat.getDateFormat(applicationContext).format(currentTask.getOrInitEndDate()),
             endTime = DateFormat.getTimeFormat(applicationContext).format(currentTask.getOrInitEndDate())
@@ -159,12 +175,17 @@ class EditViewModel @Inject constructor(
         editViewState.postValue(newState)
     }
 
-    private fun Task.getOrInitStartDate() = startDate ?: getInitialStartDate()
+    private fun Task.getOrInitStartDate() = startDate ?: getInitialDate()
 
-    private fun getInitialStartDate() = System.currentTimeMillis()
+    private fun Task.getOrInitEndDate() = endDate ?: getInitialDate()
 
-    private fun Task.getOrInitEndDate() = endDate ?: getInitialEndDate()
-
-    private fun getInitialEndDate() = System.currentTimeMillis()
+    private fun getInitialDate(): Long {
+        val initialDate = Calendar.getInstance().apply { timeInMillis = System.currentTimeMillis() }
+        initialDate.set(Calendar.HOUR_OF_DAY, 0)
+        initialDate.set(Calendar.MINUTE, 0)
+        initialDate.set(Calendar.SECOND, 0)
+        initialDate.set(Calendar.MILLISECOND, 0)
+        return initialDate.timeInMillis
+    }
 
 }

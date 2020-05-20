@@ -12,6 +12,7 @@ import android.widget.ArrayAdapter
 import android.widget.EditText
 import android.widget.ImageView
 import android.widget.Spinner
+import android.widget.Switch
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
@@ -73,6 +74,7 @@ class EditActivity : AppCompatActivity(),
     private val taskNameEditText by lazy { findViewById<EditText>(R.id.edit_text_task_name) }
     private val taskTypeSpinner by lazy { findViewById<Spinner>(R.id.spinner_task_type) }
     private val addDateButton by lazy { findViewById<TextView>(R.id.text_view_add_date) }
+    private val allDaySwitch by lazy { findViewById<Switch>(R.id.switch_all_day) }
     private val deleteDateButton by lazy { findViewById<ImageView>(R.id.image_view_delete_date) }
     private val startDateButton by lazy { findViewById<TextView>(R.id.text_view_start_date) }
     private val endDateButton by lazy { findViewById<TextView>(R.id.text_view_end_date) }
@@ -130,6 +132,7 @@ class EditActivity : AppCompatActivity(),
         taskTypeSpinner.doOnItemSelected { viewModel.onTasksTypeSelected(it) }
 
         addDateButton.setOnClickListener { viewModel.onAddDatePressed() }
+        allDaySwitch.setOnCheckedChangeListener { _, isChecked -> viewModel.onAllDaySwitchChange(isChecked) }
         deleteDateButton.setOnClickListener { viewModel.onDeleteDatePressed() }
         startDateButton.setOnClickListener { viewModel.onStartDateClicked() }
         endDateButton.setOnClickListener { viewModel.onEndDateClicker() }
@@ -184,15 +187,21 @@ class EditActivity : AppCompatActivity(),
     private fun initStateObservation() {
         viewModel.editViewState.observe(this, Observer { newState ->
             supportActionBar?.title = resources.getString(newState.toolbarTitleStringResId)
+
             if (taskNameEditText.text.toString() != newState.taskName) {
                 taskNameEditText.setText(newState.taskName)
             }
             taskTypeSpinner.setSelection(newState.taskType.spinnerPosition)
+
             addDateButton.visibility = if (newState.showDates) GONE else VISIBLE
             dateAddedLayout.visibility = if (newState.showDates) VISIBLE else GONE
+
             startDateButton.text = newState.startDate
+            startTimeButton.visibility = if (newState.isAllDay) GONE else VISIBLE
             startTimeButton.text = newState.startTime
+            endDateButton.visibility = if (newState.isAllDay) GONE else VISIBLE
             endDateButton.text = newState.endDate
+            endTimeButton.visibility = if (newState.isAllDay) GONE else VISIBLE
             endTimeButton.text = newState.endTime
         })
     }

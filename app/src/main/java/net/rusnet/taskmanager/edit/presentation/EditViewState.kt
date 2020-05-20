@@ -9,6 +9,7 @@ data class EditViewState(
     val taskType: TaskType,
     val showDates: Boolean,
     val startDate: String,
+    val isAllDay: Boolean,
     val startTime: String,
     val endDate: String,
     val endTime: String

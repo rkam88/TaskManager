@@ -43,7 +43,7 @@ interface TaskDao {
                 "AND (:checkCompletedStatus = 0 OR is_completed = :isCompleted) " +
                 "AND (:checkTaskType = 0 OR task_type = :taskType) " +
                 "AND (:checkDates = 0 OR end_date IS NOT NULL = :hasDates) " +
-                "ORDER BY end_date IS NULL, end_date, start_date, id ASC"
+                "ORDER BY end_date IS NULL, start_date, end_date, id ASC"
     )
     suspend fun getTasks(
         isInTrash: Boolean,

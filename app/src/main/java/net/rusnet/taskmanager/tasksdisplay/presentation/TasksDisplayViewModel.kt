@@ -16,6 +16,7 @@ import net.rusnet.taskmanager.commons.extensions.doStartAndEndDaysMatch
 import net.rusnet.taskmanager.commons.extensions.doTimesMatchDayStart
 import net.rusnet.taskmanager.commons.extensions.hasDates
 import net.rusnet.taskmanager.commons.extensions.isOverdue
+import net.rusnet.taskmanager.tasksdisplay.domain.GetTaskByIdUseCase
 import net.rusnet.taskmanager.tasksdisplay.domain.GetTasksCountUseCase
 import net.rusnet.taskmanager.tasksdisplay.domain.GetTasksUseCase
 import net.rusnet.taskmanager.tasksdisplay.presentation.model.ViewTask
@@ -27,7 +28,8 @@ class TasksDisplayViewModel @Inject constructor(
     private val applicationContext: Context,
     private val router: Router,
     private val getTasksUseCase: GetTasksUseCase,
-    private val getTasksCountUseCase: GetTasksCountUseCase
+    private val getTasksCountUseCase: GetTasksCountUseCase,
+    private val getTaskByIdUseCase: GetTaskByIdUseCase
 ) : ViewModel() {
 
     val currentTasksDisplayState = MutableLiveData<TasksDisplayState>()
@@ -61,6 +63,20 @@ class TasksDisplayViewModel @Inject constructor(
             updateCurrentTasks(it)
             updateTasksCount()
         }
+    }
+
+    fun onTaskClick(taskId: Long) {
+        viewModelScope.launch {
+            val task = getTaskByIdUseCase.execute(taskId)
+            router.navigateToEdit(
+                task,
+                TasksDisplayActivity.REQUEST_CODE_SAVE_TASK
+            )
+        }
+    }
+
+    fun onTaskLongClick(taskId: Long) {
+        // todo handle item long click
     }
 
     private fun updateCurrentTasks(state: TasksDisplayState) {

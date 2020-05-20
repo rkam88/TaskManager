@@ -3,7 +3,6 @@ package net.rusnet.taskmanager.tasksdisplay.presentation
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.MenuItem
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
@@ -49,13 +48,11 @@ class TasksDisplayActivity : AppCompatActivity() {
     private val adapter by lazy {
         TasksAdapter(mutableListOf(), object : TasksAdapter.OnItemClickListener {
             override fun onClick(taskId: Long) {
-                Log.d("DEBUG_TAG", "Click on taskId=[$taskId]")
-                // todo handle item click
+                viewModel.onTaskClick(taskId)
             }
 
             override fun onLongClick(taskId: Long) {
-                Log.d("DEBUG_TAG", "Long click on taskId=[$taskId]")
-                // todo handle item long click
+                viewModel.onTaskLongClick(taskId)
             }
         })
     }

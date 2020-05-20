@@ -36,4 +36,6 @@ class TasksDataSource @Inject constructor(private val taskDao: TaskDao) {
         )
     }
 
+    suspend fun getTaskById(taskId: Long) = taskDao.getTask(taskId)
+
 }

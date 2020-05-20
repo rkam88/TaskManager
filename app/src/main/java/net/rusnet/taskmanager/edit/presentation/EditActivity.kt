@@ -194,6 +194,7 @@ class EditActivity : AppCompatActivity(),
             addDateButton.visibility = newState.addDateButtonVisibility
             dateAddedLayout.visibility = newState.dateLayoutVisibility
 
+            allDaySwitch.isChecked = newState.isAllDay
             startTimeButton.visibility = newState.additionalDatePickersVisibility
             endDateButton.visibility = newState.additionalDatePickersVisibility
             endTimeButton.visibility = newState.additionalDatePickersVisibility

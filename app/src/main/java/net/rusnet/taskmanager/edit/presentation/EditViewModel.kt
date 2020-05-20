@@ -13,6 +13,7 @@ import net.rusnet.taskmanager.commons.domain.model.DateType.END_DATE
 import net.rusnet.taskmanager.commons.domain.model.DateType.START_DATE
 import net.rusnet.taskmanager.commons.domain.model.Task
 import net.rusnet.taskmanager.commons.domain.model.TaskType
+import net.rusnet.taskmanager.commons.extensions.areDatesAllDay
 import net.rusnet.taskmanager.commons.extensions.exhaustive
 import net.rusnet.taskmanager.commons.extensions.getInitialTaskDate
 import net.rusnet.taskmanager.commons.extensions.getOrInitEndDate
@@ -58,7 +59,7 @@ class EditViewModel @Inject constructor(
                     }
                 else -> throw IllegalArgumentException("EditViewModel: intentTask and taskType can't be both null")
             }
-            updateCurrentState(initialTask.copy())
+            updateCurrentState(initialTask.copy(), initialTask.areDatesAllDay())
         }
     }
 

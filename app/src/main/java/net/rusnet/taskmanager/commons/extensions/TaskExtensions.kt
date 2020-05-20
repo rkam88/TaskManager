@@ -12,6 +12,19 @@ private const val END_MINUTE = 59
 private const val END_SECOND = 59
 private const val END_MILLISECOND = 999
 
+fun Task.getOrInitStartDate() = startDate ?: Task.getInitialTaskDate()
+
+fun Task.getOrInitEndDate() = endDate ?: Task.getInitialTaskDate()
+
+fun Task.Companion.getInitialTaskDate(): Long {
+    val initialDate = Calendar.getInstance().apply { timeInMillis = System.currentTimeMillis() }
+    initialDate.set(Calendar.HOUR_OF_DAY, START_HOUR_OF_DAY)
+    initialDate.set(Calendar.MINUTE, START_MINUTE)
+    initialDate.set(Calendar.SECOND, START_SECOND)
+    initialDate.set(Calendar.MILLISECOND, START_MILLISECOND)
+    return initialDate.timeInMillis
+}
+
 fun Task.setDatesToAllDayAndCopy(): Task {
     if (startDate == null || endDate == null) throw IllegalStateException("Can't set dates to all day on a task without dates!")
     val start = Calendar.getInstance().apply { timeInMillis = startDate }

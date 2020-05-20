@@ -6,7 +6,6 @@
     android:layout_height="wrap_content">
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/task_item_background_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/itemCompletedBackground"
@@ -38,7 +37,7 @@
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <FrameLayout
-        android:id="@+id/task_item_foreground_layout"
+        android:id="@+id/task_item_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/itemDefaultBackground"

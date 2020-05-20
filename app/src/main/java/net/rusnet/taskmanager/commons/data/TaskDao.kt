@@ -73,4 +73,7 @@ interface TaskDao {
         hasDates: Boolean?
     ): Long
 
+    @Query("UPDATE task_table SET is_completed = 1 WHERE id = :taskId")
+    suspend fun markTaskAsCompleted(taskId: Long)
+
 }

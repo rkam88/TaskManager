@@ -19,6 +19,7 @@ import net.rusnet.taskmanager.commons.extensions.isOverdue
 import net.rusnet.taskmanager.tasksdisplay.domain.GetTaskByIdUseCase
 import net.rusnet.taskmanager.tasksdisplay.domain.GetTasksCountUseCase
 import net.rusnet.taskmanager.tasksdisplay.domain.GetTasksUseCase
+import net.rusnet.taskmanager.tasksdisplay.domain.MarkTaskAsCompletedUseCase
 import net.rusnet.taskmanager.tasksdisplay.presentation.model.ViewTask
 import javax.inject.Inject
 
@@ -29,7 +30,8 @@ class TasksDisplayViewModel @Inject constructor(
     private val router: Router,
     private val getTasksUseCase: GetTasksUseCase,
     private val getTasksCountUseCase: GetTasksCountUseCase,
-    private val getTaskByIdUseCase: GetTaskByIdUseCase
+    private val getTaskByIdUseCase: GetTaskByIdUseCase,
+    private val markTaskAsCompletedUseCase: MarkTaskAsCompletedUseCase
 ) : ViewModel() {
 
     val currentTasksDisplayState = MutableLiveData<TasksDisplayState>()
@@ -58,12 +60,7 @@ class TasksDisplayViewModel @Inject constructor(
         )
     }
 
-    fun onPositiveResultFromEditActivity() {
-        currentTasksDisplayState.value?.let {
-            updateCurrentTasks(it)
-            updateTasksCount()
-        }
-    }
+    fun onPositiveResultFromEditActivity() = syncViewModelWithDb()
 
     fun onTaskClick(taskId: Long) {
         viewModelScope.launch {
@@ -77,6 +74,20 @@ class TasksDisplayViewModel @Inject constructor(
 
     fun onTaskLongClick(taskId: Long) {
         // todo handle item long click
+    }
+
+    fun onTaskSwipedLeft(taskId: Long) {
+        viewModelScope.launch {
+            markTaskAsCompletedUseCase.execute(taskId)
+            syncViewModelWithDb()
+        }
+    }
+
+    private fun syncViewModelWithDb() {
+        currentTasksDisplayState.value?.let {
+            updateCurrentTasks(it)
+            updateTasksCount()
+        }
     }
 
     private fun updateCurrentTasks(state: TasksDisplayState) {

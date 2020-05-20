@@ -2,8 +2,10 @@ package net.rusnet.taskmanager.tasksdisplay.presentation
 
 import android.app.Activity
 import android.content.Intent
+import android.graphics.Canvas
 import android.os.Bundle
 import android.view.MenuItem
+import android.view.View
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
@@ -12,11 +14,14 @@ import androidx.drawerlayout.widget.DrawerLayout
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.DividerItemDecoration
+import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.navigation.NavigationView
 import net.rusnet.taskmanager.R
 import net.rusnet.taskmanager.commons.app.injector
+
+private const val NO_DRAG_DIRS = 0
 
 class TasksDisplayActivity : AppCompatActivity() {
 
@@ -45,6 +50,7 @@ class TasksDisplayActivity : AppCompatActivity() {
     }
     private val addButton by lazy { findViewById<FloatingActionButton>(R.id.button_add_task) }
     private val recyclerView by lazy { findViewById<RecyclerView>(R.id.recycler_view_tasks) }
+    private var isSwipeEnabled = true
     private val adapter by lazy {
         TasksAdapter(mutableListOf(), object : TasksAdapter.OnItemClickListener {
             override fun onClick(taskId: Long) {
@@ -110,6 +116,57 @@ class TasksDisplayActivity : AppCompatActivity() {
     private fun initRecyclerView() {
         recyclerView.addItemDecoration(DividerItemDecoration(this, DividerItemDecoration.VERTICAL))
         recyclerView.adapter = adapter
+        addSwipeToCompleteTaskCallback()
+    }
+
+    private fun addSwipeToCompleteTaskCallback() {
+        val helper = ItemTouchHelper(object : ItemTouchHelper.SimpleCallback(NO_DRAG_DIRS, ItemTouchHelper.LEFT) {
+            override fun onMove(
+                recyclerView: RecyclerView,
+                viewHolder: RecyclerView.ViewHolder,
+                target: RecyclerView.ViewHolder
+            ) = false
+
+            override fun isItemViewSwipeEnabled() = isSwipeEnabled
+
+            override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
+                val position = viewHolder.adapterPosition
+                val taskId = adapter.getTaskIdOfItem(position)
+                if (direction == ItemTouchHelper.LEFT) viewModel.onTaskSwipedLeft(taskId)
+            }
+
+            override fun clearView(recyclerView: RecyclerView, viewHolder: RecyclerView.ViewHolder) {
+                val foregroundView: View = (viewHolder as TasksAdapter.ViewHolder).taskItemLayout
+                ItemTouchHelper.Callback.getDefaultUIUtil().clearView(foregroundView)
+            }
+
+            override fun onSelectedChanged(viewHolder: RecyclerView.ViewHolder?, actionState: Int) {
+                if (viewHolder != null) {
+                    val foregroundView: View = (viewHolder as TasksAdapter.ViewHolder).taskItemLayout
+                    ItemTouchHelper.Callback.getDefaultUIUtil().onSelected(foregroundView)
+                }
+            }
+
+            override fun onChildDraw(
+                c: Canvas, recyclerView: RecyclerView, viewHolder: RecyclerView.ViewHolder,
+                dX: Float, dY: Float, actionState: Int, isCurrentlyActive: Boolean
+            ) {
+                val foregroundView: View = (viewHolder as TasksAdapter.ViewHolder).taskItemLayout
+                ItemTouchHelper.Callback.getDefaultUIUtil()
+                    .onDraw(c, recyclerView, foregroundView, dX, dY, actionState, isCurrentlyActive)
+            }
+
+            override fun onChildDrawOver(
+                c: Canvas, recyclerView: RecyclerView, viewHolder: RecyclerView.ViewHolder?,
+                dX: Float, dY: Float, actionState: Int, isCurrentlyActive: Boolean
+            ) {
+                val foregroundView: View = (viewHolder as TasksAdapter.ViewHolder).taskItemLayout
+                ItemTouchHelper.Callback.getDefaultUIUtil()
+                    .onDrawOver(c, recyclerView, foregroundView, dX, dY, actionState, isCurrentlyActive)
+            }
+        })
+
+        helper.attachToRecyclerView(recyclerView)
     }
 
     private fun initStateObservation() {
@@ -117,6 +174,7 @@ class TasksDisplayActivity : AppCompatActivity() {
             supportActionBar?.title = getString(newState.toolbarTitle)
             navigationView.setCheckedItem(newState.navigationViewMenuId)
             addButton.visibility = newState.addButtonVisibility
+            isSwipeEnabled = newState.isSwipeEnabled
         })
     }
 

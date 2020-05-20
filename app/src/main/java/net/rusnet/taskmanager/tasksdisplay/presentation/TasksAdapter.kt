@@ -5,7 +5,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.FrameLayout
 import android.widget.TextView
-import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.RecyclerView
 import net.rusnet.taskmanager.R
 import net.rusnet.taskmanager.tasksdisplay.presentation.model.ViewTask
@@ -23,8 +22,7 @@ class TasksAdapter(
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val taskNameTextView: TextView = itemView.findViewById(R.id.text_view_task_name)
         val taskDateTextView: TextView = itemView.findViewById(R.id.text_view_task_date)
-        val backgroundLayout: ConstraintLayout = itemView.findViewById(R.id.task_item_background_layout)
-        val foregroundLayout: FrameLayout = itemView.findViewById(R.id.task_item_foreground_layout)
+        val taskItemLayout: FrameLayout = itemView.findViewById(R.id.task_item_layout)
 
         init {
             itemView.setOnClickListener {
@@ -58,8 +56,6 @@ class TasksAdapter(
         val task = viewTasksList[position]
         val taskNameTextView = holder.taskNameTextView
         val taskDateTextView = holder.taskDateTextView
-        val backgroundLayout = holder.backgroundLayout
-        val foregroundLayout = holder.foregroundLayout
 
         taskNameTextView.text = task.name
 
@@ -68,6 +64,10 @@ class TasksAdapter(
 
         taskDateTextView.setTextColor(taskDateTextView.resources.getColor(task.dateColor, null))
 
+    }
+
+    fun getTaskIdOfItem(itemPosition: Int): Long {
+        return viewTasksList[itemPosition].taskId
     }
 
 }

@@ -9,8 +9,8 @@
         android:id="@+id/task_item_background_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:padding="@dimen/task_item_outer_padding"
-        android:background="@color/itemCompletedBackground">
+        android:background="@color/itemCompletedBackground"
+        android:paddingHorizontal="@dimen/task_item_outer_padding">
 
         <ImageView
             android:id="@+id/image_view_mark_as_completed"
@@ -38,18 +38,18 @@
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <FrameLayout
-        tools:visibility="visible"
         android:id="@+id/task_item_foreground_layout"
         android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:background="@color/itemDefaultBackground"
-        android:layout_height="wrap_content">
+        tools:visibility="visible">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="?android:attr/selectableItemBackground"
-            android:padding="@dimen/task_item_outer_padding"
-            android:clipToPadding="false">
+            android:clipToPadding="false"
+            android:padding="@dimen/task_item_outer_padding">
 
             <TextView
                 android:id="@+id/text_view_task_name"
@@ -61,29 +61,21 @@
                 app:layout_constraintTop_toTopOf="parent"
                 tools:text="Some task name" />
 
-            <ImageView
-                android:id="@+id/image_view_task_date"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/task_item_inner_margin"
-                android:src="@drawable/ic_date"
-                android:tint="@color/iconColor"
-                app:layout_constraintEnd_toStartOf="@id/text_view_task_date"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="@id/text_view_task_name"
-                app:layout_constraintTop_toBottomOf="@id/text_view_task_name" />
-
             <TextView
                 android:id="@+id/text_view_task_date"
-                android:layout_width="0dp"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/task_item_inner_margin"
-                tools:text="21.09.2020"
+                android:layout_marginTop="@dimen/task_item_inner_margin"
+                android:drawableStart="@drawable/ic_date"
+                android:drawablePadding="8dp"
+                android:drawableTint="@color/iconColor"
                 android:textAppearance="@style/TextAppearance.MaterialComponents.Body2"
-                app:layout_constraintBottom_toBottomOf="@id/image_view_task_date"
-                app:layout_constraintEnd_toEndOf="@id/text_view_task_name"
-                app:layout_constraintStart_toEndOf="@id/image_view_task_date"
-                app:layout_constraintTop_toTopOf="@id/image_view_task_date" />
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/text_view_task_name"
+                tools:text="21.09.2020"
+                tools:visibility="visible" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

@@ -23,6 +23,7 @@
     <color name="itemDefaultBackground">#ffffff</color>
     <color name="itemSelectedBackground">#aaaaaa</color>
     <color name="itemCompletedBackground">#4cAf50</color>
+    <color name="itemOverdue">#ff7777</color>
 
     <!--  Edit  -->
 

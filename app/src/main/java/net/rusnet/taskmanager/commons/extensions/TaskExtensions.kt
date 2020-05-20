@@ -79,3 +79,4 @@ private fun doesTimeMatchDayStart(timeAsLong: Long?): Boolean {
             )
 }
 
+fun Task.isOverdue() = (System.currentTimeMillis() > endDate ?: Long.MAX_VALUE)

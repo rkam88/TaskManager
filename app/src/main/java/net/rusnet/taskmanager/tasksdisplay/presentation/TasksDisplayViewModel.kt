@@ -1,26 +1,37 @@
 package net.rusnet.taskmanager.tasksdisplay.presentation
 
+import android.content.Context
+import android.text.format.DateFormat
+import android.view.View
 import androidx.annotation.IdRes
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
+import net.rusnet.taskmanager.R
 import net.rusnet.taskmanager.commons.app.Router
-import net.rusnet.taskmanager.commons.domain.model.Task
+import net.rusnet.taskmanager.commons.extensions.areDatesAllDay
+import net.rusnet.taskmanager.commons.extensions.doStartAndEndDatesMatch
+import net.rusnet.taskmanager.commons.extensions.doStartAndEndDaysMatch
+import net.rusnet.taskmanager.commons.extensions.doTimesMatchDayStart
+import net.rusnet.taskmanager.commons.extensions.hasDates
+import net.rusnet.taskmanager.commons.extensions.isOverdue
 import net.rusnet.taskmanager.tasksdisplay.domain.GetTasksCountUseCase
 import net.rusnet.taskmanager.tasksdisplay.domain.GetTasksUseCase
+import net.rusnet.taskmanager.tasksdisplay.presentation.model.ViewTask
 import javax.inject.Inject
 
 private const val COUNT_99_PLUS = "99+"
 
 class TasksDisplayViewModel @Inject constructor(
+    private val applicationContext: Context,
     private val router: Router,
     private val getTasksUseCase: GetTasksUseCase,
     private val getTasksCountUseCase: GetTasksCountUseCase
 ) : ViewModel() {
 
     val currentTasksDisplayState = MutableLiveData<TasksDisplayState>()
-    val currentTasks = MutableLiveData<List<Task>>()
+    val currentViewTasks = MutableLiveData<List<ViewTask>>()
     val currentTaskCount = MutableLiveData<Map<@androidx.annotation.IdRes Int, String>>()
 
     init {
@@ -54,7 +65,32 @@ class TasksDisplayViewModel @Inject constructor(
 
     private fun updateCurrentTasks(state: TasksDisplayState) {
         viewModelScope.launch {
-            currentTasks.postValue(getTasksUseCase.execute(state.baseFilter))
+            val viewTasksList = getTasksUseCase.execute(state.baseFilter)
+                .map {
+                    val datesAsString = if (it.hasDates()) {
+                        val startDay = DateFormat.getDateFormat(applicationContext).format(it.startDate)
+                        val startTime = DateFormat.getTimeFormat(applicationContext).format(it.startDate)
+                        val endDay = DateFormat.getDateFormat(applicationContext).format(it.endDate)
+                        val endTime = DateFormat.getTimeFormat(applicationContext).format(it.endDate)
+                        when {
+                            it.doStartAndEndDatesMatch() -> "$startDay, $startTime"
+                            it.areDatesAllDay() -> startDay
+                            it.doStartAndEndDaysMatch() -> "$startDay, $startTime - $endTime"
+                            it.doTimesMatchDayStart() -> "$startDay - $endDay"
+                            else -> "$startDay, $startTime - $endDay, $endTime"
+                        }
+                    } else {
+                        null
+                    }
+                    return@map ViewTask(
+                        taskId = it.id,
+                        name = it.name,
+                        dateViewVisibility = if (it.hasDates()) View.VISIBLE else View.GONE,
+                        date = datesAsString,
+                        dateColor = if (it.isOverdue()) R.color.itemOverdue else R.color.colorTextPrimary
+                    )
+                }
+            currentViewTasks.postValue(viewTasksList)
         }
     }
 

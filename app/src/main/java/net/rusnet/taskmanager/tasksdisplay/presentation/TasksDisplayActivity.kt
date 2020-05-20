@@ -12,6 +12,8 @@ import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.DividerItemDecoration
+import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.navigation.NavigationView
 import net.rusnet.taskmanager.R
@@ -43,6 +45,20 @@ class TasksDisplayActivity : AppCompatActivity() {
         }.toMap()
     }
     private val addButton by lazy { findViewById<FloatingActionButton>(R.id.button_add_task) }
+    private val recyclerView by lazy { findViewById<RecyclerView>(R.id.recycler_view_tasks) }
+    private val adapter by lazy {
+        TasksAdapter(mutableListOf(), object : TasksAdapter.OnItemClickListener {
+            override fun onClick(taskId: Long) {
+                Log.d("DEBUG_TAG", "Click on taskId=[$taskId]")
+                // todo handle item click
+            }
+
+            override fun onLongClick(taskId: Long) {
+                Log.d("DEBUG_TAG", "Long click on taskId=[$taskId]")
+                // todo handle item long click
+            }
+        })
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -51,6 +67,7 @@ class TasksDisplayActivity : AppCompatActivity() {
         initToolbar()
         initNavigationDrawer()
         addButton.setOnClickListener { viewModel.onAddButtonClicked() }
+        initRecyclerView()
         initStateObservation()
         initTasksObservation()
     }
@@ -93,6 +110,11 @@ class TasksDisplayActivity : AppCompatActivity() {
         })
     }
 
+    private fun initRecyclerView() {
+        recyclerView.addItemDecoration(DividerItemDecoration(this, DividerItemDecoration.VERTICAL))
+        recyclerView.adapter = adapter
+    }
+
     private fun initStateObservation() {
         viewModel.currentTasksDisplayState.observe(this, Observer { newState ->
             supportActionBar?.title = getString(newState.toolbarTitle)
@@ -102,9 +124,10 @@ class TasksDisplayActivity : AppCompatActivity() {
     }
 
     private fun initTasksObservation() {
-        viewModel.currentTasks.observe(this, Observer { newTaskList ->
-            Log.d("DEBUG_TAG", "newTaskList=[${newTaskList}]")
-            // todo: display tasks
+        viewModel.currentViewTasks.observe(this, Observer { updatedViewTasksList ->
+            adapter.viewTasksList.clear()
+            adapter.viewTasksList.addAll(updatedViewTasksList)
+            adapter.notifyDataSetChanged()
         })
     }
 

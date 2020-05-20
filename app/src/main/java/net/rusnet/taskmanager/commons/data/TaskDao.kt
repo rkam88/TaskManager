@@ -39,17 +39,11 @@ interface TaskDao {
     @Query(
         "SELECT * " +
                 "FROM task_table " +
-                "WHERE (is_in_trash = :isInTrash) " +
-                "AND (:checkCompletedStatus = 0 OR is_completed = :isCompleted) " +
-                "AND (:checkTaskType = 0 OR task_type = :taskType) " +
+                "WHERE (task_type = :taskType) " +
                 "AND (:checkDates = 0 OR end_date IS NOT NULL = :hasDates) " +
                 "ORDER BY end_date IS NULL, start_date, end_date, id ASC"
     )
     suspend fun getTasks(
-        isInTrash: Boolean,
-        checkCompletedStatus: Boolean,
-        isCompleted: Boolean?,
-        checkTaskType: Boolean,
         taskType: TaskType?,
         checkDates: Boolean,
         hasDates: Boolean?
@@ -58,22 +52,16 @@ interface TaskDao {
     @Query(
         "SELECT COUNT(*) " +
                 "FROM task_table " +
-                "WHERE (is_in_trash = :isInTrash) " +
-                "AND (:checkCompletedStatus = 0 OR is_completed = :isCompleted) " +
-                "AND (:checkTaskType = 0 OR task_type = :taskType) " +
-                "AND (:checkDates = 0 OR end_date IS NOT NULL = :hasDates) "
+                "WHERE (task_type = :taskType) " +
+                "AND (:checkDates = 0 OR end_date IS NOT NULL = :hasDates)"
     )
     suspend fun getTasksCount(
-        isInTrash: Boolean,
-        checkCompletedStatus: Boolean,
-        isCompleted: Boolean?,
-        checkTaskType: Boolean,
         taskType: TaskType?,
         checkDates: Boolean,
         hasDates: Boolean?
     ): Long
 
-    @Query("UPDATE task_table SET is_completed = 1 WHERE id = :taskId")
-    suspend fun markTaskAsCompleted(taskId: Long)
+    @Query("UPDATE task_table SET task_type = :newTaskType WHERE id = :taskId")
+    suspend fun updateTaskType(taskId: Long, newTaskType: TaskType)
 
 }

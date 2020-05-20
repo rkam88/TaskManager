@@ -2,11 +2,11 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "7e8c9ecc1502626f54ee557bbcebcade",
+    "identityHash": "2fd8762d803bd0083a260bbe95bb1f5f",
     "entities": [
       {
         "tableName": "task_table",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `name` TEXT NOT NULL, `task_type` TEXT NOT NULL, `start_Date` INTEGER, `end_date` INTEGER, `is_completed` INTEGER NOT NULL, `is_in_trash` INTEGER NOT NULL, `reminder_date` INTEGER)",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `name` TEXT NOT NULL, `task_type` TEXT NOT NULL, `start_Date` INTEGER, `end_date` INTEGER, `reminder_date` INTEGER)",
         "fields": [
           {
             "fieldPath": "id",
@@ -39,18 +39,6 @@
             "notNull": false
           },
           {
-            "fieldPath": "isCompleted",
-            "columnName": "is_completed",
-            "affinity": "INTEGER",
-            "notNull": true
-          },
-          {
-            "fieldPath": "isInTrash",
-            "columnName": "is_in_trash",
-            "affinity": "INTEGER",
-            "notNull": true
-          },
-          {
             "fieldPath": "reminderDate",
             "columnName": "reminder_date",
             "affinity": "INTEGER",
@@ -70,7 +58,7 @@
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '7e8c9ecc1502626f54ee557bbcebcade')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '2fd8762d803bd0083a260bbe95bb1f5f')"
     ]
   }
 }

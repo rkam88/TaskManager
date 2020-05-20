@@ -24,12 +24,6 @@ data class Task(
     @ColumnInfo(name = "end_date")
     val endDate: Long? = null,
 
-    @ColumnInfo(name = "is_completed")
-    val isCompleted: Boolean = false,
-
-    @ColumnInfo(name = "is_in_trash")
-    val isInTrash: Boolean = false,
-
     @ColumnInfo(name = "reminder_date")
     val reminderDate: Long? = null
 

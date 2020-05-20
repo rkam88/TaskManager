@@ -2,6 +2,7 @@ package net.rusnet.taskmanager.edit.presentation
 
 import android.content.Context
 import android.text.format.DateFormat
+import android.view.View
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -171,9 +172,11 @@ class EditViewModel @Inject constructor(
             toolbarTitleStringResId = if (initialTask.id == 0L) R.string.title_new_task else R.string.title_existing_task,
             taskName = currentTask.name,
             taskType = currentTask.taskType,
-            showDates = currentTask.hasDates(),
+            addDateButtonVisibility = if (currentTask.hasDates()) View.GONE else View.VISIBLE,
+            dateLayoutVisibility = if (currentTask.hasDates()) View.VISIBLE else View.GONE,
             startDate = DateFormat.getDateFormat(applicationContext).format(currentTask.getOrInitStartDate()),
             isAllDay = isAllDay,
+            additionalDatePickersVisibility = if (isAllDay) View.GONE else View.VISIBLE,
             startTime = DateFormat.getTimeFormat(applicationContext).format(currentTask.getOrInitStartDate()),
             endDate = DateFormat.getDateFormat(applicationContext).format(currentTask.getOrInitEndDate()),
             endTime = DateFormat.getTimeFormat(applicationContext).format(currentTask.getOrInitEndDate())

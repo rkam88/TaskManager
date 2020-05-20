@@ -6,8 +6,6 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
-import android.view.View.GONE
-import android.view.View.VISIBLE
 import android.widget.ArrayAdapter
 import android.widget.EditText
 import android.widget.ImageView
@@ -193,15 +191,15 @@ class EditActivity : AppCompatActivity(),
             }
             taskTypeSpinner.setSelection(newState.taskType.spinnerPosition)
 
-            addDateButton.visibility = if (newState.showDates) GONE else VISIBLE
-            dateAddedLayout.visibility = if (newState.showDates) VISIBLE else GONE
+            addDateButton.visibility = newState.addDateButtonVisibility
+            dateAddedLayout.visibility = newState.dateLayoutVisibility
 
+            startTimeButton.visibility = newState.additionalDatePickersVisibility
+            endDateButton.visibility = newState.additionalDatePickersVisibility
+            endTimeButton.visibility = newState.additionalDatePickersVisibility
             startDateButton.text = newState.startDate
-            startTimeButton.visibility = if (newState.isAllDay) GONE else VISIBLE
             startTimeButton.text = newState.startTime
-            endDateButton.visibility = if (newState.isAllDay) GONE else VISIBLE
             endDateButton.text = newState.endDate
-            endTimeButton.visibility = if (newState.isAllDay) GONE else VISIBLE
             endTimeButton.text = newState.endTime
         })
     }

@@ -20,10 +20,14 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.navigation.NavigationView
 import net.rusnet.taskmanager.R
 import net.rusnet.taskmanager.commons.app.injector
+import net.rusnet.taskmanager.commons.presentation.ConfirmationDialogFragment
+import net.rusnet.taskmanager.commons.presentation.ConfirmationDialogFragment.ConfirmationDialogListener
 
 private const val NO_DRAG_DIRS = 0
 
-class TasksDisplayActivity : AppCompatActivity() {
+class TasksDisplayActivity :
+    AppCompatActivity(),
+    ConfirmationDialogListener {
 
     companion object {
         const val REQUEST_CODE_SAVE_TASK = 1
@@ -71,6 +75,7 @@ class TasksDisplayActivity : AppCompatActivity() {
         initNavigationDrawer()
         addButton.setOnClickListener { viewModel.onAddButtonClicked() }
         initRecyclerView()
+        initEventObservation()
         initStateObservation()
         initTasksObservation()
     }
@@ -80,6 +85,9 @@ class TasksDisplayActivity : AppCompatActivity() {
             android.R.id.home -> {
                 drawerLayout.openDrawer(GravityCompat.START)
                 return true
+            }
+            R.id.delete_completed -> {
+                viewModel.onDeleteCompletedTasksClicked()
             }
         }
 
@@ -92,6 +100,10 @@ class TasksDisplayActivity : AppCompatActivity() {
         } else {
             super.onActivityResult(requestCode, resultCode, data)
         }
+    }
+
+    override fun onPositiveResponse(dialogTag: String) {
+        viewModel.onPositiveResponse(dialogTag)
     }
 
     private fun initToolbar() {
@@ -169,9 +181,24 @@ class TasksDisplayActivity : AppCompatActivity() {
         helper.attachToRecyclerView(recyclerView)
     }
 
+    private fun initEventObservation() {
+        viewModel.event.observe(this, Observer { event ->
+            when (event) {
+                is TasksDisplayEvent.ShowConfirmationDialog -> {
+                    ConfirmationDialogFragment.newInstance(
+                        dialogTag = event.dialogTag,
+                        dialogTitle = event.dialogTitle
+                    ).show(supportFragmentManager, event.dialogTag)
+                }
+            }
+        })
+    }
+
     private fun initStateObservation() {
         viewModel.currentTasksDisplayState.observe(this, Observer { newState ->
             supportActionBar?.title = getString(newState.toolbarTitle)
+            toolbar.menu.clear()
+            newState.toolbarMenu?.let { toolbar.inflateMenu(it) }
             navigationView.setCheckedItem(newState.navigationViewMenuId)
             addButton.visibility = newState.addButtonVisibility
             isSwipeEnabled = newState.isSwipeEnabled

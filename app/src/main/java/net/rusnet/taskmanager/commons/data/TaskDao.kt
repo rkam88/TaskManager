@@ -64,4 +64,7 @@ interface TaskDao {
     @Query("UPDATE task_table SET task_type = :newTaskType WHERE id = :taskId")
     suspend fun updateTaskType(taskId: Long, newTaskType: TaskType)
 
+    @Query("DELETE FROM task_table WHERE task_type = :type")
+    suspend fun deleteTasks(type: TaskType)
+
 }

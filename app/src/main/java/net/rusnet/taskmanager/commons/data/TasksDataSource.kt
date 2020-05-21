@@ -35,4 +35,8 @@ class TasksDataSource @Inject constructor(private val taskDao: TaskDao) {
         taskDao.updateTaskType(taskId, TaskType.COMPLETED)
     }
 
+    suspend fun deleteAllCompletedTasks() {
+        taskDao.deleteTasks(TaskType.COMPLETED)
+    }
+
 }

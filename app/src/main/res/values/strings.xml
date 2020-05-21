@@ -15,6 +15,10 @@
     <string name="completed">Completed</string>
     <string name="trash">Trash</string>
 
+    <string name="complete">Complete</string>
+    <string name="delete">Delete</string>
+    <string name="delete_completed_dialog_title">Delete all completed tasks?</string>
+
     <!--  EditActivity  -->
     <string name="title_new_task">New task</string>
     <string name="title_existing_task">Edit task</string>
@@ -23,7 +27,6 @@
     <string name="add_date">Add date</string>
     <string name="all_day">All day</string>
     <string name="message_empty_task_name">Please enter name for the task!</string>
-    <string name="complete">Complete</string>
 
     <!--  Dialog  -->
     <string name="exit_without_saving_warning">Exit without saving?</string>

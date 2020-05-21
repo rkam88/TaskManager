@@ -16,14 +16,19 @@ import net.rusnet.taskmanager.commons.extensions.doStartAndEndDaysMatch
 import net.rusnet.taskmanager.commons.extensions.doTimesMatchDayStart
 import net.rusnet.taskmanager.commons.extensions.hasDates
 import net.rusnet.taskmanager.commons.extensions.isOverdue
+import net.rusnet.taskmanager.commons.presentation.ConfirmationDialogFragment.ConfirmationDialogListener
+import net.rusnet.taskmanager.commons.presentation.SingleLiveEvent
+import net.rusnet.taskmanager.tasksdisplay.domain.DeleteCompletedTasks
 import net.rusnet.taskmanager.tasksdisplay.domain.GetTaskByIdUseCase
 import net.rusnet.taskmanager.tasksdisplay.domain.GetTasksCountUseCase
 import net.rusnet.taskmanager.tasksdisplay.domain.GetTasksUseCase
 import net.rusnet.taskmanager.tasksdisplay.domain.MarkTaskAsCompletedUseCase
+import net.rusnet.taskmanager.tasksdisplay.presentation.TasksDisplayEvent.ShowConfirmationDialog
 import net.rusnet.taskmanager.tasksdisplay.presentation.model.ViewTask
 import javax.inject.Inject
 
 private const val COUNT_99_PLUS = "99+"
+private const val TAG_DELETE_COMPLETED_TASKS = "TAG_DELETE_COMPLETED_TASKS"
 
 class TasksDisplayViewModel @Inject constructor(
     private val applicationContext: Context,
@@ -31,9 +36,12 @@ class TasksDisplayViewModel @Inject constructor(
     private val getTasksUseCase: GetTasksUseCase,
     private val getTasksCountUseCase: GetTasksCountUseCase,
     private val getTaskByIdUseCase: GetTaskByIdUseCase,
-    private val markTaskAsCompletedUseCase: MarkTaskAsCompletedUseCase
-) : ViewModel() {
+    private val markTaskAsCompletedUseCase: MarkTaskAsCompletedUseCase,
+    private val deleteCompletedTasks: DeleteCompletedTasks
+) : ViewModel(),
+    ConfirmationDialogListener {
 
+    val event = SingleLiveEvent<TasksDisplayEvent>()
     val currentTasksDisplayState = MutableLiveData<TasksDisplayState>()
     val currentViewTasks = MutableLiveData<List<ViewTask>>()
     val currentTaskCount = MutableLiveData<Map<@androidx.annotation.IdRes Int, String>>()
@@ -80,6 +88,30 @@ class TasksDisplayViewModel @Inject constructor(
         viewModelScope.launch {
             markTaskAsCompletedUseCase.execute(taskId)
             syncViewModelWithDb()
+        }
+    }
+
+    fun onDeleteCompletedTasksClicked() {
+        if (currentTasksDisplayState.value == TasksDisplayState.COMPLETED) {
+            val tag = TAG_DELETE_COMPLETED_TASKS
+            val title = applicationContext.getString(R.string.delete_completed_dialog_title)
+            event.postValue(
+                ShowConfirmationDialog(
+                    dialogTag = tag,
+                    dialogTitle = title
+                )
+            )
+        }
+    }
+
+    override fun onPositiveResponse(dialogTag: String) {
+        when (dialogTag) {
+            TAG_DELETE_COMPLETED_TASKS -> {
+                viewModelScope.launch {
+                    deleteCompletedTasks.execute()
+                    syncViewModelWithDb()
+                }
+            }
         }
     }
 

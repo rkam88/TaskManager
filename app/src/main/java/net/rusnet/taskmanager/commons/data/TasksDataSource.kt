@@ -39,4 +39,8 @@ class TasksDataSource @Inject constructor(private val taskDao: TaskDao) {
         taskDao.deleteTasks(TaskType.COMPLETED)
     }
 
+    suspend fun deleteTasks(taskIdList: List<Long>) {
+        taskDao.deleteTasks(taskIdList)
+    }
+
 }

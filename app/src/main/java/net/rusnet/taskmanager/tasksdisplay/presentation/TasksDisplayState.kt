@@ -15,7 +15,9 @@ sealed class TasksDisplayState(
     val baseFilter: BaseFilter,
     val newTaskType: TaskType,
     val isSwipeEnabled: Boolean,
-    @MenuRes val toolbarMenu: Int?
+    @MenuRes val toolbarMenu: Int?,
+    val isActionModeEnabled: Boolean = false,
+    val actionModeTitle: String = ""
 ) {
     object Inbox        : TasksDisplayState(R.string.inbox,         R.id.nav_inbox,         View.VISIBLE, BaseFilter.InboxFilter,        TaskType.INBOX,         true,  null)
     object NextActions  : TasksDisplayState(R.string.next_actions,  R.id.nav_next_actions,  View.VISIBLE, BaseFilter.NextActionsFilter,  TaskType.ACTIVE,        true,  null)
@@ -33,7 +35,9 @@ sealed class TasksDisplayState(
         newBaseFilter: BaseFilter = baseState.baseFilter,
         newNewTaskType: TaskType = baseState.newTaskType,
         newIsSwipeEnabled: Boolean = baseState.isSwipeEnabled,
-        newToolbarMenu: Int? = baseState.toolbarMenu
+        newToolbarMenu: Int? = baseState.toolbarMenu,
+        newIsActionModeEnabled: Boolean = baseState.isActionModeEnabled,
+        newActionModeTitle: String = baseState.actionModeTitle
     ) : TasksDisplayState(
         toolbarTitle = newToolbarTitle,
         navigationViewMenuId = newNavigationViewMenuId,
@@ -41,7 +45,9 @@ sealed class TasksDisplayState(
         baseFilter = newBaseFilter,
         newTaskType = newNewTaskType,
         isSwipeEnabled = newIsSwipeEnabled,
-        toolbarMenu = newToolbarMenu
+        toolbarMenu = newToolbarMenu,
+        isActionModeEnabled = newIsActionModeEnabled,
+        actionModeTitle = newActionModeTitle
     )
 
 }

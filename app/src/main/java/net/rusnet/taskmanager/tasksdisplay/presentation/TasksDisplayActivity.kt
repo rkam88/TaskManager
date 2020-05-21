@@ -4,10 +4,12 @@ import android.app.Activity
 import android.content.Intent
 import android.graphics.Canvas
 import android.os.Bundle
+import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.view.ActionMode
 import androidx.appcompat.widget.Toolbar
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
@@ -20,6 +22,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.navigation.NavigationView
 import net.rusnet.taskmanager.R
 import net.rusnet.taskmanager.commons.app.injector
+import net.rusnet.taskmanager.commons.extensions.exhaustive
 import net.rusnet.taskmanager.commons.presentation.ConfirmationDialogFragment
 import net.rusnet.taskmanager.commons.presentation.ConfirmationDialogFragment.ConfirmationDialogListener
 
@@ -66,6 +69,36 @@ class TasksDisplayActivity :
             }
         })
     }
+    private var currentActionMode: ActionMode? = null
+    private var actionModeCallback: ActionMode.Callback = object : ActionMode.Callback {
+        override fun onCreateActionMode(mode: ActionMode, menu: Menu): Boolean {
+            mode.menuInflater.inflate(R.menu.tasks_display_action_menu, menu)
+            return true
+        }
+
+        override fun onPrepareActionMode(mode: ActionMode, menu: Menu): Boolean {
+            drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED)
+            addButton.hide()
+            return true
+        }
+
+        override fun onActionItemClicked(mode: ActionMode, item: MenuItem): Boolean {
+            return when (item.itemId) {
+                R.id.action_menu_delete -> {
+                    viewModel.onDeleteClicked()
+                    true
+                }
+                else -> false
+            }
+        }
+
+        override fun onDestroyActionMode(mode: ActionMode) {
+            viewModel.onDestroyActionMode()
+            drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED)
+            addButton.show()
+        }
+
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -104,6 +137,10 @@ class TasksDisplayActivity :
 
     override fun onPositiveResponse(dialogTag: String) {
         viewModel.onPositiveResponse(dialogTag)
+    }
+
+    override fun onNegativeResponse(dialogTag: String) {
+        viewModel.onNegativeResponse(dialogTag)
     }
 
     private fun initToolbar() {
@@ -190,7 +227,8 @@ class TasksDisplayActivity :
                         dialogTitle = event.dialogTitle
                     ).show(supportFragmentManager, event.dialogTag)
                 }
-            }
+                TasksDisplayEvent.FinishActionMode -> currentActionMode?.finish()
+            }.exhaustive
         })
     }
 
@@ -202,6 +240,12 @@ class TasksDisplayActivity :
             navigationView.setCheckedItem(newState.navigationViewMenuId)
             addButton.visibility = newState.addButtonVisibility
             isSwipeEnabled = newState.isSwipeEnabled
+            if (newState.isActionModeEnabled && currentActionMode == null) {
+                currentActionMode = startSupportActionMode(actionModeCallback)
+            } else if (!newState.isActionModeEnabled) {
+                currentActionMode = null
+            }
+            currentActionMode?.title = newState.actionModeTitle
         })
     }
 

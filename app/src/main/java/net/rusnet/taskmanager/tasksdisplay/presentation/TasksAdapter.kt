@@ -54,15 +54,19 @@ class TasksAdapter(
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val task = viewTasksList[position]
-        val taskNameTextView = holder.taskNameTextView
-        val taskDateTextView = holder.taskDateTextView
 
-        taskNameTextView.text = task.name
+        holder.taskNameTextView.text = task.name
 
-        taskDateTextView.visibility = task.dateViewVisibility
-        taskDateTextView.text = task.date
+        holder.taskDateTextView.visibility = task.dateViewVisibility
+        holder.taskDateTextView.text = task.date
 
-        taskDateTextView.setTextColor(taskDateTextView.resources.getColor(task.dateColor, null))
+        holder.taskDateTextView.setTextColor(holder.taskDateTextView.resources.getColor(task.dateColor, null))
+
+        if (task.isSelectedForDeletion) {
+            holder.taskItemLayout.setBackgroundResource(R.color.itemSelectedBackground)
+        } else {
+            holder.taskItemLayout.setBackgroundResource(R.color.itemDefaultBackground)
+        }
 
     }
 

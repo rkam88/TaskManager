@@ -27,8 +27,8 @@ interface TaskDao {
     @Delete
     suspend fun deleteTask(task: Task)
 
-    @Delete
-    suspend fun deleteTasks(tasks: List<Task>)
+    @Query("DELETE FROM task_table WHERE id IN (:taskIdList)")
+    suspend fun deleteTasks(taskIdList: List<Long>)
 
     @Query("DELETE FROM task_table")
     suspend fun deleteAllTasks()

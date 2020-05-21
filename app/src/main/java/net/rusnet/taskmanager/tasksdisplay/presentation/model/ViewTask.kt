@@ -8,7 +8,8 @@ data class ViewTask(
     val name: String,
     val dateViewVisibility: Int,
     val date: String?,
-    @ColorRes val dateColor: Int
+    @ColorRes val dateColor: Int,
+    var isSelectedForDeletion: Boolean = false
 ) {
     init {
         if (dateViewVisibility != View.GONE && dateViewVisibility != View.VISIBLE) {

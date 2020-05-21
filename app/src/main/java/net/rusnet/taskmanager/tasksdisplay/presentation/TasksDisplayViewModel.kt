@@ -19,16 +19,21 @@ import net.rusnet.taskmanager.commons.extensions.isOverdue
 import net.rusnet.taskmanager.commons.presentation.ConfirmationDialogFragment.ConfirmationDialogListener
 import net.rusnet.taskmanager.commons.presentation.SingleLiveEvent
 import net.rusnet.taskmanager.tasksdisplay.domain.DeleteCompletedTasks
+import net.rusnet.taskmanager.tasksdisplay.domain.DeleteTasksUseCase
 import net.rusnet.taskmanager.tasksdisplay.domain.GetTaskByIdUseCase
 import net.rusnet.taskmanager.tasksdisplay.domain.GetTasksCountUseCase
 import net.rusnet.taskmanager.tasksdisplay.domain.GetTasksUseCase
 import net.rusnet.taskmanager.tasksdisplay.domain.MarkTaskAsCompletedUseCase
+import net.rusnet.taskmanager.tasksdisplay.presentation.TasksDisplayEvent.FinishActionMode
 import net.rusnet.taskmanager.tasksdisplay.presentation.TasksDisplayEvent.ShowConfirmationDialog
 import net.rusnet.taskmanager.tasksdisplay.presentation.model.ViewTask
 import javax.inject.Inject
 
 private const val COUNT_99_PLUS = "99+"
 private const val TAG_DELETE_COMPLETED_TASKS = "TAG_DELETE_COMPLETED_TASKS"
+private const val TAG_DELETE_SELECTED_TASKS = "TAG_DELETE_ACTION_MODE"
+private const val ZERO = 0
+private const val TASK_COUNT_MAX_VALUE = 99
 
 class TasksDisplayViewModel @Inject constructor(
     private val applicationContext: Context,
@@ -37,7 +42,8 @@ class TasksDisplayViewModel @Inject constructor(
     private val getTasksCountUseCase: GetTasksCountUseCase,
     private val getTaskByIdUseCase: GetTaskByIdUseCase,
     private val markTaskAsCompletedUseCase: MarkTaskAsCompletedUseCase,
-    private val deleteCompletedTasks: DeleteCompletedTasks
+    private val deleteCompletedTasks: DeleteCompletedTasks,
+    private val deleteTasksUseCase: DeleteTasksUseCase
 ) : ViewModel(),
     ConfirmationDialogListener {
 
@@ -71,17 +77,43 @@ class TasksDisplayViewModel @Inject constructor(
     fun onPositiveResultFromEditActivity() = syncViewModelWithDb()
 
     fun onTaskClick(taskId: Long) {
-        viewModelScope.launch {
-            val task = getTaskByIdUseCase.execute(taskId)
-            router.navigateToEdit(
-                task,
-                TasksDisplayActivity.REQUEST_CODE_SAVE_TASK
-            )
+        if (currentTasksDisplayState.value!!.isActionModeEnabled) {
+            onTaskLongClick(taskId)
+        } else {
+            viewModelScope.launch {
+                val task = getTaskByIdUseCase.execute(taskId)
+                router.navigateToEdit(
+                    task,
+                    TasksDisplayActivity.REQUEST_CODE_SAVE_TASK
+                )
+            }
         }
     }
 
     fun onTaskLongClick(taskId: Long) {
-        // todo handle item long click
+        val viewTasks = currentViewTasks.value!!
+        val clickedTask = viewTasks.find { task -> task.taskId == taskId }
+        if (clickedTask != null) {
+            clickedTask.isSelectedForDeletion = !clickedTask.isSelectedForDeletion
+        }
+        val tasksMarkedForDeletion = viewTasks.count { it.isSelectedForDeletion }
+        if (tasksMarkedForDeletion == ZERO) {
+            event.postValue(FinishActionMode)
+        } else {
+            val newTitle = applicationContext.resources.getQuantityString(
+                R.plurals.n_tasks_selected,
+                tasksMarkedForDeletion,
+                tasksMarkedForDeletion
+            )
+            val newState = TasksDisplayState.Custom(
+                currentTasksDisplayState.value!!,
+                newIsSwipeEnabled = false,
+                newIsActionModeEnabled = true,
+                newActionModeTitle = newTitle
+            )
+            currentTasksDisplayState.postValue(newState)
+        }
+        currentViewTasks.postValue(viewTasks)
     }
 
     fun onTaskSwipedLeft(taskId: Long) {
@@ -104,6 +136,37 @@ class TasksDisplayViewModel @Inject constructor(
         }
     }
 
+    fun onDestroyActionMode() {
+        val currentTasks = currentViewTasks.value!!
+        for (task in currentTasks) {
+            task.isSelectedForDeletion = false
+        }
+        currentViewTasks.postValue(currentTasks)
+
+        val newState = TasksDisplayState.Custom(
+            currentTasksDisplayState.value!!,
+            newIsSwipeEnabled = true,
+            newIsActionModeEnabled = false
+        )
+        currentTasksDisplayState.postValue(newState)
+    }
+
+    fun onDeleteClicked() {
+        val tag = TAG_DELETE_SELECTED_TASKS
+        val tasksMarkedForDeletion = currentViewTasks.value!!.count { it.isSelectedForDeletion }
+        val title = applicationContext.resources.getQuantityString(
+            R.plurals.delete_tasks_dialog_title,
+            tasksMarkedForDeletion,
+            tasksMarkedForDeletion
+        )
+        event.postValue(
+            ShowConfirmationDialog(
+                dialogTag = tag,
+                dialogTitle = title
+            )
+        )
+    }
+
     override fun onPositiveResponse(dialogTag: String) {
         when (dialogTag) {
             TAG_DELETE_COMPLETED_TASKS -> {
@@ -112,6 +175,24 @@ class TasksDisplayViewModel @Inject constructor(
                     syncViewModelWithDb()
                 }
             }
+            TAG_DELETE_SELECTED_TASKS -> {
+                val tasksIdsToDelete = currentViewTasks.value!!
+                    .filter { it.isSelectedForDeletion }
+                    .map { it.taskId }
+                viewModelScope.launch {
+                    deleteTasksUseCase.execute(tasksIdsToDelete)
+                    syncViewModelWithDb()
+                    event.postValue(FinishActionMode)
+                }
+            }
+        }
+    }
+
+    override fun onNegativeResponse(dialogTag: String) {
+        when (dialogTag) {
+            TAG_DELETE_COMPLETED_TASKS -> {
+            }
+            TAG_DELETE_SELECTED_TASKS -> event.postValue(FinishActionMode)
         }
     }
 
@@ -157,7 +238,7 @@ class TasksDisplayViewModel @Inject constructor(
         viewModelScope.launch {
             val tasksCount = BASE_TASK_DISPLAY_STATES.map { state ->
                 val count = getTasksCountUseCase.execute(state.baseFilter)
-                val countAsString = if (count < 100) count.toString() else COUNT_99_PLUS
+                val countAsString = if (count <= TASK_COUNT_MAX_VALUE) count.toString() else COUNT_99_PLUS
                 return@map state.navigationViewMenuId to countAsString
             }.toMap()
             currentTaskCount.postValue(tasksCount)

@@ -125,6 +125,8 @@ class EditActivity : AppCompatActivity(),
         }
     }
 
+    override fun onNegativeResponse(dialogTag: String) {}
+
     private fun initViews() {
         setSupportActionBar(findViewById(R.id.toolbar))
         supportActionBar?.setDisplayHomeAsUpEnabled(true)

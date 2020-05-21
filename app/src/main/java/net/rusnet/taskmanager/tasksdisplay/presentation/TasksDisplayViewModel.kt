@@ -47,7 +47,7 @@ class TasksDisplayViewModel @Inject constructor(
     val currentTaskCount = MutableLiveData<Map<@androidx.annotation.IdRes Int, String>>()
 
     init {
-        onDrawerItemSelected(TasksDisplayState.INBOX.navigationViewMenuId)
+        onDrawerItemSelected(TasksDisplayState.Inbox.navigationViewMenuId)
         updateTasksCount()
     }
 
@@ -60,7 +60,7 @@ class TasksDisplayViewModel @Inject constructor(
 
     fun onAddButtonClicked() {
         val currentState = requireNotNull(currentTasksDisplayState.value)
-        val isCalendar = currentState == TasksDisplayState.CALENDAR
+        val isCalendar = currentState == TasksDisplayState.Calendar
         router.navigateToEdit(
             currentState.newTaskType,
             isCalendar,
@@ -92,7 +92,7 @@ class TasksDisplayViewModel @Inject constructor(
     }
 
     fun onDeleteCompletedTasksClicked() {
-        if (currentTasksDisplayState.value == TasksDisplayState.COMPLETED) {
+        if (currentTasksDisplayState.value == TasksDisplayState.Completed) {
             val tag = TAG_DELETE_COMPLETED_TASKS
             val title = applicationContext.getString(R.string.delete_completed_dialog_title)
             event.postValue(
@@ -155,7 +155,7 @@ class TasksDisplayViewModel @Inject constructor(
 
     private fun updateTasksCount() {
         viewModelScope.launch {
-            val tasksCount = TasksDisplayState.values().map { state ->
+            val tasksCount = BASE_TASK_DISPLAY_STATES.map { state ->
                 val count = getTasksCountUseCase.execute(state.baseFilter)
                 val countAsString = if (count < 100) count.toString() else COUNT_99_PLUS
                 return@map state.navigationViewMenuId to countAsString

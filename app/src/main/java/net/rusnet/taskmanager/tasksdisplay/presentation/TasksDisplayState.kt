@@ -6,11 +6,9 @@ import androidx.annotation.MenuRes
 import androidx.annotation.StringRes
 import net.rusnet.taskmanager.R
 import net.rusnet.taskmanager.commons.domain.BaseFilter
-import net.rusnet.taskmanager.commons.domain.BaseFilter.*
 import net.rusnet.taskmanager.commons.domain.model.TaskType
-import net.rusnet.taskmanager.tasksdisplay.presentation.TasksDisplayState.*
 
-enum class TasksDisplayState(
+sealed class TasksDisplayState(
     @StringRes val toolbarTitle: Int,
     @IdRes val navigationViewMenuId: Int,
     val addButtonVisibility: Int,
@@ -19,16 +17,46 @@ enum class TasksDisplayState(
     val isSwipeEnabled: Boolean,
     @MenuRes val toolbarMenu: Int?
 ) {
-    INBOX         (R.string.inbox,         R.id.nav_inbox,         View.VISIBLE, InboxFilter,        TaskType.INBOX         ,true,  null),
-    NEXT_ACTIONS  (R.string.next_actions,  R.id.nav_next_actions,  View.VISIBLE, NextActionsFilter,  TaskType.ACTIVE        ,true,  null),
-    CALENDAR      (R.string.calendar,      R.id.nav_calendar,      View.VISIBLE, CalendarFilter,     TaskType.ACTIVE        ,true,  null),
-    WAITING_FOR   (R.string.waiting_for,   R.id.nav_waiting_for,   View.VISIBLE, WaitingForFilter,   TaskType.WAITING_FOR   ,true,  null),
-    SOMEDAY_MAYBE (R.string.someday_maybe, R.id.nav_someday_maybe, View.VISIBLE, SomedayMaybeFilter, TaskType.SOMEDAY_MAYBE ,true,  null),
-    COMPLETED     (R.string.completed,     R.id.nav_completed,     View.GONE,    CompletedFilter,    TaskType.INBOX         ,false, R.menu.taks_display_completed_menu),
-    TRASH         (R.string.trash,         R.id.nav_trash,         View.GONE,    TrashFilter,        TaskType.INBOX         ,false, null)
+    object Inbox        : TasksDisplayState(R.string.inbox,         R.id.nav_inbox,         View.VISIBLE, BaseFilter.InboxFilter,        TaskType.INBOX,         true,  null)
+    object NextActions  : TasksDisplayState(R.string.next_actions,  R.id.nav_next_actions,  View.VISIBLE, BaseFilter.NextActionsFilter,  TaskType.ACTIVE,        true,  null)
+    object Calendar     : TasksDisplayState(R.string.calendar,      R.id.nav_calendar,      View.VISIBLE, BaseFilter.CalendarFilter,     TaskType.ACTIVE,        true,  null)
+    object WaitingFor   : TasksDisplayState(R.string.waiting_for,   R.id.nav_waiting_for,   View.VISIBLE, BaseFilter.WaitingForFilter,   TaskType.WAITING_FOR,   true,  null)
+    object SomedayMaybe : TasksDisplayState(R.string.someday_maybe, R.id.nav_someday_maybe, View.VISIBLE, BaseFilter.SomedayMaybeFilter, TaskType.SOMEDAY_MAYBE, true,  null)
+    object Completed    : TasksDisplayState(R.string.completed,     R.id.nav_completed,     View.GONE,    BaseFilter.CompletedFilter,    TaskType.INBOX,         false, R.menu.taks_display_completed_menu)
+    object Trash        : TasksDisplayState(R.string.trash,         R.id.nav_trash,         View.GONE,    BaseFilter.TrashFilter,        TaskType.INBOX,         false, null)
+
+    class Custom(
+        private val baseState: TasksDisplayState,
+        newToolbarTitle: Int = baseState.toolbarTitle,
+        newNavigationViewMenuId: Int = baseState.navigationViewMenuId,
+        newAddButtonVisibility: Int = baseState.addButtonVisibility,
+        newBaseFilter: BaseFilter = baseState.baseFilter,
+        newNewTaskType: TaskType = baseState.newTaskType,
+        newIsSwipeEnabled: Boolean = baseState.isSwipeEnabled,
+        newToolbarMenu: Int? = baseState.toolbarMenu
+    ) : TasksDisplayState(
+        toolbarTitle = newToolbarTitle,
+        navigationViewMenuId = newNavigationViewMenuId,
+        addButtonVisibility = newAddButtonVisibility,
+        baseFilter = newBaseFilter,
+        newTaskType = newNewTaskType,
+        isSwipeEnabled = newIsSwipeEnabled,
+        toolbarMenu = newToolbarMenu
+    )
+
 }
 
+val BASE_TASK_DISPLAY_STATES = listOf(
+    TasksDisplayState.Inbox,
+    TasksDisplayState.NextActions,
+    TasksDisplayState.Calendar,
+    TasksDisplayState.WaitingFor,
+    TasksDisplayState.SomedayMaybe,
+    TasksDisplayState.Completed,
+    TasksDisplayState.Trash
+)
+
 fun @receiver:IdRes Int.getTasksDisplayState(): TasksDisplayState {
-    return values().find { it.navigationViewMenuId == this }
+    return BASE_TASK_DISPLAY_STATES.find { it.navigationViewMenuId == this }
         ?: throw IllegalArgumentException("The resource ID must correspond to an ID from the navigation drawer menu!")
 }

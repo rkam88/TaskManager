@@ -43,7 +43,7 @@ class TasksDisplayActivity :
     private val navigationView by lazy { findViewById<NavigationView>(R.id.navigation_view) }
     private val drawerLayout by lazy { findViewById<DrawerLayout>(R.id.drawer_layout) }
     private val taskCountViewMap by lazy {
-        TasksDisplayState.values().map {
+        BASE_TASK_DISPLAY_STATES.map {
             it.navigationViewMenuId to
                     navigationView
                         .menu

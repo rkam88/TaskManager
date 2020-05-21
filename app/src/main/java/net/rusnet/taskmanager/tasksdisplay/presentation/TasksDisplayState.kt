@@ -22,7 +22,7 @@ sealed class TasksDisplayState(
     object Calendar     : TasksDisplayState(R.string.calendar,      R.id.nav_calendar,      View.VISIBLE, BaseFilter.CalendarFilter,     TaskType.ACTIVE,        true,  null)
     object WaitingFor   : TasksDisplayState(R.string.waiting_for,   R.id.nav_waiting_for,   View.VISIBLE, BaseFilter.WaitingForFilter,   TaskType.WAITING_FOR,   true,  null)
     object SomedayMaybe : TasksDisplayState(R.string.someday_maybe, R.id.nav_someday_maybe, View.VISIBLE, BaseFilter.SomedayMaybeFilter, TaskType.SOMEDAY_MAYBE, true,  null)
-    object Completed    : TasksDisplayState(R.string.completed,     R.id.nav_completed,     View.GONE,    BaseFilter.CompletedFilter,    TaskType.INBOX,         false, R.menu.taks_display_completed_menu)
+    object Completed    : TasksDisplayState(R.string.completed,     R.id.nav_completed,     View.GONE,    BaseFilter.CompletedFilter,    TaskType.INBOX,         false, R.menu.tasks_display_completed_menu)
     object Trash        : TasksDisplayState(R.string.trash,         R.id.nav_trash,         View.GONE,    BaseFilter.TrashFilter,        TaskType.INBOX,         false, null)
 
     class Custom(

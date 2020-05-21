@@ -12,5 +12,4 @@ sealed class BaseFilter(
     object WaitingForFilter :   BaseFilter(taskType = TaskType.WAITING_FOR,   hasDates = null)
     object SomedayMaybeFilter : BaseFilter(taskType = TaskType.SOMEDAY_MAYBE, hasDates = null)
     object CompletedFilter :    BaseFilter(taskType = TaskType.COMPLETED,     hasDates = null)
-    object TrashFilter :        BaseFilter(taskType = TaskType.TRASH,         hasDates = null)
 }

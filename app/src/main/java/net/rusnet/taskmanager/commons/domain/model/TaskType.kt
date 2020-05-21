@@ -11,6 +11,5 @@ enum class TaskType(
     ACTIVE(1, R.string.active),
     WAITING_FOR(2, R.string.waiting_for),
     SOMEDAY_MAYBE(3, R.string.someday_maybe),
-    COMPLETED(4, R.string.completed),
-    TRASH(5, R.string.trash)
+    COMPLETED(4, R.string.completed)
 }

@@ -92,6 +92,8 @@ private fun doesTimeMatchDayStart(timeAsLong: Long?): Boolean {
 
 fun Task.isOverdue() = (System.currentTimeMillis() > endDate ?: Long.MAX_VALUE)
 
+fun Task.isAlarmOverdue() = (System.currentTimeMillis() > alarmDate ?: Long.MAX_VALUE)
+
 fun Task.getTaskDatesAsString(applicationContext: Context): String? {
     return if (hasDates()) {
         val startDay = DateFormat.getDateFormat(applicationContext).format(startDate)
@@ -105,6 +107,16 @@ fun Task.getTaskDatesAsString(applicationContext: Context): String? {
             doTimesMatchDayStart() -> "$startDay - $endDay"
             else -> "$startDay, $startTime - $endDay, $endTime"
         }
+    } else {
+        null
+    }
+}
+
+fun Task.getAlarmDateAsString(applicationContext: Context): String? {
+    return if (alarmDate != null) {
+        val alarmDay = DateFormat.getDateFormat(applicationContext).format(alarmDate)
+        val alarmTime = DateFormat.getTimeFormat(applicationContext).format(alarmDate)
+        "$alarmDay, $alarmTime"
     } else {
         null
     }

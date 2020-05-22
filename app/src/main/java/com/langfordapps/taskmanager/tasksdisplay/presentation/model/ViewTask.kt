@@ -9,11 +9,17 @@ data class ViewTask(
     val dateViewVisibility: Int,
     val date: String?,
     @ColorRes val dateColor: Int,
-    var isSelectedForDeletion: Boolean = false
+    var isSelectedForDeletion: Boolean = false,
+    val alarmViewVisibility: Int,
+    val alarmDate: String?,
+    @ColorRes val alarmColor: Int
 ) {
     init {
-        if (dateViewVisibility != View.GONE && dateViewVisibility != View.VISIBLE) {
-            throw IllegalArgumentException("dateVisibility should be either View.GONE or View.Visible")
+        fun validateVisibilityValue(value: Int, parameterName: String) {
+            if (!(value == View.GONE || value == View.VISIBLE)) throw IllegalArgumentException("$parameterName should be either View.GONE or View.Visible")
         }
+
+        validateVisibilityValue(dateViewVisibility, "dateViewVisibility")
+        validateVisibilityValue(alarmViewVisibility, "alarmViewVisibility")
     }
 }

@@ -23,6 +23,7 @@ class TasksAdapter(
         val taskNameTextView: TextView = itemView.findViewById(R.id.text_view_task_name)
         val taskDateTextView: TextView = itemView.findViewById(R.id.text_view_task_date)
         val taskItemLayout: FrameLayout = itemView.findViewById(R.id.task_item_layout)
+        val alarmDateTextView: TextView = itemView.findViewById(R.id.text_view_alarm_date)
 
         init {
             itemView.setOnClickListener {
@@ -59,8 +60,11 @@ class TasksAdapter(
 
         holder.taskDateTextView.visibility = task.dateViewVisibility
         holder.taskDateTextView.text = task.date
-
         holder.taskDateTextView.setTextColor(holder.taskDateTextView.resources.getColor(task.dateColor, null))
+
+        holder.alarmDateTextView.visibility = task.alarmViewVisibility
+        holder.alarmDateTextView.text = task.alarmDate
+        holder.alarmDateTextView.setTextColor(holder.taskDateTextView.resources.getColor(task.alarmColor, null))
 
         if (task.isSelectedForDeletion) {
             holder.taskItemLayout.setBackgroundResource(R.color.itemSelectedBackground)

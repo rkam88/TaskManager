@@ -8,8 +8,10 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.langfordapps.taskmanager.R
 import com.langfordapps.taskmanager.commons.app.Router
+import com.langfordapps.taskmanager.commons.extensions.getAlarmDateAsString
 import com.langfordapps.taskmanager.commons.extensions.getTaskDatesAsString
 import com.langfordapps.taskmanager.commons.extensions.hasDates
+import com.langfordapps.taskmanager.commons.extensions.isAlarmOverdue
 import com.langfordapps.taskmanager.commons.extensions.isOverdue
 import com.langfordapps.taskmanager.commons.presentation.ConfirmationDialogFragment.ConfirmationDialogListener
 import com.langfordapps.taskmanager.commons.presentation.SingleLiveEvent
@@ -209,7 +211,10 @@ class TasksDisplayViewModel @Inject constructor(
                         name = it.name,
                         dateViewVisibility = if (it.hasDates()) View.VISIBLE else View.GONE,
                         date = datesAsString,
-                        dateColor = if (it.isOverdue()) R.color.itemOverdue else R.color.colorTextPrimary
+                        dateColor = if (it.isOverdue()) R.color.itemOverdue else R.color.colorTextPrimary,
+                        alarmViewVisibility = if (it.alarmDate != null) View.VISIBLE else View.GONE,
+                        alarmDate = it.getAlarmDateAsString(applicationContext),
+                        alarmColor = if (it.isAlarmOverdue()) R.color.itemOverdue else R.color.colorTextPrimary
                     )
                 }
             currentViewTasks.postValue(viewTasksList)

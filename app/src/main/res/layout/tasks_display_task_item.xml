@@ -69,11 +69,27 @@
                 android:drawablePadding="8dp"
                 android:drawableTint="@color/iconColor"
                 android:textAppearance="@style/TextAppearance.MaterialComponents.Body2"
-                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintBottom_toTopOf="@id/text_view_alarm_date"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/text_view_task_name"
                 tools:text="21.09.2020"
+                tools:visibility="visible" />
+
+            <TextView
+                android:id="@+id/text_view_alarm_date"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/task_item_inner_margin"
+                android:drawableStart="@drawable/ic_alarm"
+                android:drawablePadding="8dp"
+                android:drawableTint="@color/iconColor"
+                android:textAppearance="@style/TextAppearance.MaterialComponents.Body2"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/text_view_task_date"
+                tools:text="21.09.2020, 18:00"
                 tools:visibility="visible" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>

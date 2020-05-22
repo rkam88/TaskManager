@@ -25,6 +25,7 @@ class TaskAlarmReceiver : BroadcastReceiver() {
             .setContentTitle(context.getString(R.string.reminder))
             .setContentText(requireNotNull(intent.getStringExtra(EXTRA_NOTIFICATION_TEXT)))
             .setAutoCancel(true)
+            .setPriority(NotificationCompat.PRIORITY_HIGH)
             .build()
         val notificationManager = context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
 
@@ -36,7 +37,7 @@ class TaskAlarmReceiver : BroadcastReceiver() {
             val notificationChannel = NotificationChannel(
                 CHANEL_ID,
                 context.getString(R.string.task_alarm_channel_name),
-                NotificationManager.IMPORTANCE_DEFAULT
+                NotificationManager.IMPORTANCE_HIGH
             ).apply {
                 description = context.getString(R.string.task_alarm_channel_description)
             }

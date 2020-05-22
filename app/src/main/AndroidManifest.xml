@@ -15,7 +15,8 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
 
-        <activity android:name=".tasksdisplay.presentation.TasksDisplayActivity">
+        <activity android:name=".tasksdisplay.presentation.TasksDisplayActivity"
+            android:launchMode="singleTask">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

@@ -2,12 +2,14 @@ package com.langfordapps.taskmanager.taskalarm
 
 import android.app.NotificationChannel
 import android.app.NotificationManager
+import android.app.PendingIntent
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.os.Build
 import androidx.core.app.NotificationCompat
 import com.langfordapps.taskmanager.R
+import com.langfordapps.taskmanager.tasksdisplay.presentation.TasksDisplayActivity
 
 private const val CHANEL_ID = "Channel_1"
 private const val NO_VALUE = -1
@@ -20,10 +22,19 @@ class TaskAlarmReceiver : BroadcastReceiver() {
         val notificationId = intent.getIntExtra(EXTRA_ID, NO_VALUE)
         if (notificationId == NO_VALUE) throw IllegalArgumentException("Must provide an id")
 
+        val startAppIntent = Intent(context, TasksDisplayActivity::class.java)
+        val pendingIntent = PendingIntent.getActivity(
+            context,
+            0,
+            startAppIntent,
+            PendingIntent.FLAG_UPDATE_CURRENT
+        )
+
         val notification = NotificationCompat.Builder(context, CHANEL_ID)
             .setSmallIcon(R.drawable.ic_launcher_foreground)
             .setContentTitle(context.getString(R.string.reminder))
             .setContentText(requireNotNull(intent.getStringExtra(EXTRA_NOTIFICATION_TEXT)))
+            .setContentIntent(pendingIntent)
             .setAutoCancel(true)
             .setPriority(NotificationCompat.PRIORITY_HIGH)
             .build()

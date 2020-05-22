@@ -1,19 +1,14 @@
 package com.langfordapps.taskmanager.tasksdisplay.presentation
 
 import android.content.Context
-import android.text.format.DateFormat
 import android.view.View
 import androidx.annotation.IdRes
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import kotlinx.coroutines.launch
 import com.langfordapps.taskmanager.R
 import com.langfordapps.taskmanager.commons.app.Router
-import com.langfordapps.taskmanager.commons.extensions.areDatesAllDay
-import com.langfordapps.taskmanager.commons.extensions.doStartAndEndDatesMatch
-import com.langfordapps.taskmanager.commons.extensions.doStartAndEndDaysMatch
-import com.langfordapps.taskmanager.commons.extensions.doTimesMatchDayStart
+import com.langfordapps.taskmanager.commons.extensions.getTaskDatesAsString
 import com.langfordapps.taskmanager.commons.extensions.hasDates
 import com.langfordapps.taskmanager.commons.extensions.isOverdue
 import com.langfordapps.taskmanager.commons.presentation.ConfirmationDialogFragment.ConfirmationDialogListener
@@ -27,6 +22,7 @@ import com.langfordapps.taskmanager.tasksdisplay.domain.MarkTaskAsCompletedUseCa
 import com.langfordapps.taskmanager.tasksdisplay.presentation.TasksDisplayEvent.FinishActionMode
 import com.langfordapps.taskmanager.tasksdisplay.presentation.TasksDisplayEvent.ShowConfirmationDialog
 import com.langfordapps.taskmanager.tasksdisplay.presentation.model.ViewTask
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 private const val COUNT_99_PLUS = "99+"
@@ -207,21 +203,7 @@ class TasksDisplayViewModel @Inject constructor(
         viewModelScope.launch {
             val viewTasksList = getTasksUseCase.execute(state.baseFilter)
                 .map {
-                    val datesAsString = if (it.hasDates()) {
-                        val startDay = DateFormat.getDateFormat(applicationContext).format(it.startDate)
-                        val startTime = DateFormat.getTimeFormat(applicationContext).format(it.startDate)
-                        val endDay = DateFormat.getDateFormat(applicationContext).format(it.endDate)
-                        val endTime = DateFormat.getTimeFormat(applicationContext).format(it.endDate)
-                        when {
-                            it.doStartAndEndDatesMatch() -> "$startDay, $startTime"
-                            it.areDatesAllDay() -> startDay
-                            it.doStartAndEndDaysMatch() -> "$startDay, $startTime - $endTime"
-                            it.doTimesMatchDayStart() -> "$startDay - $endDay"
-                            else -> "$startDay, $startTime - $endDay, $endTime"
-                        }
-                    } else {
-                        null
-                    }
+                    val datesAsString = it.getTaskDatesAsString(applicationContext)
                     return@map ViewTask(
                         taskId = it.id,
                         name = it.name,

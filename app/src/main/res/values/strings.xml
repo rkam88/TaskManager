@@ -14,8 +14,23 @@
 
     <string name="completed">Completed</string>
 
+    <!--  Tasks display: UI  -->
     <string name="complete">Complete</string>
     <string name="delete">Delete</string>
+
+    <!--  EditActivity  -->
+    <string name="title_new_task">New task</string>
+    <string name="title_existing_task">Edit task</string>
+    <string name="save">Save</string>
+    <string name="task_name_hint">Enter a name</string>
+    <string name="add_date">Add date</string>
+    <string name="all_day">All day</string>
+    <string name="message_empty_task_name">Please enter name for the task!</string>
+
+    <!--  Dialogs  -->
+    <string name="yes">YES</string>
+    <string name="no">NO</string>
+    <string name="exit_without_saving_warning_dialog_title">Exit without saving?</string>
     <string name="delete_completed_dialog_title">Delete all completed tasks?</string>
     <plurals name="delete_tasks_dialog_title">
         <item quantity="one">Delete %d task?</item>
@@ -32,18 +47,10 @@
         <item quantity="other">%d tasks selected</item>
     </plurals>
 
-    <!--  EditActivity  -->
-    <string name="title_new_task">New task</string>
-    <string name="title_existing_task">Edit task</string>
-    <string name="save">Save</string>
-    <string name="task_name_hint">Enter a name</string>
-    <string name="add_date">Add date</string>
-    <string name="all_day">All day</string>
-    <string name="message_empty_task_name">Please enter name for the task!</string>
-
-    <!--  Dialog  -->
-    <string name="exit_without_saving_warning">Exit without saving?</string>
-    <string name="yes">YES</string>
-    <string name="no">NO</string>
+    <!--  Notifications -->
+    <string name="reminder">Reminder:</string>
+    <string name="task_alarm_channel_name">Task Manager</string>
+    <string name="task_alarm_channel_description">Notifications channel for Task Manager</string>
+    <string name="task_alarm_task_description">- %s (%s)</string>
 
 </resources>

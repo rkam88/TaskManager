@@ -163,7 +163,7 @@ class EditActivity : AppCompatActivity(),
                 EditEvents.NavigateBack -> super.onBackPressed()
                 EditEvents.ShowExitConfirmationDialog -> {
                     ConfirmationDialogFragment.newInstance(
-                        resources.getString(R.string.exit_without_saving_warning),
+                        resources.getString(R.string.exit_without_saving_warning_dialog_title),
                         TAG_EXIT_CONFIRMATION
                     ).show(supportFragmentManager, TAG_EXIT_CONFIRMATION)
                 }

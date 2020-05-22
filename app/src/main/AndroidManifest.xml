@@ -2,6 +2,10 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.langfordapps.taskmanager">
 
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+
     <application
         android:name=".commons.app.TaskManagerApplication"
         android:allowBackup="true"
@@ -26,6 +30,23 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".tasksdisplay.presentation.TasksDisplayActivity" />
         </activity>
+
+        <receiver
+            android:name="com.langfordapps.taskmanager.taskalarm.TaskAlarmReceiver"
+            android:process=":remote"
+            android:enabled="true" />
+
+        <service
+            android:name="com.langfordapps.taskmanager.taskalarm.TaskAlarmService"
+            android:permission="android.permission.BIND_JOB_SERVICE" />
+
+        <receiver
+            android:name="com.langfordapps.taskmanager.taskalarm.InitAlarmBootReceiver"
+            android:enabled="true">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+            </intent-filter>
+        </receiver>
 
     </application>
 

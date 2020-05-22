@@ -1,9 +1,9 @@
 package com.langfordapps.taskmanager.commons.data
 
-import dagger.Reusable
 import com.langfordapps.taskmanager.commons.domain.BaseFilter
 import com.langfordapps.taskmanager.commons.domain.model.Task
 import com.langfordapps.taskmanager.commons.domain.model.TaskType
+import dagger.Reusable
 import javax.inject.Inject
 
 @Reusable
@@ -41,6 +41,10 @@ class TasksDataSource @Inject constructor(private val taskDao: TaskDao) {
 
     suspend fun deleteTasks(taskIdList: List<Long>) {
         taskDao.deleteTasks(taskIdList)
+    }
+
+    suspend fun getAllIncompleteTasks(): List<Task> {
+        return taskDao.getTasksExcept(TaskType.COMPLETED)
     }
 
 }

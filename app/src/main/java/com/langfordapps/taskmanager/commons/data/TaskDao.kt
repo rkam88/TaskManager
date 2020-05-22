@@ -33,8 +33,8 @@ interface TaskDao {
     @Query("DELETE FROM task_table")
     suspend fun deleteAllTasks()
 
-    @Query("SELECT * from task_table")
-    suspend fun getAllTasks(): List<Task>
+    @Query("SELECT * from task_table WHERE task_type != :excludeTaskType")
+    suspend fun getTasksExcept(excludeTaskType: TaskType): List<Task>
 
     @Query(
         "SELECT * " +

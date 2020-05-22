@@ -18,7 +18,7 @@ import net.rusnet.taskmanager.commons.extensions.hasDates
 import net.rusnet.taskmanager.commons.extensions.isOverdue
 import net.rusnet.taskmanager.commons.presentation.ConfirmationDialogFragment.ConfirmationDialogListener
 import net.rusnet.taskmanager.commons.presentation.SingleLiveEvent
-import net.rusnet.taskmanager.tasksdisplay.domain.DeleteCompletedTasks
+import net.rusnet.taskmanager.tasksdisplay.domain.DeleteCompletedTasksUseCase
 import net.rusnet.taskmanager.tasksdisplay.domain.DeleteTasksUseCase
 import net.rusnet.taskmanager.tasksdisplay.domain.GetTaskByIdUseCase
 import net.rusnet.taskmanager.tasksdisplay.domain.GetTasksCountUseCase
@@ -42,7 +42,7 @@ class TasksDisplayViewModel @Inject constructor(
     private val getTasksCountUseCase: GetTasksCountUseCase,
     private val getTaskByIdUseCase: GetTaskByIdUseCase,
     private val markTaskAsCompletedUseCase: MarkTaskAsCompletedUseCase,
-    private val deleteCompletedTasks: DeleteCompletedTasks,
+    private val deleteCompletedTasksUseCase: DeleteCompletedTasksUseCase,
     private val deleteTasksUseCase: DeleteTasksUseCase
 ) : ViewModel(),
     ConfirmationDialogListener {
@@ -171,7 +171,7 @@ class TasksDisplayViewModel @Inject constructor(
         when (dialogTag) {
             TAG_DELETE_COMPLETED_TASKS -> {
                 viewModelScope.launch {
-                    deleteCompletedTasks.execute()
+                    deleteCompletedTasksUseCase.execute()
                     syncViewModelWithDb()
                 }
             }

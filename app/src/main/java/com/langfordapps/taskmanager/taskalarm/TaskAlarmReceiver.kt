@@ -31,7 +31,7 @@ class TaskAlarmReceiver : BroadcastReceiver() {
         )
 
         val notification = NotificationCompat.Builder(context, CHANEL_ID)
-            .setSmallIcon(R.drawable.ic_launcher_foreground)
+            .setSmallIcon(R.drawable.ic_notification)
             .setContentTitle(context.getString(R.string.reminder))
             .setContentText(requireNotNull(intent.getStringExtra(EXTRA_NOTIFICATION_TEXT)))
             .setContentIntent(pendingIntent)

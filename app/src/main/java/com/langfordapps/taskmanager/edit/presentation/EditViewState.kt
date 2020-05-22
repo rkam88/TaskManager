@@ -22,17 +22,14 @@ data class EditViewState(
     val alarmTime: String
 ) {
     init {
-        fun isVisibilityValueValid(value: Int) = (value == View.GONE || value == View.VISIBLE)
+        fun validateVisibilityValue(value: Int, parameterName: String) {
+            if (!(value == View.GONE || value == View.VISIBLE)) throw IllegalArgumentException("$parameterName should be either View.GONE or View.Visible")
+        }
 
-        if (!isVisibilityValueValid(addDateButtonVisibility))
-            throw IllegalArgumentException("addDateButtonVisibility should be either View.GONE or View.Visible")
-        if (!isVisibilityValueValid(dateLayoutVisibility))
-            throw IllegalArgumentException("dateLayoutVisibility should be either View.GONE or View.Visible")
-        if (!isVisibilityValueValid(additionalDatePickersVisibility))
-            throw IllegalArgumentException("additionalDatePickersVisibility should be either View.GONE or View.Visible")
-        if (!isVisibilityValueValid(addAlarmButtonVisibility))
-            throw IllegalArgumentException("addAlarmButtonVisibility should be either View.GONE or View.Visible")
-        if (!isVisibilityValueValid(alarmLayoutVisibility))
-            throw IllegalArgumentException("alarmLayoutVisibility should be either View.GONE or View.Visible")
+        validateVisibilityValue(addDateButtonVisibility, "addDateButtonVisibility")
+        validateVisibilityValue(dateLayoutVisibility,"dateLayoutVisibility")
+        validateVisibilityValue(additionalDatePickersVisibility,"additionalDatePickersVisibility")
+        validateVisibilityValue(addAlarmButtonVisibility,"addAlarmButtonVisibility")
+        validateVisibilityValue(alarmLayoutVisibility,"alarmLayoutVisibility")
     }
 }

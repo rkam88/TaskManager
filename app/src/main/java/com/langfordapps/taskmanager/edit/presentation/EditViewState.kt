@@ -15,7 +15,11 @@ data class EditViewState(
     val additionalDatePickersVisibility: Int,
     val startTime: String,
     val endDate: String,
-    val endTime: String
+    val endTime: String,
+    val addAlarmButtonVisibility: Int,
+    val alarmLayoutVisibility: Int,
+    val alarmDate: String,
+    val alarmTime: String
 ) {
     init {
         fun isVisibilityValueValid(value: Int) = (value == View.GONE || value == View.VISIBLE)
@@ -26,5 +30,9 @@ data class EditViewState(
             throw IllegalArgumentException("dateLayoutVisibility should be either View.GONE or View.Visible")
         if (!isVisibilityValueValid(additionalDatePickersVisibility))
             throw IllegalArgumentException("additionalDatePickersVisibility should be either View.GONE or View.Visible")
+        if (!isVisibilityValueValid(addAlarmButtonVisibility))
+            throw IllegalArgumentException("addAlarmButtonVisibility should be either View.GONE or View.Visible")
+        if (!isVisibilityValueValid(alarmLayoutVisibility))
+            throw IllegalArgumentException("alarmLayoutVisibility should be either View.GONE or View.Visible")
     }
 }

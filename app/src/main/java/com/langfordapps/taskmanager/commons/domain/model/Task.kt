@@ -24,8 +24,8 @@ data class Task(
     @ColumnInfo(name = "end_date")
     val endDate: Long? = null,
 
-    @ColumnInfo(name = "reminder_date")
-    val reminderDate: Long? = null
+    @ColumnInfo(name = "alarm_date")
+    val alarmDate: Long? = null
 
 ) : Serializable {
     companion object

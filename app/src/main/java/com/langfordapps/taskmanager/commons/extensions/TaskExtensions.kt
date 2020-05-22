@@ -18,10 +18,19 @@ fun Task.getOrInitStartDate() = startDate ?: Task.getInitialTaskDate()
 
 fun Task.getOrInitEndDate() = endDate ?: Task.getInitialTaskDate()
 
+fun Task.getOrInitAlarmDate() = alarmDate ?: startDate ?: Task.getInitialAlarmDate()
+
 fun Task.Companion.getInitialTaskDate(): Long {
     val initialDate = Calendar.getInstance().apply { timeInMillis = System.currentTimeMillis() }
     initialDate.set(Calendar.HOUR_OF_DAY, START_HOUR_OF_DAY)
     initialDate.set(Calendar.MINUTE, START_MINUTE)
+    initialDate.set(Calendar.SECOND, START_SECOND)
+    initialDate.set(Calendar.MILLISECOND, START_MILLISECOND)
+    return initialDate.timeInMillis
+}
+
+fun Task.Companion.getInitialAlarmDate(): Long {
+    val initialDate = Calendar.getInstance().apply { timeInMillis = System.currentTimeMillis() }
     initialDate.set(Calendar.SECOND, START_SECOND)
     initialDate.set(Calendar.MILLISECOND, START_MILLISECOND)
     return initialDate.timeInMillis

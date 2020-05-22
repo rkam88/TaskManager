@@ -6,9 +6,9 @@ import android.view.View
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import kotlinx.coroutines.launch
 import com.langfordapps.taskmanager.R
 import com.langfordapps.taskmanager.commons.domain.model.DateType
+import com.langfordapps.taskmanager.commons.domain.model.DateType.ALARM_DATE
 import com.langfordapps.taskmanager.commons.domain.model.DateType.END_DATE
 import com.langfordapps.taskmanager.commons.domain.model.DateType.START_DATE
 import com.langfordapps.taskmanager.commons.domain.model.Task
@@ -16,6 +16,7 @@ import com.langfordapps.taskmanager.commons.domain.model.TaskType
 import com.langfordapps.taskmanager.commons.extensions.areDatesAllDay
 import com.langfordapps.taskmanager.commons.extensions.exhaustive
 import com.langfordapps.taskmanager.commons.extensions.getInitialTaskDate
+import com.langfordapps.taskmanager.commons.extensions.getOrInitAlarmDate
 import com.langfordapps.taskmanager.commons.extensions.getOrInitEndDate
 import com.langfordapps.taskmanager.commons.extensions.getOrInitStartDate
 import com.langfordapps.taskmanager.commons.extensions.hasDates
@@ -27,6 +28,7 @@ import com.langfordapps.taskmanager.edit.presentation.EditEvents.ShowDatePickerD
 import com.langfordapps.taskmanager.edit.presentation.EditEvents.ShowExitConfirmationDialog
 import com.langfordapps.taskmanager.edit.presentation.EditEvents.ShowTimePickerDialog
 import com.langfordapps.taskmanager.edit.presentation.dialogs.OnDatePickerResultListener
+import kotlinx.coroutines.launch
 import java.util.Calendar
 import javax.inject.Inject
 
@@ -139,6 +141,7 @@ class EditViewModel @Inject constructor(
                     updateCurrentState(currentTask.copy(endDate = newEndDate))
                 }
             }
+            ALARM_DATE -> updateCurrentState(currentTask.copy(alarmDate = newDate.timeInMillis))
         }.exhaustive
     }
 
@@ -167,6 +170,28 @@ class EditViewModel @Inject constructor(
         }
     }
 
+    fun onAddAlarmPressed() {
+        updateCurrentState(currentTask.copy(alarmDate = currentTask.getOrInitAlarmDate()))
+    }
+
+    fun onDeleteAlarmPressed() {
+        updateCurrentState(currentTask.copy(alarmDate = null))
+    }
+
+    fun onAlarmDatePressed() {
+        val initialDate = Calendar.getInstance().apply {
+            timeInMillis = currentTask.getOrInitAlarmDate()
+        }
+        event.postValue(ShowDatePickerDialog(ALARM_DATE, initialDate))
+    }
+
+    fun onAlarmTimePressed() {
+        val initialDate = Calendar.getInstance().apply {
+            timeInMillis = currentTask.getOrInitAlarmDate()
+        }
+        event.postValue(ShowTimePickerDialog(ALARM_DATE, initialDate))
+    }
+
     private fun updateCurrentState(updatedTask: Task, isAllDay: Boolean = editViewState.value?.isAllDay ?: false) {
         currentTask = updatedTask
         val newState = EditViewState(
@@ -180,7 +205,11 @@ class EditViewModel @Inject constructor(
             additionalDatePickersVisibility = if (isAllDay) View.GONE else View.VISIBLE,
             startTime = DateFormat.getTimeFormat(applicationContext).format(currentTask.getOrInitStartDate()),
             endDate = DateFormat.getDateFormat(applicationContext).format(currentTask.getOrInitEndDate()),
-            endTime = DateFormat.getTimeFormat(applicationContext).format(currentTask.getOrInitEndDate())
+            endTime = DateFormat.getTimeFormat(applicationContext).format(currentTask.getOrInitEndDate()),
+            addAlarmButtonVisibility = if (currentTask.alarmDate == null) View.VISIBLE else View.GONE,
+            alarmLayoutVisibility = if (currentTask.alarmDate == null) View.GONE else View.VISIBLE,
+            alarmDate = DateFormat.getDateFormat(applicationContext).format(currentTask.alarmDate ?: 0),
+            alarmTime = DateFormat.getTimeFormat(applicationContext).format(currentTask.alarmDate ?: 0)
         )
         editViewState.postValue(newState)
     }

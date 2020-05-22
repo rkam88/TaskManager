@@ -13,6 +13,7 @@ import android.widget.Spinner
 import android.widget.Switch
 import android.widget.TextView
 import android.widget.Toast
+import androidx.annotation.IdRes
 import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.widget.doAfterTextChanged
@@ -82,6 +83,11 @@ class EditActivity : AppCompatActivity(),
     private val startTimeButton by lazy { findViewById<TextView>(R.id.text_view_start_time) }
     private val endTimeButton by lazy { findViewById<TextView>(R.id.text_view_end_time) }
     private val dateAddedLayout by lazy { findViewById<ConstraintLayout>(R.id.layout_date_added) }
+    private val addAlarmButton by lazy { findViewById<TextView>(R.id.text_view_add_alarm) }
+    private val alarmAddedLayout by lazy { findViewById<ConstraintLayout>(R.id.layout_alarm_added) }
+    private val deleteAlarmButton by lazy { findViewById<ImageView>(R.id.image_view_delete_alarm) }
+    private val alarmDateButton by lazy { findViewById<TextView>(R.id.text_view_alarm_date) }
+    private val alarmTimeButton by lazy { findViewById<TextView>(R.id.text_view_alarm_time) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -148,13 +154,21 @@ class EditActivity : AppCompatActivity(),
         startTimeButton.setOnClickListener { viewModel.onStartTimeClicked() }
         endTimeButton.setOnClickListener { viewModel.onEndTimeClicker() }
 
-        // programmatically set top margin for divider to consider icon size and vertical margin
-        (findViewById<View>(R.id.divider_date).layoutParams as ConstraintLayout.LayoutParams).apply {
-            val verticalMargin = resources.getDimension(R.dimen.edit_vertical_margin)
-            val iconSize = resources.getDimension(R.dimen.edit_icon_size)
-            goneTopMargin = (verticalMargin * 2 + iconSize).roundToInt()
-        }
+        addAlarmButton.setOnClickListener { viewModel.onAddAlarmPressed() }
+        deleteAlarmButton.setOnClickListener { viewModel.onDeleteAlarmPressed() }
+        alarmDateButton.setOnClickListener { viewModel.onAlarmDatePressed() }
+        alarmTimeButton.setOnClickListener { viewModel.onAlarmTimePressed() }
 
+        // programmatically set top margin for date and alarm dividers to consider icon size and vertical margin
+        val verticalMargin = resources.getDimension(R.dimen.edit_vertical_margin)
+        val iconSize = resources.getDimension(R.dimen.edit_icon_size)
+        fun setDividerTopMargin(@IdRes id: Int) {
+            (findViewById<View>(id).layoutParams as ConstraintLayout.LayoutParams).apply {
+                goneTopMargin = (verticalMargin * 2 + iconSize).roundToInt()
+            }
+        }
+        setDividerTopMargin(R.id.divider_date)
+        setDividerTopMargin(R.id.divider_alarm)
     }
 
     private fun initEventObservation() {
@@ -206,6 +220,10 @@ class EditActivity : AppCompatActivity(),
             startTimeButton.text = newState.startTime
             endDateButton.text = newState.endDate
             endTimeButton.text = newState.endTime
+            addAlarmButton.visibility = newState.addAlarmButtonVisibility
+            alarmAddedLayout.visibility = newState.alarmLayoutVisibility
+            alarmDateButton.text = newState.alarmDate
+            alarmTimeButton.text = newState.alarmTime
         })
     }
 

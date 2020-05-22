@@ -36,7 +36,7 @@ class TaskAlarmService : JobIntentService() {
             UPDATE_ALL -> GlobalScope.launch {
                 val taskList = getAllIncompleteTasksUseCase.execute()
                 for (task in taskList) {
-                    if (task.reminderDate != null) updateTaskAlarm(task)
+                    if (task.alarmDate != null) updateTaskAlarm(task)
                 }
             }
             REMOVE_ONE -> removeTaskAlarm(intentTaskId)
@@ -68,11 +68,11 @@ class TaskAlarmService : JobIntentService() {
 
         val alarmManager = getSystemService(Context.ALARM_SERVICE) as AlarmManager
 
-        if (task.reminderDate != null && task.reminderDate > System.currentTimeMillis()) {
+        if (task.alarmDate != null && task.alarmDate > System.currentTimeMillis()) {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                alarmManager.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, task.reminderDate, pendingIntent)
+                alarmManager.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, task.alarmDate, pendingIntent)
             } else {
-                alarmManager.setExact(AlarmManager.RTC_WAKEUP, task.reminderDate, pendingIntent)
+                alarmManager.setExact(AlarmManager.RTC_WAKEUP, task.alarmDate, pendingIntent)
             }
         } else {
             alarmManager.cancel(pendingIntent)

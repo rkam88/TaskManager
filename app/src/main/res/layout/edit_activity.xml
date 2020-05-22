@@ -169,4 +169,75 @@
         android:background="@color/colorDivider"
         app:layout_constraintTop_toBottomOf="@id/layout_date_added" />
 
+    <ImageView
+        android:id="@+id/image_view_alarm"
+        style="@style/EditIcon"
+        android:src="@drawable/ic_alarm"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/divider_date" />
+
+    <TextView
+        android:id="@+id/text_view_add_alarm"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/edit_horizontal_margin"
+        android:text="@string/add_alarm"
+        android:textAppearance="@style/ClickableTextAppearance"
+        android:visibility="visible"
+        app:layout_constraintBottom_toBottomOf="@id/image_view_alarm"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/guideline_vertical"
+        app:layout_constraintTop_toTopOf="@id/image_view_alarm"
+        tools:visibility="gone" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/layout_alarm_added"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@id/guideline_vertical"
+        app:layout_constraintTop_toBottomOf="@id/divider_date"
+        tools:visibility="visible">
+
+        <ImageView
+            android:id="@+id/image_view_delete_alarm"
+            style="@style/EditIcon"
+            android:src="@drawable/ic_clear"
+            android:tint="@color/colorTextSecondary"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/text_view_alarm_date"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/edit_vertical_margin"
+            android:textAppearance="@style/PrimaryTextAppearance"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/image_view_delete_alarm"
+            tools:text="13.06.2020" />
+
+        <TextView
+            android:id="@+id/text_view_alarm_time"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/edit_horizontal_margin"
+            android:gravity="end"
+            android:textAppearance="@style/PrimaryTextAppearance"
+            app:layout_constraintBottom_toBottomOf="@id/text_view_alarm_date"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@id/text_view_alarm_date"
+            tools:text="12:00" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <View
+        android:id="@+id/divider_alarm"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginTop="@dimen/edit_vertical_margin"
+        android:background="@color/colorDivider"
+        app:layout_constraintTop_toBottomOf="@id/layout_alarm_added" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

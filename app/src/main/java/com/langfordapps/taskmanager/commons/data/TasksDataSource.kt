@@ -9,8 +9,8 @@ import javax.inject.Inject
 @Reusable
 class TasksDataSource @Inject constructor(private val taskDao: TaskDao) {
 
-    suspend fun saveTask(taskToSave: Task) {
-        taskDao.insertTask(taskToSave)
+    suspend fun saveTask(taskToSave: Task): Long {
+        return taskDao.insertTask(taskToSave)
     }
 
     suspend fun getTasksCount(filter: BaseFilter): Long {

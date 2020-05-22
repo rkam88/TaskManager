@@ -7,27 +7,24 @@ import android.content.Intent
 import android.os.Build
 import androidx.core.app.JobIntentService
 import com.langfordapps.taskmanager.R
+import com.langfordapps.taskmanager.commons.app.injector
 import com.langfordapps.taskmanager.commons.domain.model.Task
 import com.langfordapps.taskmanager.commons.extensions.exhaustive
 import com.langfordapps.taskmanager.commons.extensions.getTaskDatesAsString
+import com.langfordapps.taskmanager.commons.extensions.hasDates
 import com.langfordapps.taskmanager.taskalarm.TaskAlarmServiceActions.REMOVE_ONE
 import com.langfordapps.taskmanager.taskalarm.TaskAlarmServiceActions.UPDATE_ALL
 import com.langfordapps.taskmanager.taskalarm.TaskAlarmServiceActions.UPDATE_ONE
-import com.langfordapps.taskmanager.taskalarm.domain.GetAllIncompleteTasksUseCase
-import com.langfordapps.taskmanager.tasksdisplay.domain.GetTaskByIdUseCase
-import dagger.Reusable
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
-import javax.inject.Inject
 
 private const val NO_TASK_ID = -1L
 private const val MAX_INT_LENGTH = 1000000000
 
-@Reusable
-class TaskAlarmService @Inject constructor(
-    private val getTaskByIdUseCase: GetTaskByIdUseCase,
-    private val getAllIncompleteTasksUseCase: GetAllIncompleteTasksUseCase
-) : JobIntentService() {
+class TaskAlarmService : JobIntentService() {
+
+    private val getTaskByIdUseCase by lazy { injector.getTaskByIdUseCase }
+    private val getAllIncompleteTasksUseCase by lazy { injector.getAllIncompleteTasksUseCase }
 
     override fun onHandleWork(intent: Intent) {
         val action = intent.getSerializableExtra(EXTRA_ACTION) as TaskAlarmServiceActions
@@ -48,11 +45,19 @@ class TaskAlarmService @Inject constructor(
 
     private fun updateTaskAlarm(task: Task) {
         val pendingIntendId = (task.id % MAX_INT_LENGTH).toInt()
-        val notificationText = resources.getString(
-            R.string.task_alarm_task_description,
-            task.name,
-            task.getTaskDatesAsString(applicationContext)
-        )
+        val notificationText = if (task.hasDates()) {
+            resources.getString(
+                R.string.task_alarm_task_description_w_date,
+                task.name,
+                task.getTaskDatesAsString(applicationContext)
+            )
+        } else {
+            resources.getString(
+                R.string.task_alarm_task_description_wo_date,
+                task.name
+            )
+        }
+
         val intent = TaskAlarmReceiver.getNotificationIntent(applicationContext, pendingIntendId, notificationText)
         val pendingIntent = PendingIntent.getBroadcast(
             this,

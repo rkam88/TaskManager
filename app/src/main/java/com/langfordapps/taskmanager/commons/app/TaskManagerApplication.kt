@@ -2,6 +2,7 @@ package com.langfordapps.taskmanager.commons.app
 
 import android.app.Activity
 import android.app.Application
+import androidx.core.app.JobIntentService
 import com.langfordapps.taskmanager.commons.di.ApplicationComponent
 import com.langfordapps.taskmanager.commons.di.DaggerApplicationComponent
 
@@ -27,3 +28,4 @@ class TaskManagerApplication : Application(), ContentProvider {
 }
 
 val Activity.injector get() = (application as ContentProvider).component
+val JobIntentService.injector get() = (application as ContentProvider).component

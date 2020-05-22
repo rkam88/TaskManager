@@ -51,6 +51,7 @@
     <string name="reminder">Reminder:</string>
     <string name="task_alarm_channel_name">Task Manager</string>
     <string name="task_alarm_channel_description">Notifications channel for Task Manager</string>
-    <string name="task_alarm_task_description">- %s (%s)</string>
+    <string name="task_alarm_task_description_w_date">- %s (%s)</string>
+    <string name="task_alarm_task_description_wo_date">- %s</string>
 
 </resources>

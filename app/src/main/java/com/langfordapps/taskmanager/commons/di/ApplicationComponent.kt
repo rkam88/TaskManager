@@ -1,12 +1,14 @@
 package com.langfordapps.taskmanager.commons.di
 
 import android.content.Context
-import dagger.BindsInstance
-import dagger.Component
 import com.langfordapps.taskmanager.commons.app.Router
 import com.langfordapps.taskmanager.commons.presentation.ViewModelFactory
 import com.langfordapps.taskmanager.edit.presentation.EditViewModel
+import com.langfordapps.taskmanager.taskalarm.domain.GetAllIncompleteTasksUseCase
+import com.langfordapps.taskmanager.tasksdisplay.domain.GetTaskByIdUseCase
 import com.langfordapps.taskmanager.tasksdisplay.presentation.TasksDisplayViewModel
+import dagger.BindsInstance
+import dagger.Component
 import javax.inject.Singleton
 
 @Singleton
@@ -21,5 +23,7 @@ interface ApplicationComponent {
     val router: Router
     val taskDisplayViewModelFactory: ViewModelFactory<TasksDisplayViewModel>
     val editViewModelFactory: ViewModelFactory<EditViewModel>
+    val getTaskByIdUseCase: GetTaskByIdUseCase
+    val getAllIncompleteTasksUseCase: GetAllIncompleteTasksUseCase
 
 }

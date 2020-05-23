@@ -37,11 +37,13 @@ interface TaskDao {
     suspend fun getTasksExcept(excludeTaskType: TaskType): List<Task>
 
     @Query(
-        "SELECT * " +
-                "FROM task_table " +
-                "WHERE (task_type = :taskType) " +
-                "AND (:checkDates = 0 OR end_date IS NOT NULL = :hasDates) " +
-                "ORDER BY end_date IS NULL, start_date, end_date, id ASC"
+        """
+        SELECT *
+        FROM task_table
+        WHERE (task_type = :taskType)
+        AND (:checkDates = 0 OR end_date IS NOT NULL = :hasDates)
+        ORDER BY end_date IS NULL, start_date, end_date, id ASC
+        """
     )
     suspend fun getTasks(
         taskType: TaskType?,
@@ -50,10 +52,12 @@ interface TaskDao {
     ): List<Task>
 
     @Query(
-        "SELECT COUNT(*) " +
-                "FROM task_table " +
-                "WHERE (task_type = :taskType) " +
-                "AND (:checkDates = 0 OR end_date IS NOT NULL = :hasDates)"
+        """
+        SELECT COUNT(*)
+        FROM task_table
+        WHERE (task_type = :taskType)
+        AND (:checkDates = 0 OR end_date IS NOT NULL = :hasDates)
+        """
     )
     suspend fun getTasksCount(
         taskType: TaskType?,

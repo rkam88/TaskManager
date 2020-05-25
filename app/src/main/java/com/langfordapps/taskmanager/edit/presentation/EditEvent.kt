@@ -4,6 +4,7 @@ import com.langfordapps.taskmanager.commons.domain.model.DateType
 import java.util.Calendar
 
 sealed class EditEvents {
+    object ShowKeyboard : EditEvents()
     object NavigateBack : EditEvents()
     object ShowExitConfirmationDialog : EditEvents()
     data class ShowDatePickerDialog(val dateType: DateType, val initialDialogDate: Calendar) : EditEvents()

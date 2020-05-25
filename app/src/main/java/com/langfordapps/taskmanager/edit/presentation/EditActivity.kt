@@ -26,6 +26,7 @@ import com.langfordapps.taskmanager.commons.domain.model.Task
 import com.langfordapps.taskmanager.commons.domain.model.TaskType
 import com.langfordapps.taskmanager.commons.extensions.doOnItemSelected
 import com.langfordapps.taskmanager.commons.extensions.exhaustive
+import com.langfordapps.taskmanager.commons.extensions.showKeyboard
 import com.langfordapps.taskmanager.commons.presentation.ConfirmationDialogFragment
 import com.langfordapps.taskmanager.commons.presentation.ConfirmationDialogFragment.ConfirmationDialogListener
 import com.langfordapps.taskmanager.edit.presentation.dialogs.DatePickerFragment
@@ -174,6 +175,7 @@ class EditActivity : AppCompatActivity(),
     private fun initEventObservation() {
         viewModel.event.observe(this, Observer { event ->
             when (event) {
+                EditEvents.ShowKeyboard -> showKeyboard(taskNameEditText)
                 EditEvents.NavigateBack -> super.onBackPressed()
                 EditEvents.ShowExitConfirmationDialog -> {
                     ConfirmationDialogFragment.newInstance(

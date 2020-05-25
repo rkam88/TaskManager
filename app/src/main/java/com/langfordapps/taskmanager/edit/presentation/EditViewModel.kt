@@ -26,13 +26,16 @@ import com.langfordapps.taskmanager.edit.domain.SaveTaskUseCase
 import com.langfordapps.taskmanager.edit.presentation.EditEvents.NavigateBack
 import com.langfordapps.taskmanager.edit.presentation.EditEvents.ShowDatePickerDialog
 import com.langfordapps.taskmanager.edit.presentation.EditEvents.ShowExitConfirmationDialog
+import com.langfordapps.taskmanager.edit.presentation.EditEvents.ShowKeyboard
 import com.langfordapps.taskmanager.edit.presentation.EditEvents.ShowTimePickerDialog
 import com.langfordapps.taskmanager.edit.presentation.dialogs.OnDatePickerResultListener
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import java.util.Calendar
 import javax.inject.Inject
 
 private const val EMPTY_STRING = ""
+private const val SHOW_KEYBOARD_DELAY_MS = 250L
 
 class EditViewModel @Inject constructor(
     private val applicationContext: Context,
@@ -49,7 +52,11 @@ class EditViewModel @Inject constructor(
         if (!this::initialTask.isInitialized) {
             initialTask = when {
                 intentTask != null -> intentTask
-                intentTaskType != null ->
+                intentTaskType != null -> {
+                    viewModelScope.launch {
+                        delay(SHOW_KEYBOARD_DELAY_MS)
+                        event.postValue(ShowKeyboard)
+                    }
                     if (showDates) {
                         Task(
                             taskType = intentTaskType,
@@ -59,6 +66,7 @@ class EditViewModel @Inject constructor(
                     } else {
                         Task(taskType = intentTaskType)
                     }
+                }
                 else -> throw IllegalArgumentException("EditViewModel: intentTask and taskType can't be both null")
             }
             updateCurrentState(initialTask.copy(), initialTask.areDatesAllDay())

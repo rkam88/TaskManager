@@ -146,11 +146,7 @@ class TasksDisplayViewModel @Inject constructor(
     }
 
     fun onDestroyActionMode() {
-        val currentTasks = currentViewTasks.value!!
-        for (task in currentTasks) {
-            task.isSelectedForDeletion = false
-        }
-        currentViewTasks.postValue(currentTasks)
+        syncViewModelWithDb()
 
         val newState = TasksDisplayState.Custom(
             currentTasksDisplayState.value!!,
@@ -190,7 +186,6 @@ class TasksDisplayViewModel @Inject constructor(
                     .map { it.taskId }
                 viewModelScope.launch {
                     deleteTasksUseCase.execute(tasksIdsToDelete)
-                    syncViewModelWithDb()
                     event.postValue(FinishActionMode)
                 }
             }

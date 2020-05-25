@@ -238,12 +238,12 @@ class TasksDisplayActivity :
             toolbar.menu.clear()
             newState.toolbarMenu?.let { toolbar.inflateMenu(it) }
             navigationView.setCheckedItem(newState.navigationViewMenuId)
-            addButton.visibility = newState.addButtonVisibility
             isSwipeEnabled = newState.isSwipeEnabled
             if (newState.isActionModeEnabled && currentActionMode == null) {
                 currentActionMode = startSupportActionMode(actionModeCallback)
             } else if (!newState.isActionModeEnabled) {
                 currentActionMode = null
+                addButton.visibility = newState.addButtonVisibility
             }
             currentActionMode?.title = newState.actionModeTitle
         })

@@ -57,7 +57,7 @@
 
     <!--  Tutorial tasks  -->
     <string-array name="tutorial_tasks_array">
-        <item>Welcome! Swipe left to mark a task as completed</item>
+        <item>Welcome! This is your first task, swipe left to mark it as completed</item>
         <item>Click on a task to modify it or click on the + button below to add a new one</item>
         <item>Long click on a task to select it for deletion.\nAfter the delete menu opens, just tap on other tasks to select them too</item>
         <item>Check out the Calendar category to get familiar with how tasks with different dates look like</item>
@@ -66,7 +66,7 @@
         <item>This task starts and ends on the same day</item>
         <item>This task has an active notification alarm set!\nThe notification will show the name of the task and it\'s start time if it has one</item>
         <item>This task is marked as "all day"</item>
-        <item>Dates for completed tasks are not colored red.</item>
+        <item>Dates for completed tasks are never colored red</item>
     </string-array>
 
 

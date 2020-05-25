@@ -8,6 +8,7 @@ import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.view.ActionMode
 import androidx.appcompat.widget.Toolbar
@@ -228,6 +229,11 @@ class TasksDisplayActivity :
                     ).show(supportFragmentManager, event.dialogTag)
                 }
                 TasksDisplayEvent.FinishActionMode -> currentActionMode?.finish()
+                TasksDisplayEvent.ShowNoTasksToDeleteMessage -> Toast.makeText(
+                    this,
+                    R.string.no_tasks_to_delete_message,
+                    Toast.LENGTH_SHORT
+                ).show()
             }.exhaustive
         })
     }

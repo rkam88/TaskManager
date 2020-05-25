@@ -17,6 +17,7 @@
     <!--  Tasks display: UI  -->
     <string name="complete">Complete</string>
     <string name="delete">Delete</string>
+    <string name="no_tasks_to_delete_message">There are no tasks to delete!</string>
 
     <!--  EditActivity  -->
     <string name="title_new_task">New task</string>

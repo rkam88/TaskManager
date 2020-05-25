@@ -133,6 +133,10 @@ class TasksDisplayViewModel @Inject constructor(
     }
 
     fun onDeleteCompletedTasksClicked() {
+        if (currentViewTasks.value?.size == 0) {
+            event.postValue(TasksDisplayEvent.ShowNoTasksToDeleteMessage)
+            return
+        }
         if (currentTasksDisplayState.value == TasksDisplayState.Completed) {
             val tag = TAG_DELETE_COMPLETED_TASKS
             val title = applicationContext.getString(R.string.delete_completed_dialog_title)

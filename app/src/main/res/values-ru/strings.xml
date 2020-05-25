@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!--  Tasks display: navigation  -->
+    <string name="inbox">Входящие</string>
+
+    <string name="active">Активные</string>
+    <string name="next_actions">Следующие действия</string>
+    <string name="calendar">Календарь</string>
+    <string name="waiting_for">В ожидании</string>
+
+    <string name="someday_maybe">Когда-нибудь</string>
+
+    <string name="completed">Завершенные</string>
+
+    <!--  Tasks display: UI  -->
+    <string name="complete">Завершить</string>
+    <string name="delete">Удалить</string>
+    <string name="no_tasks_to_delete_message">Нет задач для удаления!</string>
+
+    <!--  EditActivity  -->
+    <string name="title_new_task">Новая задача</string>
+    <string name="title_existing_task">Редактировать</string>
+    <string name="save">Сохранить</string>
+    <string name="task_name_hint">Введите название</string>
+    <string name="add_date">Добавить дату</string>
+    <string name="all_day">Весь день</string>
+    <string name="add_alarm">Добавить напоминание</string>
+    <string name="message_empty_task_name">Пожалуйста, укажите название для задачи!</string>
+
+    <!--  Dialogs  -->
+    <string name="yes">ДА</string>
+    <string name="no">НЕТ</string>
+    <string name="exit_without_saving_warning_dialog_title">Выйти без сохранения?</string>
+    <string name="delete_completed_dialog_title">Удалить все завершенные задачи?</string>
+    <plurals name="delete_tasks_dialog_title">
+        <item quantity="one">Удалить %d задачу?</item>
+        <item quantity="few">Удалить %d задачи?</item>
+        <item quantity="many">Удалить %d задач?</item>
+        <item quantity="other">Удалить %d задач?</item>
+    </plurals>
+    <plurals name="n_tasks_selected">
+        <item quantity="one">Выбрана %d задача</item>
+        <item quantity="few">Выбраны %d задачи</item>
+        <item quantity="many">Выбраны %d задач</item>
+        <item quantity="other">Выбраны %d задач</item>
+    </plurals>
+
+    <!--  Notifications -->
+    <string name="reminder">Напоминание:</string>
+    <string name="task_alarm_channel_name">Task Manager</string>
+    <string name="task_alarm_channel_description">Напоминания для задач Task Manager</string>
+    <string name="task_alarm_task_description_w_date">- %s (%s)</string>
+    <string name="task_alarm_task_description_wo_date">- %s</string>
+
+    <!--  Tutorial tasks  -->
+    <string-array name="tutorial_tasks_array">
+        <item>Добро пожаловать! Сдвиньте эту задачу налево, чтобы отметить ее как завершенную</item>
+        <item>Нажмите на любую задачу чтобы редактировать ее или нажмите на знак + в правом нижнем углу, чтобы создать новую</item>
+        <item>Чтобы удалить задачу – нажмите на нее и удерживайте палец до появления меню удаления.\nЧтобы выбрать дополнительные задачи – просто нажмите на них после открытия меню</item>
+        <item>Перейдите в "Календарь", чтобы посмотреть как выглядят задачи с разными сроками</item>
+        <item>Это просроченная задача!\nДля нее также было установлено напоминание</item>
+        <item>Начало и конец этой задачи совпадают</item>
+        <item>Эта задача начинается и заверщается в один и тот же день</item>
+        <item>Для этой задачи установлено напоминание!\nВ нем будет показано название задачи и время начала (если оно установлено)</item>
+        <item>Эта задача на "Весь день"</item>
+        <item>Даты завершенных задач не меняют цвет на красный</item>
+    </string-array>
+
+</resources>

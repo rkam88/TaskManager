@@ -47,4 +47,8 @@ class TasksDataSource @Inject constructor(private val taskDao: TaskDao) {
         return taskDao.getTasksExcept(TaskType.COMPLETED)
     }
 
+    suspend fun addTasks(tasks: List<Task>) {
+        taskDao.insertTasks(tasks)
+    }
+
 }

@@ -16,6 +16,8 @@ import com.langfordapps.taskmanager.commons.extensions.isAlarmOverdue
 import com.langfordapps.taskmanager.commons.extensions.isOverdue
 import com.langfordapps.taskmanager.commons.presentation.ConfirmationDialogFragment.ConfirmationDialogListener
 import com.langfordapps.taskmanager.commons.presentation.SingleLiveEvent
+import com.langfordapps.taskmanager.tasksdisplay.data.SharedPreferencesManager
+import com.langfordapps.taskmanager.tasksdisplay.domain.AddTutorialTasksUseCase
 import com.langfordapps.taskmanager.tasksdisplay.domain.DeleteCompletedTasksUseCase
 import com.langfordapps.taskmanager.tasksdisplay.domain.DeleteTasksUseCase
 import com.langfordapps.taskmanager.tasksdisplay.domain.GetTaskByIdUseCase
@@ -37,12 +39,14 @@ private const val TASK_COUNT_MAX_VALUE = 99
 class TasksDisplayViewModel @Inject constructor(
     private val applicationContext: Context,
     private val router: Router,
+    private val sharedPreferencesManager: SharedPreferencesManager,
     private val getTasksUseCase: GetTasksUseCase,
     private val getTasksCountUseCase: GetTasksCountUseCase,
     private val getTaskByIdUseCase: GetTaskByIdUseCase,
     private val markTaskAsCompletedUseCase: MarkTaskAsCompletedUseCase,
     private val deleteCompletedTasksUseCase: DeleteCompletedTasksUseCase,
-    private val deleteTasksUseCase: DeleteTasksUseCase
+    private val deleteTasksUseCase: DeleteTasksUseCase,
+    private val addTutorialTasksUseCase: AddTutorialTasksUseCase
 ) : ViewModel(),
     ConfirmationDialogListener {
 
@@ -52,8 +56,14 @@ class TasksDisplayViewModel @Inject constructor(
     val currentTaskCount = MutableLiveData<Map<@androidx.annotation.IdRes Int, String>>()
 
     init {
-        onDrawerItemSelected(TasksDisplayState.Inbox.navigationViewMenuId)
-        updateTasksCount()
+        viewModelScope.launch {
+            if (sharedPreferencesManager.isFirstLaunch()) {
+                addTutorialTasksUseCase.execute()
+                sharedPreferencesManager.setFirstLaunch(newValue = false)
+            }
+            onDrawerItemSelected(TasksDisplayState.Inbox.navigationViewMenuId)
+            updateTasksCount()
+        }
     }
 
     fun onDrawerItemSelected(@IdRes menuItemId: Int) {

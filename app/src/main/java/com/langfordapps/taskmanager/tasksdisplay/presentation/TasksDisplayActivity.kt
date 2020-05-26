@@ -60,7 +60,7 @@ class TasksDisplayActivity :
     private val recyclerView by lazy { findViewById<RecyclerView>(R.id.recycler_view_tasks) }
     private var isSwipeEnabled = true
     private val adapter by lazy {
-        TasksAdapter(mutableListOf(), object : TasksAdapter.OnItemClickListener {
+        TasksAdapter(object : TasksAdapter.OnItemClickListener {
             override fun onClick(taskId: Long) {
                 viewModel.onTaskClick(taskId)
             }
@@ -257,9 +257,7 @@ class TasksDisplayActivity :
 
     private fun initTasksObservation() {
         viewModel.currentViewTasks.observe(this, Observer { updatedViewTasksList ->
-            adapter.viewTasksList.clear()
-            adapter.viewTasksList.addAll(updatedViewTasksList)
-            adapter.notifyDataSetChanged()
+            adapter.viewTasksList.replaceAll(updatedViewTasksList)
         })
     }
 

@@ -6,11 +6,12 @@ import android.view.ViewGroup
 import android.widget.FrameLayout
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import androidx.recyclerview.widget.SortedList
+import androidx.recyclerview.widget.SortedListAdapterCallback
 import com.langfordapps.taskmanager.R
 import com.langfordapps.taskmanager.tasksdisplay.presentation.model.ViewTask
 
 class TasksAdapter(
-    val viewTasksList: MutableList<ViewTask>,
     private val callback: OnItemClickListener
 ) : RecyclerView.Adapter<TasksAdapter.ViewHolder>() {
 
@@ -44,6 +45,20 @@ class TasksAdapter(
         }
     }
 
+    val viewTasksList = SortedList(
+        ViewTask::class.java,
+        object : SortedListAdapterCallback<ViewTask>(this) {
+            override fun areItemsTheSame(item1: ViewTask?, item2: ViewTask?): Boolean = item1?.taskId == item2?.taskId
+
+            override fun compare(o1: ViewTask?, o2: ViewTask?): Int {
+                // return 0 to keep task order the same
+                return 0
+            }
+
+            override fun areContentsTheSame(oldItem: ViewTask?, newItem: ViewTask?): Boolean = oldItem == newItem
+        }
+    )
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val context = parent.context
         val inflater = LayoutInflater.from(context)
@@ -51,7 +66,7 @@ class TasksAdapter(
         return ViewHolder(contactView)
     }
 
-    override fun getItemCount() = viewTasksList.size
+    override fun getItemCount() = viewTasksList.size()
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val task = viewTasksList[position]

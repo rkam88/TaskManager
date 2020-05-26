@@ -7,6 +7,17 @@ android {
     compileSdkVersion 29
     buildToolsVersion "29.0.3"
 
+    signingConfigs {
+        release {
+            Properties localProperties = new Properties()
+            localProperties.load(project.rootProject.file("local.properties").newDataInputStream())
+            storeFile file(localProperties.getProperty("storeFile"))
+            storePassword localProperties.getProperty("storePassword")
+            keyAlias = localProperties.getProperty("keyAlias")
+            keyPassword localProperties.getProperty("keyPassword")
+        }
+    }
+
     def majorVersion = 0
     def minorVersion = 1
     def patchVersion = 0
@@ -19,6 +30,10 @@ android {
         versionName "$majorVersion.$minorVersion.$patchVersion"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+
+        signingConfig signingConfigs.release
+
+        archivesBaseName = "task-manager-v${versionName}"
 
         javaCompileOptions {
             annotationProcessorOptions {

@@ -1,6 +1,5 @@
 package com.langfordapps.taskmanager.tasksdisplay.presentation
 
-import android.content.Context
 import android.view.View
 import androidx.annotation.IdRes
 import androidx.lifecycle.MutableLiveData
@@ -15,6 +14,7 @@ import com.langfordapps.taskmanager.commons.extensions.hasDates
 import com.langfordapps.taskmanager.commons.extensions.isAlarmOverdue
 import com.langfordapps.taskmanager.commons.extensions.isOverdue
 import com.langfordapps.taskmanager.commons.presentation.ConfirmationDialogFragment.ConfirmationDialogListener
+import com.langfordapps.taskmanager.commons.presentation.ResourcesHelper
 import com.langfordapps.taskmanager.commons.presentation.SingleLiveEvent
 import com.langfordapps.taskmanager.tasksdisplay.data.SharedPreferencesManager
 import com.langfordapps.taskmanager.tasksdisplay.domain.AddTutorialTasksUseCase
@@ -37,7 +37,7 @@ private const val ZERO = 0
 private const val TASK_COUNT_MAX_VALUE = 99
 
 class TasksDisplayViewModel @Inject constructor(
-    private val applicationContext: Context,
+    private val resourcesHelper: ResourcesHelper,
     private val router: Router,
     private val sharedPreferencesManager: SharedPreferencesManager,
     private val getTasksUseCase: GetTasksUseCase,
@@ -109,11 +109,7 @@ class TasksDisplayViewModel @Inject constructor(
         if (tasksMarkedForDeletion == ZERO) {
             event.postValue(FinishActionMode)
         } else {
-            val newTitle = applicationContext.resources.getQuantityString(
-                R.plurals.n_tasks_selected,
-                tasksMarkedForDeletion,
-                tasksMarkedForDeletion
-            )
+            val newTitle = resourcesHelper.getSelectedTasksMessage(tasksMarkedForDeletion)
             val newState = TasksDisplayState.Custom(
                 currentTasksDisplayState.value!!,
                 newIsSwipeEnabled = false,
@@ -139,7 +135,7 @@ class TasksDisplayViewModel @Inject constructor(
         }
         if (currentTasksDisplayState.value == TasksDisplayState.Completed) {
             val tag = TAG_DELETE_COMPLETED_TASKS
-            val title = applicationContext.getString(R.string.delete_completed_dialog_title)
+            val title = resourcesHelper.deleteCompletedTasksDialogTitle
             event.postValue(
                 ShowConfirmationDialog(
                     dialogTag = tag,
@@ -163,11 +159,7 @@ class TasksDisplayViewModel @Inject constructor(
     fun onDeleteClicked() {
         val tag = TAG_DELETE_SELECTED_TASKS
         val tasksMarkedForDeletion = currentViewTasks.value!!.count { it.isSelectedForDeletion }
-        val title = applicationContext.resources.getQuantityString(
-            R.plurals.delete_tasks_dialog_title,
-            tasksMarkedForDeletion,
-            tasksMarkedForDeletion
-        )
+        val title = resourcesHelper.getDeleteTasksDialogTitle(tasksMarkedForDeletion)
         event.postValue(
             ShowConfirmationDialog(
                 dialogTag = tag,
@@ -215,7 +207,7 @@ class TasksDisplayViewModel @Inject constructor(
         viewModelScope.launch {
             val viewTasksList = getTasksUseCase.execute(state.baseFilter)
                 .map {
-                    val datesAsString = it.getTaskDatesAsString(applicationContext)
+                    val datesAsString = it.getTaskDatesAsString()
                     return@map ViewTask(
                         taskId = it.id,
                         name = it.name,
@@ -225,7 +217,7 @@ class TasksDisplayViewModel @Inject constructor(
                             R.color.itemOverdue
                         } else R.color.colorTextPrimary,
                         alarmViewVisibility = if (it.alarmDate != null) View.VISIBLE else View.GONE,
-                        alarmDate = it.getAlarmDateAsString(applicationContext),
+                        alarmDate = it.getAlarmDateAsString(),
                         alarmColor = if (it.isAlarmOverdue() && it.taskType != TaskType.COMPLETED) {
                             R.color.itemOverdue
                         } else R.color.colorTextPrimary

@@ -49,7 +49,7 @@ class TaskAlarmService : JobIntentService() {
             resources.getString(
                 R.string.task_alarm_task_description_w_date,
                 task.name,
-                task.getTaskDatesAsString(applicationContext)
+                task.getTaskDatesAsString()
             )
         } else {
             resources.getString(

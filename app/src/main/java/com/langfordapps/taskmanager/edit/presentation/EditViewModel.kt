@@ -1,7 +1,5 @@
 package com.langfordapps.taskmanager.edit.presentation
 
-import android.content.Context
-import android.text.format.DateFormat
 import android.view.View
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -21,6 +19,7 @@ import com.langfordapps.taskmanager.commons.extensions.getOrInitEndDate
 import com.langfordapps.taskmanager.commons.extensions.getOrInitStartDate
 import com.langfordapps.taskmanager.commons.extensions.hasDates
 import com.langfordapps.taskmanager.commons.extensions.setDatesToAllDayAndCopy
+import com.langfordapps.taskmanager.commons.presentation.DateFormatHelper
 import com.langfordapps.taskmanager.commons.presentation.SingleLiveEvent
 import com.langfordapps.taskmanager.edit.domain.SaveTaskUseCase
 import com.langfordapps.taskmanager.edit.presentation.EditEvents.NavigateBack
@@ -38,7 +37,6 @@ private const val EMPTY_STRING = ""
 private const val SHOW_KEYBOARD_DELAY_MS = 250L
 
 class EditViewModel @Inject constructor(
-    private val applicationContext: Context,
     private val saveTaskUseCase: SaveTaskUseCase
 ) : ViewModel(),
     OnDatePickerResultListener {
@@ -208,16 +206,16 @@ class EditViewModel @Inject constructor(
             taskType = currentTask.taskType,
             addDateButtonVisibility = if (currentTask.hasDates()) View.GONE else View.VISIBLE,
             dateLayoutVisibility = if (currentTask.hasDates()) View.VISIBLE else View.GONE,
-            startDate = DateFormat.getDateFormat(applicationContext).format(currentTask.getOrInitStartDate()),
+            startDate = DateFormatHelper.formatDate(currentTask.getOrInitStartDate()),
             isAllDay = isAllDay,
             additionalDatePickersVisibility = if (isAllDay) View.GONE else View.VISIBLE,
-            startTime = DateFormat.getTimeFormat(applicationContext).format(currentTask.getOrInitStartDate()),
-            endDate = DateFormat.getDateFormat(applicationContext).format(currentTask.getOrInitEndDate()),
-            endTime = DateFormat.getTimeFormat(applicationContext).format(currentTask.getOrInitEndDate()),
+            startTime = DateFormatHelper.formatTime(currentTask.getOrInitStartDate()),
+            endDate = DateFormatHelper.formatDate(currentTask.getOrInitEndDate()),
+            endTime = DateFormatHelper.formatTime(currentTask.getOrInitEndDate()),
             addAlarmButtonVisibility = if (currentTask.alarmDate == null) View.VISIBLE else View.GONE,
             alarmLayoutVisibility = if (currentTask.alarmDate == null) View.GONE else View.VISIBLE,
-            alarmDate = DateFormat.getDateFormat(applicationContext).format(currentTask.alarmDate ?: 0),
-            alarmTime = DateFormat.getTimeFormat(applicationContext).format(currentTask.alarmDate ?: 0)
+            alarmDate = DateFormatHelper.formatDate(currentTask.alarmDate ?: 0),
+            alarmTime = DateFormatHelper.formatTime(currentTask.alarmDate ?: 0)
         )
         editViewState.postValue(newState)
     }

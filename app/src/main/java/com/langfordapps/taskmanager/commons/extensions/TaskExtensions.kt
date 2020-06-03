@@ -1,8 +1,7 @@
 package com.langfordapps.taskmanager.commons.extensions
 
-import android.content.Context
-import android.text.format.DateFormat
 import com.langfordapps.taskmanager.commons.domain.model.Task
+import com.langfordapps.taskmanager.commons.presentation.DateFormatHelper
 import java.util.Calendar
 
 private const val START_HOUR_OF_DAY = 0
@@ -94,12 +93,12 @@ fun Task.isOverdue() = (System.currentTimeMillis() > endDate ?: Long.MAX_VALUE)
 
 fun Task.isAlarmOverdue() = (System.currentTimeMillis() > alarmDate ?: Long.MAX_VALUE)
 
-fun Task.getTaskDatesAsString(applicationContext: Context): String? {
-    return if (hasDates()) {
-        val startDay = DateFormat.getDateFormat(applicationContext).format(startDate)
-        val startTime = DateFormat.getTimeFormat(applicationContext).format(startDate)
-        val endDay = DateFormat.getDateFormat(applicationContext).format(endDate)
-        val endTime = DateFormat.getTimeFormat(applicationContext).format(endDate)
+fun Task.getTaskDatesAsString(): String? {
+    return if (startDate != null && endDate != null) {
+        val startDay = DateFormatHelper.formatDate(startDate)
+        val startTime = DateFormatHelper.formatTime(startDate)
+        val endDay = DateFormatHelper.formatDate(endDate)
+        val endTime = DateFormatHelper.formatTime(endDate)
         when {
             doStartAndEndDatesMatch() -> "$startDay, $startTime"
             areDatesAllDay() -> startDay
@@ -112,10 +111,10 @@ fun Task.getTaskDatesAsString(applicationContext: Context): String? {
     }
 }
 
-fun Task.getAlarmDateAsString(applicationContext: Context): String? {
+fun Task.getAlarmDateAsString(): String? {
     return if (alarmDate != null) {
-        val alarmDay = DateFormat.getDateFormat(applicationContext).format(alarmDate)
-        val alarmTime = DateFormat.getTimeFormat(applicationContext).format(alarmDate)
+        val alarmDay = DateFormatHelper.formatDate(alarmDate)
+        val alarmTime = DateFormatHelper.formatTime(alarmDate)
         "$alarmDay, $alarmTime"
     } else {
         null

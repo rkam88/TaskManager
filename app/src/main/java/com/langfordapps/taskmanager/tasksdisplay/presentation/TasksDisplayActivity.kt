@@ -145,7 +145,7 @@ class TasksDisplayActivity :
     }
 
     private fun initToolbar() {
-        toolbar.setNavigationIcon(R.drawable.ic_menu_white)
+        toolbar.setNavigationIcon(R.drawable.ic_menu)
         setSupportActionBar(toolbar)
     }
 

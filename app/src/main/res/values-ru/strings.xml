@@ -20,7 +20,6 @@
     <!--  EditActivity  -->
     <string name="title_new_task">Новая задача</string>
     <string name="title_existing_task">Редактировать</string>
-    <string name="save">Сохранить</string>
     <string name="task_name_hint">Введите название</string>
     <string name="add_date">Добавить дату</string>
     <string name="all_day">Весь день</string>

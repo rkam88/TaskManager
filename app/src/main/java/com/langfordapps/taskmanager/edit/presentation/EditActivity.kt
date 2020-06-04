@@ -3,8 +3,6 @@ package com.langfordapps.taskmanager.edit.presentation
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
-import android.view.Menu
-import android.view.MenuItem
 import android.view.View
 import android.widget.ArrayAdapter
 import android.widget.EditText
@@ -19,6 +17,7 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.widget.doAfterTextChanged
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.langfordapps.taskmanager.R
 import com.langfordapps.taskmanager.commons.app.injector
 import com.langfordapps.taskmanager.commons.domain.model.DateType
@@ -74,6 +73,7 @@ class EditActivity : AppCompatActivity(),
             )
         }
     }
+    private val saveButton by lazy { findViewById<FloatingActionButton>(R.id.button_save) }
     private val taskNameEditText by lazy { findViewById<EditText>(R.id.edit_text_task_name) }
     private val taskTypeSpinner by lazy { findViewById<Spinner>(R.id.spinner_task_type) }
     private val addDateButton by lazy { findViewById<TextView>(R.id.text_view_add_date) }
@@ -100,19 +100,6 @@ class EditActivity : AppCompatActivity(),
 
     }
 
-    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-        menuInflater.inflate(R.menu.edit_toolbar_menu, menu)
-        return true
-    }
-
-    override fun onOptionsItemSelected(item: MenuItem) = when (item.itemId) {
-        R.id.save -> {
-            viewModel.onSaveClicked()
-            true
-        }
-        else -> super.onOptionsItemSelected(item)
-    }
-
     override fun onSupportNavigateUp(): Boolean {
         viewModel.onBackPressed()
         return true
@@ -137,6 +124,8 @@ class EditActivity : AppCompatActivity(),
     private fun initViews() {
         setSupportActionBar(findViewById(R.id.toolbar))
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
+
+        saveButton.setOnClickListener { viewModel.onSaveClicked() }
 
         taskNameEditText.doAfterTextChanged { viewModel.onTaskNameChanged(it.toString()) }
 

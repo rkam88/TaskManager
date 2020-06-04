@@ -59,7 +59,8 @@
                 style="@style/EditIcon"
                 android:src="@drawable/ic_task_type"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/divider_task_name" />
+                app:layout_constraintTop_toBottomOf="@id/divider_task_name"
+                tools:ignore="ContentDescription" />
 
             <Spinner
                 android:id="@+id/spinner_task_type"
@@ -84,7 +85,8 @@
                 style="@style/EditIcon"
                 android:src="@drawable/ic_date"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/divider_task_type" />
+                app:layout_constraintTop_toBottomOf="@id/divider_task_type"
+                tools:ignore="ContentDescription" />
 
             <TextView
                 android:id="@+id/text_view_add_date"
@@ -190,7 +192,8 @@
                 style="@style/EditIcon"
                 android:src="@drawable/ic_alarm"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/divider_date" />
+                app:layout_constraintTop_toBottomOf="@id/divider_date"
+                tools:ignore="ContentDescription" />
 
             <TextView
                 android:id="@+id/text_view_add_alarm"

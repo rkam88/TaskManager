@@ -3,6 +3,7 @@
 
     <!--  Other  -->
     <dimen name="primaryTextSize">20sp</dimen>
+    <dimen name="fab_margin">16dp</dimen>
 
     <!--  Navigation drawer  -->
     <dimen name="drawer_header_padding">8dp</dimen>
@@ -10,7 +11,6 @@
     <dimen name="drawer_text_margin_start">4dp</dimen>
 
     <!--  TasksDisplay  -->
-    <dimen name="tasks_display_fab_margin">16dp</dimen>
     <dimen name="task_item_outer_padding">16dp</dimen>
     <dimen name="task_item_inner_margin">8dp</dimen>
 

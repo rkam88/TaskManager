@@ -20,5 +20,6 @@
     <dimen name="edit_switch_padding">8dp</dimen>
     <dimen name="edit_spinner_margin_end">4dp</dimen>
     <dimen name="edit_icon_size">24dp</dimen>
+    <dimen name="main_content_bottom_padding">88dp</dimen>
 
 </resources>

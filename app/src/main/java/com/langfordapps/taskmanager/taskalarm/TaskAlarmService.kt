@@ -15,8 +15,10 @@ import com.langfordapps.taskmanager.commons.extensions.hasDates
 import com.langfordapps.taskmanager.taskalarm.TaskAlarmServiceActions.REMOVE_ONE
 import com.langfordapps.taskmanager.taskalarm.TaskAlarmServiceActions.UPDATE_ALL
 import com.langfordapps.taskmanager.taskalarm.TaskAlarmServiceActions.UPDATE_ONE
+import dagger.Reusable
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
 private const val NO_TASK_ID = -1L
 private const val MAX_INT_LENGTH = 1000000000
@@ -104,6 +106,13 @@ class TaskAlarmService : JobIntentService() {
                 putExtra(EXTRA_TASK_ID, taskId)
             }
             enqueueWork(context, TaskAlarmService::class.java, JOB_ID, workIntent)
+        }
+    }
+
+    @Reusable
+    class TaskAlarmServiceHandler @Inject constructor(private val context: Context) {
+        fun enqueueWork(action: TaskAlarmServiceActions, taskId: Long? = null) {
+            enqueueWork(context, action, taskId)
         }
     }
 }

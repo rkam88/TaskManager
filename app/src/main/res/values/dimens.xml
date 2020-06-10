@@ -4,6 +4,7 @@
     <!--  Other  -->
     <dimen name="primaryTextSize">20sp</dimen>
     <dimen name="fab_margin">16dp</dimen>
+    <dimen name="content_fab_bottom_padding">88dp</dimen>
 
     <!--  Navigation drawer  -->
     <dimen name="drawer_header_padding">8dp</dimen>
@@ -20,6 +21,5 @@
     <dimen name="edit_switch_padding">8dp</dimen>
     <dimen name="edit_spinner_margin_end">4dp</dimen>
     <dimen name="edit_icon_size">24dp</dimen>
-    <dimen name="main_content_bottom_padding">88dp</dimen>
 
 </resources>

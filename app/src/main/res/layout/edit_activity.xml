@@ -23,7 +23,7 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingBottom="@dimen/main_content_bottom_padding">
+            android:paddingBottom="@dimen/content_fab_bottom_padding">
 
             <androidx.constraintlayout.widget.Guideline
                 android:id="@+id/guideline_vertical"

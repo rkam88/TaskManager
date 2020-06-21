@@ -10,6 +10,9 @@ import com.langfordapps.taskmanager.commons.data.TasksDatabase
 import dagger.Module
 import dagger.Provides
 import dagger.Reusable
+import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.Dispatchers
+import javax.inject.Named
 import javax.inject.Singleton
 
 // (object + @JvmStatic) is used to avoid creating
@@ -52,6 +55,14 @@ object ApplicationModule {
     @Reusable
     fun provideResources(context: Context): Resources {
         return context.resources
+    }
+
+    @JvmStatic
+    @Provides
+    @Reusable
+    @Named("IO")
+    fun provideIoDispatcher(): CoroutineDispatcher {
+        return Dispatchers.IO
     }
 
 }

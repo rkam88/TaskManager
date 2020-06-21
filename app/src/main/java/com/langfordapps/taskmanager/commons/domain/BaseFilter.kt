@@ -3,7 +3,7 @@ package com.langfordapps.taskmanager.commons.domain
 import com.langfordapps.taskmanager.commons.domain.model.TaskType
 
 sealed class BaseFilter(
-        val taskType: TaskType?,
+        val taskType: TaskType,
         val hasDates: Boolean?
 ) {
     object InboxFilter :        BaseFilter(taskType = TaskType.INBOX,         hasDates = null)

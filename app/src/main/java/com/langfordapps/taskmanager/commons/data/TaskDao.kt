@@ -46,7 +46,7 @@ interface TaskDao {
         """
     )
     suspend fun getTasks(
-        taskType: TaskType?,
+        taskType: TaskType,
         checkDates: Boolean,
         hasDates: Boolean?
     ): List<Task>
@@ -60,7 +60,7 @@ interface TaskDao {
         """
     )
     suspend fun getTasksCount(
-        taskType: TaskType?,
+        taskType: TaskType,
         checkDates: Boolean,
         hasDates: Boolean?
     ): Long

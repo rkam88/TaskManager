@@ -2,12 +2,14 @@ package com.langfordapps.taskmanager.commons.di
 
 import android.content.Context
 import android.content.SharedPreferences
+import android.content.res.Resources
 import androidx.room.Room
-import dagger.Module
-import dagger.Provides
 import com.langfordapps.taskmanager.R
 import com.langfordapps.taskmanager.commons.data.TaskDao
 import com.langfordapps.taskmanager.commons.data.TasksDatabase
+import dagger.Module
+import dagger.Provides
+import dagger.Reusable
 import javax.inject.Singleton
 
 // (object + @JvmStatic) is used to avoid creating
@@ -43,6 +45,13 @@ object ApplicationModule {
     @Singleton
     fun provideTaskDao(database: TasksDatabase): TaskDao {
         return database.taskDao
+    }
+
+    @JvmStatic
+    @Provides
+    @Reusable
+    fun provideResources(context: Context): Resources {
+        return context.resources
     }
 
 }

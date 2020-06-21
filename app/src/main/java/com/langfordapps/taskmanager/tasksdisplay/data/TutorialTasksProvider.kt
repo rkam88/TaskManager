@@ -1,6 +1,6 @@
 package com.langfordapps.taskmanager.tasksdisplay.data
 
-import android.content.Context
+import android.content.res.Resources
 import com.langfordapps.taskmanager.R
 import com.langfordapps.taskmanager.commons.domain.model.Task
 import com.langfordapps.taskmanager.commons.domain.model.TaskType
@@ -8,18 +8,18 @@ import com.langfordapps.taskmanager.commons.extensions.setDatesToAllDayAndCopy
 import java.util.Calendar
 import javax.inject.Inject
 
+private const val TUTORIAL_TASKS_ARRAY_RES_ID = R.array.tutorial_tasks_array
 private const val FIVE_MINUTES_IN_MS = 5 * 60 * 1000L
 private const val THIRTY_MINUTES_IN_MS = 30 * 60 * 1000L
 private const val ONE_HOUR_IN_MS = 60 * 60 * 1000L
 private const val TWO_HOURS_IN_MS = 2 * 60 * 60 * 1000L
 
-class TutorialTasksProvider @Inject constructor(private val context: Context) {
+class TutorialTasksProvider @Inject constructor(private val resources: Resources) {
 
     fun getTutorialTasks(): List<Task> {
         val tutorialTasks = mutableListOf<Task>()
 
-        val taskNames = context.resources.getStringArray(R.array.tutorial_tasks_array)
-
+        val taskNames = resources.getStringArray(TUTORIAL_TASKS_ARRAY_RES_ID)
 
         for (taskNumber in 0..3) {
             tutorialTasks.add(Task(name = taskNames[taskNumber], taskType = TaskType.INBOX))

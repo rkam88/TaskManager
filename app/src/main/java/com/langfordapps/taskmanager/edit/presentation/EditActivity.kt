@@ -201,19 +201,19 @@ class EditActivity : AppCompatActivity(),
             }
             taskTypeSpinner.setSelection(newState.taskType.spinnerPosition)
 
-            addDateButton.visibility = newState.addDateButtonVisibility
-            dateAddedLayout.visibility = newState.dateLayoutVisibility
+            addDateButton.visibility = newState.addDateButtonVisibility.value
+            dateAddedLayout.visibility = newState.dateLayoutVisibility.value
 
             allDaySwitch.isChecked = newState.isAllDay
-            startTimeButton.visibility = newState.additionalDatePickersVisibility
-            endDateButton.visibility = newState.additionalDatePickersVisibility
-            endTimeButton.visibility = newState.additionalDatePickersVisibility
+            startTimeButton.visibility = newState.additionalDatePickersVisibility.value
+            endDateButton.visibility = newState.additionalDatePickersVisibility.value
+            endTimeButton.visibility = newState.additionalDatePickersVisibility.value
             startDateButton.text = newState.startDate
             startTimeButton.text = newState.startTime
             endDateButton.text = newState.endDate
             endTimeButton.text = newState.endTime
-            addAlarmButton.visibility = newState.addAlarmButtonVisibility
-            alarmAddedLayout.visibility = newState.alarmLayoutVisibility
+            addAlarmButton.visibility = newState.addAlarmButtonVisibility.value
+            alarmAddedLayout.visibility = newState.alarmLayoutVisibility.value
             alarmDateButton.text = newState.alarmDate
             alarmTimeButton.text = newState.alarmTime
         })

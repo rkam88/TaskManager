@@ -249,7 +249,7 @@ class TasksDisplayActivity :
                 currentActionMode = startSupportActionMode(actionModeCallback)
             } else if (!newState.isActionModeEnabled) {
                 currentActionMode = null
-                addButton.visibility = newState.addButtonVisibility
+                addButton.visibility = newState.addButtonVisibility.value
             }
             currentActionMode?.title = newState.actionModeTitle
         })

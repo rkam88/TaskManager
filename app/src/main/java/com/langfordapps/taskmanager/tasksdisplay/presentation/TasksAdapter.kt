@@ -73,11 +73,11 @@ class TasksAdapter(
 
         holder.taskNameTextView.text = task.name
 
-        holder.taskDateTextView.visibility = task.dateViewVisibility
+        holder.taskDateTextView.visibility = task.dateViewVisibility.value
         holder.taskDateTextView.text = task.date
         holder.taskDateTextView.setTextColor(holder.taskDateTextView.resources.getColor(task.dateColor, null))
 
-        holder.alarmDateTextView.visibility = task.alarmViewVisibility
+        holder.alarmDateTextView.visibility = task.alarmViewVisibility.value
         holder.alarmDateTextView.text = task.alarmDate
         holder.alarmDateTextView.setTextColor(holder.taskDateTextView.resources.getColor(task.alarmColor, null))
 

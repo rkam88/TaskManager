@@ -1,6 +1,5 @@
 package com.langfordapps.taskmanager.tasksdisplay.presentation
 
-import android.view.View
 import androidx.annotation.IdRes
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -16,6 +15,8 @@ import com.langfordapps.taskmanager.commons.extensions.isOverdue
 import com.langfordapps.taskmanager.commons.presentation.ConfirmationDialogFragment.ConfirmationDialogListener
 import com.langfordapps.taskmanager.commons.presentation.ResourcesHelper
 import com.langfordapps.taskmanager.commons.presentation.SingleLiveEvent
+import com.langfordapps.taskmanager.commons.presentation.ViewVisibility.GONE
+import com.langfordapps.taskmanager.commons.presentation.ViewVisibility.VISIBLE
 import com.langfordapps.taskmanager.tasksdisplay.data.SharedPreferencesManager
 import com.langfordapps.taskmanager.tasksdisplay.domain.AddTutorialTasksUseCase
 import com.langfordapps.taskmanager.tasksdisplay.domain.DeleteCompletedTasksUseCase
@@ -211,12 +212,12 @@ class TasksDisplayViewModel @Inject constructor(
                     return@map ViewTask(
                         taskId = it.id,
                         name = it.name,
-                        dateViewVisibility = if (it.hasDates()) View.VISIBLE else View.GONE,
+                        dateViewVisibility = if (it.hasDates()) VISIBLE else GONE,
                         date = datesAsString,
                         dateColor = if (it.isOverdue() && it.taskType != TaskType.COMPLETED) {
                             R.color.itemOverdue
                         } else R.color.colorTextPrimary,
-                        alarmViewVisibility = if (it.alarmDate != null) View.VISIBLE else View.GONE,
+                        alarmViewVisibility = if (it.alarmDate != null) VISIBLE else GONE,
                         alarmDate = it.getAlarmDateAsString(),
                         alarmColor = if (it.isAlarmOverdue() && it.taskType != TaskType.COMPLETED) {
                             R.color.itemOverdue

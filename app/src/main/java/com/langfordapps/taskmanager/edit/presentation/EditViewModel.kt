@@ -1,6 +1,5 @@
 package com.langfordapps.taskmanager.edit.presentation
 
-import android.view.View
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -21,6 +20,8 @@ import com.langfordapps.taskmanager.commons.extensions.hasDates
 import com.langfordapps.taskmanager.commons.extensions.setDatesToAllDayAndCopy
 import com.langfordapps.taskmanager.commons.presentation.DateFormatHelper
 import com.langfordapps.taskmanager.commons.presentation.SingleLiveEvent
+import com.langfordapps.taskmanager.commons.presentation.ViewVisibility.GONE
+import com.langfordapps.taskmanager.commons.presentation.ViewVisibility.VISIBLE
 import com.langfordapps.taskmanager.edit.domain.SaveTaskUseCase
 import com.langfordapps.taskmanager.edit.presentation.EditEvents.NavigateBack
 import com.langfordapps.taskmanager.edit.presentation.EditEvents.SetTaskNameCursorToEnd
@@ -206,16 +207,16 @@ class EditViewModel @Inject constructor(
             toolbarTitleStringResId = if (initialTask.id == 0L) R.string.title_new_task else R.string.title_existing_task,
             taskName = currentTask.name,
             taskType = currentTask.taskType,
-            addDateButtonVisibility = if (currentTask.hasDates()) View.GONE else View.VISIBLE,
-            dateLayoutVisibility = if (currentTask.hasDates()) View.VISIBLE else View.GONE,
+            addDateButtonVisibility = if (currentTask.hasDates()) GONE else VISIBLE,
+            dateLayoutVisibility = if (currentTask.hasDates()) VISIBLE else GONE,
             startDate = DateFormatHelper.formatDate(currentTask.getOrInitStartDate()),
             isAllDay = isAllDay,
-            additionalDatePickersVisibility = if (isAllDay) View.GONE else View.VISIBLE,
+            additionalDatePickersVisibility = if (isAllDay) GONE else VISIBLE,
             startTime = DateFormatHelper.formatTime(currentTask.getOrInitStartDate()),
             endDate = DateFormatHelper.formatDate(currentTask.getOrInitEndDate()),
             endTime = DateFormatHelper.formatTime(currentTask.getOrInitEndDate()),
-            addAlarmButtonVisibility = if (currentTask.alarmDate == null) View.VISIBLE else View.GONE,
-            alarmLayoutVisibility = if (currentTask.alarmDate == null) View.GONE else View.VISIBLE,
+            addAlarmButtonVisibility = if (currentTask.alarmDate == null) VISIBLE else GONE,
+            alarmLayoutVisibility = if (currentTask.alarmDate == null) GONE else VISIBLE,
             alarmDate = DateFormatHelper.formatDate(currentTask.alarmDate ?: 0),
             alarmTime = DateFormatHelper.formatTime(currentTask.alarmDate ?: 0)
         )

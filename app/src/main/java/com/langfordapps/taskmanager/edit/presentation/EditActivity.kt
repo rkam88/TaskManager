@@ -165,6 +165,7 @@ class EditActivity : AppCompatActivity(),
         viewModel.event.observe(this, Observer { event ->
             when (event) {
                 EditEvents.ShowKeyboard -> showKeyboard(taskNameEditText)
+                EditEvents.SetTaskNameCursorToEnd -> taskNameEditText.setSelection(taskNameEditText.text.length)
                 EditEvents.NavigateBack -> super.onBackPressed()
                 EditEvents.ShowExitConfirmationDialog -> {
                     ConfirmationDialogFragment.newInstance(

@@ -23,6 +23,7 @@ import com.langfordapps.taskmanager.commons.presentation.DateFormatHelper
 import com.langfordapps.taskmanager.commons.presentation.SingleLiveEvent
 import com.langfordapps.taskmanager.edit.domain.SaveTaskUseCase
 import com.langfordapps.taskmanager.edit.presentation.EditEvents.NavigateBack
+import com.langfordapps.taskmanager.edit.presentation.EditEvents.SetTaskNameCursorToEnd
 import com.langfordapps.taskmanager.edit.presentation.EditEvents.ShowDatePickerDialog
 import com.langfordapps.taskmanager.edit.presentation.EditEvents.ShowExitConfirmationDialog
 import com.langfordapps.taskmanager.edit.presentation.EditEvents.ShowKeyboard
@@ -68,6 +69,7 @@ class EditViewModel @Inject constructor(
                 else -> throw IllegalArgumentException("EditViewModel: intentTask and taskType can't be both null")
             }
             updateCurrentState(initialTask.copy(), initialTask.areDatesAllDay())
+            event.postValue(SetTaskNameCursorToEnd)
         }
     }
 

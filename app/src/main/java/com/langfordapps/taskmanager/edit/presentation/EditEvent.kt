@@ -5,6 +5,7 @@ import java.util.Calendar
 
 sealed class EditEvents {
     object ShowKeyboard : EditEvents()
+    object SetTaskNameCursorToEnd : EditEvents()
     object NavigateBack : EditEvents()
     object ShowExitConfirmationDialog : EditEvents()
     data class ShowDatePickerDialog(val dateType: DateType, val initialDialogDate: Calendar) : EditEvents()

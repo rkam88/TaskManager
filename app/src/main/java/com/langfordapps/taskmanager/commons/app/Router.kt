@@ -10,6 +10,7 @@ import javax.inject.Singleton
 @Singleton
 class Router @Inject constructor() : SimpleActivityLifecycleCallbacks {
 
+
     private var activity: Activity? = null
 
     override fun onActivityResumed(activity: Activity) {

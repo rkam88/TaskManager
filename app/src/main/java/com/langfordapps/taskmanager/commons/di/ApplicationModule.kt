@@ -9,21 +9,28 @@ import com.langfordapps.taskmanager.commons.data.TaskDao
 import com.langfordapps.taskmanager.commons.data.TasksDatabase
 import dagger.Module
 import dagger.Provides
-import dagger.Reusable
+import dagger.hilt.InstallIn
+import dagger.hilt.android.qualifiers.ApplicationContext
+import dagger.hilt.components.SingletonComponent
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
-import javax.inject.Named
 import javax.inject.Singleton
 
 // (object + @JvmStatic) is used to avoid creating
 // instances of it because all methods will be static
 @Module
+@InstallIn(SingletonComponent::class)
 object ApplicationModule {
+
+    /**
+     * Example for implementation to interface binding
+     */
+//    @Binds abstract fun provideSomeClass(someClassImpl: SomeClassImpl): SomeClassInterface
 
     @JvmStatic
     @Provides
     @Singleton
-    fun provideSharedPreferences(context: Context): SharedPreferences {
+    fun provideSharedPreferences(@ApplicationContext context: Context): SharedPreferences {
         return context.getSharedPreferences(
             context.getString(R.string.preferences_name_settings),
             Context.MODE_PRIVATE
@@ -33,7 +40,7 @@ object ApplicationModule {
     @JvmStatic
     @Provides
     @Singleton
-    fun provideTasksDataBase(context: Context): TasksDatabase {
+    fun provideTasksDataBase(@ApplicationContext context: Context): TasksDatabase {
         return Room.databaseBuilder(
             context,
             TasksDatabase::class.java,
@@ -52,17 +59,17 @@ object ApplicationModule {
 
     @JvmStatic
     @Provides
-    @Reusable
-    fun provideResources(context: Context): Resources {
+    fun provideResources(@ApplicationContext context: Context): Resources {
         return context.resources
     }
 
+    @IOCoroutineDispatcher
     @JvmStatic
     @Provides
-    @Reusable
-    @Named("IO")
     fun provideIoDispatcher(): CoroutineDispatcher {
         return Dispatchers.IO
     }
 
 }
+
+annotation class IOCoroutineDispatcher

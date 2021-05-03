@@ -11,15 +11,14 @@ import android.widget.Spinner
 import android.widget.Switch
 import android.widget.TextView
 import android.widget.Toast
+import androidx.activity.viewModels
 import androidx.annotation.IdRes
 import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.widget.doAfterTextChanged
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.langfordapps.taskmanager.R
-import com.langfordapps.taskmanager.commons.app.injector
 import com.langfordapps.taskmanager.commons.domain.model.DateType
 import com.langfordapps.taskmanager.commons.domain.model.Task
 import com.langfordapps.taskmanager.commons.domain.model.TaskType
@@ -31,6 +30,7 @@ import com.langfordapps.taskmanager.commons.presentation.ConfirmationDialogFragm
 import com.langfordapps.taskmanager.edit.presentation.dialogs.DatePickerFragment
 import com.langfordapps.taskmanager.edit.presentation.dialogs.OnDatePickerResultListener
 import com.langfordapps.taskmanager.edit.presentation.dialogs.TimePickerFragment
+import dagger.hilt.android.AndroidEntryPoint
 import java.util.Calendar
 import kotlin.math.roundToInt
 
@@ -38,9 +38,8 @@ private const val TAG_DATE_PICKER_FRAGMENT = "TAG_DATE_PICKER_FRAGMENT"
 private const val TAG_TIME_PICKER_FRAGMENT = "TAG_TIME_PICKER_FRAGMENT"
 private const val TAG_EXIT_CONFIRMATION = "TAG_EXIT_CONFIRMATION"
 
-class EditActivity : AppCompatActivity(),
-                     OnDatePickerResultListener,
-                     ConfirmationDialogListener {
+@AndroidEntryPoint
+class EditActivity : AppCompatActivity(), OnDatePickerResultListener, ConfirmationDialogListener {
 
     companion object {
         private const val EXTRA_TASK = "EXTRA_TASK"
@@ -61,18 +60,7 @@ class EditActivity : AppCompatActivity(),
         }
     }
 
-    private val viewModel by lazy {
-        ViewModelProvider(
-            this,
-            injector.editViewModelFactory
-        ).get(EditViewModel::class.java).apply {
-            initViewModelFromIntent(
-                intent.getSerializableExtra(EXTRA_TASK) as? Task,
-                intent.getSerializableExtra(EXTRA_TASK_TYPE) as? TaskType,
-                intent.getBooleanExtra(EXTRA_SHOW_DATES, false)
-            )
-        }
-    }
+    private val viewModel: EditViewModel by viewModels()
     private val saveButton by lazy { findViewById<FloatingActionButton>(R.id.button_save) }
     private val taskNameEditText by lazy { findViewById<EditText>(R.id.edit_text_task_name) }
     private val taskTypeSpinner by lazy { findViewById<Spinner>(R.id.spinner_task_type) }
@@ -94,6 +82,7 @@ class EditActivity : AppCompatActivity(),
         super.onCreate(savedInstanceState)
         setContentView(R.layout.edit_activity)
 
+        initViewModel()
         initViews()
         initEventObservation()
         initStateObservation()
@@ -120,6 +109,14 @@ class EditActivity : AppCompatActivity(),
     }
 
     override fun onNegativeResponse(dialogTag: String) {}
+
+    private fun initViewModel() {
+        viewModel.initViewModelFromIntent(
+            intent.getSerializableExtra(EXTRA_TASK) as? Task,
+            intent.getSerializableExtra(EXTRA_TASK_TYPE) as? TaskType,
+            intent.getBooleanExtra(EXTRA_SHOW_DATES, false)
+        )
+    }
 
     private fun initViews() {
         setSupportActionBar(findViewById(R.id.toolbar))

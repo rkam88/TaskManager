@@ -5,39 +5,27 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.langfordapps.taskmanager.R
 import com.langfordapps.taskmanager.commons.domain.model.DateType
-import com.langfordapps.taskmanager.commons.domain.model.DateType.ALARM_DATE
-import com.langfordapps.taskmanager.commons.domain.model.DateType.END_DATE
-import com.langfordapps.taskmanager.commons.domain.model.DateType.START_DATE
+import com.langfordapps.taskmanager.commons.domain.model.DateType.*
 import com.langfordapps.taskmanager.commons.domain.model.Task
 import com.langfordapps.taskmanager.commons.domain.model.TaskType
-import com.langfordapps.taskmanager.commons.extensions.areDatesAllDay
-import com.langfordapps.taskmanager.commons.extensions.exhaustive
-import com.langfordapps.taskmanager.commons.extensions.getInitialTaskDate
-import com.langfordapps.taskmanager.commons.extensions.getOrInitAlarmDate
-import com.langfordapps.taskmanager.commons.extensions.getOrInitEndDate
-import com.langfordapps.taskmanager.commons.extensions.getOrInitStartDate
-import com.langfordapps.taskmanager.commons.extensions.hasDates
-import com.langfordapps.taskmanager.commons.extensions.setDatesToAllDayAndCopy
+import com.langfordapps.taskmanager.commons.extensions.*
 import com.langfordapps.taskmanager.commons.presentation.DateFormatHelper
 import com.langfordapps.taskmanager.commons.presentation.SingleLiveEvent
 import com.langfordapps.taskmanager.commons.presentation.ViewVisibility.GONE
 import com.langfordapps.taskmanager.commons.presentation.ViewVisibility.VISIBLE
 import com.langfordapps.taskmanager.edit.domain.SaveTaskUseCase
-import com.langfordapps.taskmanager.edit.presentation.EditEvents.NavigateBack
-import com.langfordapps.taskmanager.edit.presentation.EditEvents.SetTaskNameCursorToEnd
-import com.langfordapps.taskmanager.edit.presentation.EditEvents.ShowDatePickerDialog
-import com.langfordapps.taskmanager.edit.presentation.EditEvents.ShowExitConfirmationDialog
-import com.langfordapps.taskmanager.edit.presentation.EditEvents.ShowKeyboard
-import com.langfordapps.taskmanager.edit.presentation.EditEvents.ShowTimePickerDialog
+import com.langfordapps.taskmanager.edit.presentation.EditEvents.*
 import com.langfordapps.taskmanager.edit.presentation.dialogs.OnDatePickerResultListener
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
-import java.util.Calendar
+import java.util.*
 import javax.inject.Inject
 
 private const val EMPTY_STRING = ""
 private const val SHOW_KEYBOARD_DELAY_MS = 250L
 
+@HiltViewModel
 class EditViewModel @Inject constructor(
     private val saveTaskUseCase: SaveTaskUseCase
 ) : ViewModel(),

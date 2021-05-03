@@ -3,10 +3,8 @@ package com.langfordapps.taskmanager.commons.data
 import com.langfordapps.taskmanager.commons.domain.BaseFilter
 import com.langfordapps.taskmanager.commons.domain.model.Task
 import com.langfordapps.taskmanager.commons.domain.model.TaskType
-import dagger.Reusable
 import javax.inject.Inject
 
-@Reusable
 class TasksDataSource @Inject constructor(private val taskDao: TaskDao) {
 
     suspend fun saveTask(taskToSave: Task): Long {

@@ -2,14 +2,14 @@ package com.langfordapps.taskmanager.tasksdisplay.data
 
 import android.content.SharedPreferences
 import androidx.annotation.VisibleForTesting
+import com.langfordapps.taskmanager.commons.di.IOCoroutineDispatcher
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
-import javax.inject.Named
 
 class SharedPreferencesManager @Inject constructor(
     private val sharedPreferences: SharedPreferences,
-    @Named("IO") private val dispatcher: CoroutineDispatcher
+    @IOCoroutineDispatcher private val dispatcher: CoroutineDispatcher
 ) {
 
     @VisibleForTesting

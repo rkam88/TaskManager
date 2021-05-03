@@ -7,7 +7,6 @@ import android.content.Intent
 import android.os.Build
 import androidx.core.app.JobIntentService
 import com.langfordapps.taskmanager.R
-import com.langfordapps.taskmanager.commons.app.injector
 import com.langfordapps.taskmanager.commons.domain.model.Task
 import com.langfordapps.taskmanager.commons.extensions.exhaustive
 import com.langfordapps.taskmanager.commons.extensions.getTaskDatesAsString
@@ -15,7 +14,10 @@ import com.langfordapps.taskmanager.commons.extensions.hasDates
 import com.langfordapps.taskmanager.taskalarm.TaskAlarmServiceActions.REMOVE_ONE
 import com.langfordapps.taskmanager.taskalarm.TaskAlarmServiceActions.UPDATE_ALL
 import com.langfordapps.taskmanager.taskalarm.TaskAlarmServiceActions.UPDATE_ONE
-import dagger.Reusable
+import com.langfordapps.taskmanager.taskalarm.domain.GetAllIncompleteTasksUseCase
+import com.langfordapps.taskmanager.tasksdisplay.domain.GetTaskByIdUseCase
+import dagger.hilt.android.AndroidEntryPoint
+import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -23,10 +25,13 @@ import javax.inject.Inject
 private const val NO_TASK_ID = -1L
 private const val MAX_INT_LENGTH = 1000000000
 
+@AndroidEntryPoint
 class TaskAlarmService : JobIntentService() {
 
-    private val getTaskByIdUseCase by lazy { injector.getTaskByIdUseCase }
-    private val getAllIncompleteTasksUseCase by lazy { injector.getAllIncompleteTasksUseCase }
+    @Inject
+    lateinit var getTaskByIdUseCase: GetTaskByIdUseCase
+    @Inject
+    lateinit var getAllIncompleteTasksUseCase: GetAllIncompleteTasksUseCase
 
     override fun onHandleWork(intent: Intent) {
         val action = intent.getSerializableExtra(EXTRA_ACTION) as TaskAlarmServiceActions
@@ -109,8 +114,9 @@ class TaskAlarmService : JobIntentService() {
         }
     }
 
-    @Reusable
-    class TaskAlarmServiceHandler @Inject constructor(private val context: Context) {
+    class TaskAlarmServiceHandler @Inject constructor(
+        @ApplicationContext private val context: Context
+    ) {
         fun enqueueWork(action: TaskAlarmServiceActions, taskId: Long? = null) {
             enqueueWork(context, action, taskId)
         }

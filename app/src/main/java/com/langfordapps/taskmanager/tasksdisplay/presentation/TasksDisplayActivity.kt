@@ -9,40 +9,34 @@ import android.view.MenuItem
 import android.view.View
 import android.widget.TextView
 import android.widget.Toast
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.view.ActionMode
 import androidx.appcompat.widget.Toolbar
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.navigation.NavigationView
 import com.langfordapps.taskmanager.R
-import com.langfordapps.taskmanager.commons.app.injector
 import com.langfordapps.taskmanager.commons.extensions.exhaustive
 import com.langfordapps.taskmanager.commons.presentation.ConfirmationDialogFragment
 import com.langfordapps.taskmanager.commons.presentation.ConfirmationDialogFragment.ConfirmationDialogListener
+import dagger.hilt.android.AndroidEntryPoint
 
 private const val NO_DRAG_DIRS = 0
 
-class TasksDisplayActivity :
-    AppCompatActivity(),
-    ConfirmationDialogListener {
+@AndroidEntryPoint
+class TasksDisplayActivity : AppCompatActivity(), ConfirmationDialogListener {
 
     companion object {
         const val REQUEST_CODE_SAVE_TASK = 1
     }
 
-    private val viewModel by lazy {
-        ViewModelProvider(
-            this,
-            injector.taskDisplayViewModelFactory
-        ).get(TasksDisplayViewModel::class.java)
-    }
+    private val viewModel: TasksDisplayViewModel by viewModels()
     private val toolbar by lazy { findViewById<Toolbar>(R.id.toolbar) }
     private val navigationView by lazy { findViewById<NavigationView>(R.id.navigation_view) }
     private val drawerLayout by lazy { findViewById<DrawerLayout>(R.id.drawer_layout) }

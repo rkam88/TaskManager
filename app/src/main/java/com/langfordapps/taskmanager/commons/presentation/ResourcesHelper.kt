@@ -2,11 +2,12 @@ package com.langfordapps.taskmanager.commons.presentation
 
 import android.content.Context
 import com.langfordapps.taskmanager.R
-import dagger.Reusable
+import dagger.hilt.android.qualifiers.ApplicationContext
 import javax.inject.Inject
 
-@Reusable
-class ResourcesHelper @Inject constructor(private val applicationContext: Context) {
+class ResourcesHelper @Inject constructor(
+    @ApplicationContext private val applicationContext: Context
+) {
 
     val deleteCompletedTasksDialogTitle
         get() = applicationContext.getString(R.string.delete_completed_dialog_title)

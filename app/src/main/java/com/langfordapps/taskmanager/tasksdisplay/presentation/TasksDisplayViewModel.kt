@@ -28,6 +28,7 @@ import com.langfordapps.taskmanager.tasksdisplay.domain.MarkTaskAsCompletedUseCa
 import com.langfordapps.taskmanager.tasksdisplay.presentation.TasksDisplayEvent.FinishActionMode
 import com.langfordapps.taskmanager.tasksdisplay.presentation.TasksDisplayEvent.ShowConfirmationDialog
 import com.langfordapps.taskmanager.tasksdisplay.presentation.model.ViewTask
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -37,6 +38,7 @@ private const val TAG_DELETE_SELECTED_TASKS = "TAG_DELETE_ACTION_MODE"
 private const val ZERO = 0
 private const val TASK_COUNT_MAX_VALUE = 99
 
+@HiltViewModel
 class TasksDisplayViewModel @Inject constructor(
     private val resourcesHelper: ResourcesHelper,
     private val router: Router,

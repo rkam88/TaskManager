@@ -59,4 +59,7 @@ class MainActivity : ComponentActivity() {
         }.exhaustive
     }
 
+    override fun onBackPressed() {
+        viewModel.onBackPressed()
+    }
 }

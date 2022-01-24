@@ -41,7 +41,8 @@ class AppBlocImpl(
     }
 
     private fun popBackStack() {
-        backStack.removeAt(backStack.lastIndex)
+        backStack.last().onClear()
+        backStack.removeLast()
         currentScreen.update { backStack.last() }
     }
 

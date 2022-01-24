@@ -14,7 +14,7 @@ class AppBlocImpl(
     private val factory: AppScreenFactory
 ) : AppBloc {
 
-    private val coroutineScope = CoroutineScope(SupervisorJob() + DispatchersProvider.Main)
+    private val blocScope = CoroutineScope(SupervisorJob() + DispatchersProvider.Main)
     private val _action = MutableSharedFlow<AppAction>()
     override val action: Flow<AppAction> = _action.asSharedFlow()
 
@@ -25,7 +25,7 @@ class AppBlocImpl(
     private val backStack: MutableList<AppScreen> = mutableListOf(currentScreen.value)
 
     private fun sendAction(action: AppAction) {
-        coroutineScope.launch { _action.emit(action) }
+        blocScope.launch { _action.emit(action) }
     }
 
     override fun onBackPressed() {
@@ -40,7 +40,7 @@ class AppBlocImpl(
     override fun onClear() {
         backStack.forEach { appScreen -> appScreen.onClear() }
         backStack.clear()
-        coroutineScope.cancel()
+        blocScope.cancel()
     }
 
     /**
@@ -50,14 +50,14 @@ class AppBlocImpl(
     private fun getTasksDisplayParent(): TasksDisplayParent = object : TasksDisplayParent {
         override fun navigateToTaskCreate() {
             // TODO: implement
-//        backStack.add(currentScreen.value)
-//        currentScreen.value = factory.getTaskEditScreen(getTaskEditParent())
+//        backStack.add(factory.getTaskEditScreen(getTaskEditParent()))
+//        currentScreen.update { backStack.last() }
         }
 
         override fun navigateToTaskEdit(task: Task) {
             // TODO: implement
-//        backStack.add(currentScreen.value)
-//        currentScreen.value = factory.getTaskEditScreen(getTaskEditParent(), task)
+//        backStack.add(factory.getTaskEditScreen(getTaskEditParent(), task))
+//        currentScreen.update { backStack.last() }
         }
     }
 

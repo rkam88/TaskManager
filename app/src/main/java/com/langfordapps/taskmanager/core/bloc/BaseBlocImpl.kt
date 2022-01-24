@@ -13,6 +13,9 @@ abstract class BaseBlocImpl<State, Event, Action, Parent>(
                                                  Action : BaseAction,
                                                  Parent : BaseBlocParent {
 
+    @Suppress("MemberVisibilityCanBePrivate")
+    protected val blocScope = CoroutineScope(SupervisorJob() + DispatchersProvider.Main)
+
     protected val _state = MutableStateFlow(initialState)
     override val state: StateFlow<State> = _state.asStateFlow()
     protected inline fun updateState(function: (State) -> State) = _state.update(function)
@@ -22,24 +25,19 @@ abstract class BaseBlocImpl<State, Event, Action, Parent>(
     private val _action = MutableSharedFlow<Action>()
     override val action: Flow<Action> = _action.asSharedFlow()
     protected fun sendAction(action: Action) {
-        coroutineScope.launch { _action.emit(action) }
+        blocScope.launch { _action.emit(action) }
     }
 
     abstract override val parent: Parent
 
-    @Suppress("MemberVisibilityCanBePrivate")
-    protected val coroutineScope = CoroutineScope(
-        SupervisorJob() + DispatchersProvider.Main
-    )
-
     @CallSuper
     override fun onClear() {
-        coroutineScope.cancel()
+        blocScope.cancel()
     }
 
     @CallSuper
     override fun cancelCurrentJobs() {
-        requireNotNull(coroutineScope.coroutineContext[Job.Key]).cancelChildren()
+        requireNotNull(blocScope.coroutineContext[Job.Key]).cancelChildren()
     }
 
 }

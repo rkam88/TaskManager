@@ -9,7 +9,12 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.lifecycle.flowWithLifecycle
+import androidx.lifecycle.lifecycleScope
+import com.langfordapps.taskmanager.app.AppAction
+import com.langfordapps.taskmanager.core.extensions.exhaustive
 import com.langfordapps.taskmanager.ui.theme.TaskManagerTheme
+import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class MainActivity : ComponentActivity() {
@@ -18,6 +23,9 @@ class MainActivity : ComponentActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        initObservers()
+
         setContent {
             TaskManagerTheme {
                 Surface(color = MaterialTheme.colors.background) {
@@ -28,6 +36,21 @@ class MainActivity : ComponentActivity() {
             }
         }
     }
+
+    private fun initObservers() {
+        lifecycleScope.launch {
+            viewModel.action
+                .flowWithLifecycle(lifecycle)
+                .collect(::onNewAction)
+        }
+    }
+
+    private fun onNewAction(action: AppAction) {
+        when (action) {
+            AppAction.OnBackPressed -> super.onBackPressed()
+        }.exhaustive
+    }
+
 }
 
 @Composable

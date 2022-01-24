@@ -36,10 +36,7 @@ class AppBlocImpl(
     override fun onBackPressed() {
         when (backStack.size) {
             1 -> sendAction(AppAction.HandleBackPressBySystem)
-            else -> {
-                backStack.removeAt(backStack.lastIndex)
-                currentScreen.update { backStack.last() }
-            }
+            else -> popBackStack()
         }
     }
 

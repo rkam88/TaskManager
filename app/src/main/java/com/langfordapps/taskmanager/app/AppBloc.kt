@@ -15,7 +15,7 @@ interface AppBloc : Bloc {
 
 sealed interface AppScreen : BaseState, Bloc {
     class TasksDisplayScreen(
-        private val bloc: TasksDisplayBloc
+        val bloc: TasksDisplayBloc
     ) : AppScreen, TasksDisplayBloc by bloc
 }
 

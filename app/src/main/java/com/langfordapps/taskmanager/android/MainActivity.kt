@@ -5,16 +5,16 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
-import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
-import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.runtime.getValue
 import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
 import com.langfordapps.taskmanager.app.AppAction
 import com.langfordapps.taskmanager.app.AppScreen
 import com.langfordapps.taskmanager.app.AppScreen.TasksDisplayScreen
 import com.langfordapps.taskmanager.core.extensions.exhaustive
+import com.langfordapps.taskmanager.tasks_display.TasksDisplay
 import com.langfordapps.taskmanager.ui.theme.TaskManagerTheme
 import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -31,8 +31,8 @@ class MainActivity : ComponentActivity() {
         setContent {
             TaskManagerTheme {
                 Surface(color = MaterialTheme.colors.background) {
-                    val appScreenState = viewModel.currentScreen.collectAsState()
-                    TaskManagerApp(screen = appScreenState.value)
+                    val appScreenState by viewModel.currentScreen.collectAsState()
+                    TaskManagerApp(screen = appScreenState)
                 }
             }
         }
@@ -41,7 +41,7 @@ class MainActivity : ComponentActivity() {
     @Composable
     private fun TaskManagerApp(screen: AppScreen) {
         when (screen) {
-            is TasksDisplayScreen -> Greeting("state - $screen") // TODO: create UI for TasksDisplayScreen
+            is TasksDisplayScreen -> TasksDisplay(screen.bloc)
         }.exhaustive
     }
 
@@ -49,7 +49,7 @@ class MainActivity : ComponentActivity() {
         lifecycleScope.launch {
             viewModel.action
                 .flowWithLifecycle(lifecycle)
-                .collect(::onNewAction)
+                .collect { action -> onNewAction(action) }
         }
     }
 
@@ -59,17 +59,4 @@ class MainActivity : ComponentActivity() {
         }.exhaustive
     }
 
-}
-
-@Composable
-fun Greeting(name: String) {
-    Text(text = "Hello $name!")
-}
-
-@Preview(showBackground = true)
-@Composable
-fun DefaultPreview() {
-    TaskManagerTheme {
-        Greeting("Android")
-    }
 }

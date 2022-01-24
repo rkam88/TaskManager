@@ -22,7 +22,9 @@ class TasksDisplayBlocImpl(
     override fun onNewEvent(event: TasksDisplayEvent) {
         when (event) {
             OnAddNewTaskClicked -> parent.navigateToTaskCreate()
-            is OnDeleteClicked -> sendAction(ShowDeleteConfirmationDialog(event.task))
+            is OnDeleteClicked -> sendAction(ShowDeleteConfirmationDialog(event.task)).also {
+                onNewEvent(OnDeleteConfirmed(event.task)) // TODO: remove OnDeleteConfirmed shortcut
+            }
             is OnDeleteConfirmed -> {
                 tasksRepository.deleteTask(event.task)
                 updateTasksList()

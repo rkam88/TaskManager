@@ -20,5 +20,5 @@ sealed interface AppScreen : BaseState, Bloc {
 }
 
 sealed interface AppAction : BaseAction {
-    object OnBackPressed : AppAction
+    object HandleBackPressBySystem : AppAction
 }

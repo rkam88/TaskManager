@@ -15,32 +15,42 @@ class AppBlocImpl(
 ) : AppBloc {
 
     private val blocScope = CoroutineScope(SupervisorJob() + DispatchersProvider.Main)
+
     private val _action = MutableSharedFlow<AppAction>()
     override val action: Flow<AppAction> = _action.asSharedFlow()
-
-    override val currentScreen: MutableStateFlow<AppScreen> = MutableStateFlow(
-        factory.getTasksDisplayScreen(getTasksDisplayParent())
-    )
-
-    private val backStack: MutableList<AppScreen> = mutableListOf(currentScreen.value)
-
     private fun sendAction(action: AppAction) {
         blocScope.launch { _action.emit(action) }
     }
 
+    private val backStack: MutableList<AppScreen> = mutableListOf(
+        factory.getTasksDisplayScreen(getTasksDisplayParent())
+    )
+    override val currentScreen: MutableStateFlow<AppScreen> = MutableStateFlow(backStack.last())
+
+    override fun onClear() {
+        blocScope.cancel()
+        backStack.forEach { appScreen -> appScreen.onClear() }
+        backStack.clear()
+    }
+
     override fun onBackPressed() {
-        if (backStack.size >= 1) {
-            backStack.removeAt(backStack.lastIndex)
-            currentScreen.update { backStack.last() }
-        } else {
-            sendAction(AppAction.OnBackPressed)
+        when (backStack.size) {
+            1 -> sendAction(AppAction.HandleBackPressBySystem)
+            else -> {
+                backStack.removeAt(backStack.lastIndex)
+                currentScreen.update { backStack.last() }
+            }
         }
     }
 
-    override fun onClear() {
-        backStack.forEach { appScreen -> appScreen.onClear() }
-        backStack.clear()
-        blocScope.cancel()
+    private fun popBackStack() {
+        backStack.removeAt(backStack.lastIndex)
+        currentScreen.update { backStack.last() }
+    }
+
+    private fun pushToBackStack(screen: AppScreen) {
+        backStack.add(screen)
+        currentScreen.update { backStack.last() }
     }
 
     /**
@@ -50,14 +60,12 @@ class AppBlocImpl(
     private fun getTasksDisplayParent(): TasksDisplayParent = object : TasksDisplayParent {
         override fun navigateToTaskCreate() {
             // TODO: implement
-//        backStack.add(factory.getTaskEditScreen(getTaskEditParent()))
-//        currentScreen.update { backStack.last() }
+//            pushToBackStack(factory.getTaskEditScreen(getTaskEditParent()))
         }
 
         override fun navigateToTaskEdit(task: Task) {
             // TODO: implement
-//        backStack.add(factory.getTaskEditScreen(getTaskEditParent(), task))
-//        currentScreen.update { backStack.last() }
+//            pushToBackStack(factory.getTaskEditScreen(getTaskEditParent(), task))
         }
     }
 

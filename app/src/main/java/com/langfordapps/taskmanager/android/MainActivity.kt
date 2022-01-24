@@ -12,6 +12,8 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
 import com.langfordapps.taskmanager.app.AppAction
+import com.langfordapps.taskmanager.app.AppScreen
+import com.langfordapps.taskmanager.app.AppScreen.TasksDisplayScreen
 import com.langfordapps.taskmanager.core.extensions.exhaustive
 import com.langfordapps.taskmanager.ui.theme.TaskManagerTheme
 import kotlinx.coroutines.launch
@@ -30,11 +32,17 @@ class MainActivity : ComponentActivity() {
             TaskManagerTheme {
                 Surface(color = MaterialTheme.colors.background) {
                     val appScreenState = viewModel.currentScreen.collectAsState()
-
-                    Greeting("state - $appScreenState")
+                    TaskManagerApp(screen = appScreenState.value)
                 }
             }
         }
+    }
+
+    @Composable
+    private fun TaskManagerApp(screen: AppScreen) {
+        when (screen) {
+            is TasksDisplayScreen -> Greeting("state - $screen") // TODO: create UI for TasksDisplayScreen
+        }.exhaustive
     }
 
     private fun initObservers() {
@@ -47,7 +55,7 @@ class MainActivity : ComponentActivity() {
 
     private fun onNewAction(action: AppAction) {
         when (action) {
-            AppAction.OnBackPressed -> super.onBackPressed()
+            AppAction.HandleBackPressBySystem -> super.onBackPressed()
         }.exhaustive
     }
 

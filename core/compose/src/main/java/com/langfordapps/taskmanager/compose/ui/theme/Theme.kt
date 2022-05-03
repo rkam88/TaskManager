@@ -1,4 +1,4 @@
-package com.langfordapps.taskmanager.ui.theme
+package com.langfordapps.taskmanager.compose.ui.theme
 
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material.MaterialTheme

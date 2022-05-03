@@ -7,11 +7,11 @@ import android.view.ViewGroup
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
-import androidx.compose.material.Text
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.ComposeView
 import androidx.fragment.app.Fragment
 import com.langfordapps.taskmanager.compose.ui.theme.TaskManagerTheme
+import com.langfordapps.taskmanager.tasklist.internal.presentation.TaskListScreen
 
 class TaskListFragment : Fragment() {
 
@@ -27,7 +27,7 @@ class TaskListFragment : Fragment() {
                         modifier = Modifier.fillMaxSize(),
                         color = MaterialTheme.colors.background
                     ) {
-                        Text(text = this@TaskListFragment::class.java.simpleName)
+                        TaskListScreen()
                     }
                 }
             }

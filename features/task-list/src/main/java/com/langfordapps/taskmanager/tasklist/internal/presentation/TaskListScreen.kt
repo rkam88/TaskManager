@@ -1,5 +1,6 @@
 package com.langfordapps.taskmanager.tasklist.internal.presentation
 
+import android.widget.Toast
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
@@ -9,11 +10,15 @@ import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Menu
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
+import com.langfordapps.taskmanager.task_storage.api.domain.model.Task
+import com.langfordapps.taskmanager.task_storage.api.domain.model.TaskStatus
 import com.langfordapps.taskmanager.tasklist.internal.presentation.drawer.Drawer
 import com.langfordapps.taskmanager.tasklist.internal.presentation.drawer.DrawerItem
 import com.langfordapps.taskmanager.tasklist.internal.presentation.drawer.DrawerItem.Item
+import com.langfordapps.taskmanager.tasklist.internal.presentation.list.TaskList
 import kotlinx.coroutines.launch
 
 @Composable
@@ -47,6 +52,14 @@ internal fun TaskListScreen() {
         listType = it
         scope.launch { scaffoldState.drawerState.close() }
     }
+    val tasks: List<Task> = listOf(
+        Task(1, "task 1", TaskStatus.INBOX),
+        Task(2, "task 2", TaskStatus.INBOX),
+    )
+    val context = LocalContext.current
+    val onTaskSelected: (Task) -> Unit = {
+        Toast.makeText(context, "${it.name} - clicked!", Toast.LENGTH_SHORT).show()
+    }
 
     Scaffold(
         topBar = {
@@ -59,9 +72,11 @@ internal fun TaskListScreen() {
         drawerContent = { Drawer(items = drawerItems, onItemSelected = onDrawerItemClicked) },
         scaffoldState = scaffoldState,
     ) { contentPadding ->
-        // TODO: display tasks
         Box(modifier = Modifier.padding(paddingValues = contentPadding)) {
-            Text("$listType")
+            TaskList(
+                tasks = tasks,
+                onTaskSelected = onTaskSelected,
+            )
         }
     }
 }

@@ -70,6 +70,12 @@ android {
 }
 
 dependencies {
+    rootDir.listFiles()
+        .filter { it.name == "features" || it.name == "core" }
+        .flatMap { it.listFiles().toList() }
+        .filter { it.isDirectory && it.isHidden.not() }
+        .forEach { implementation(project((":${it.parentFile.name}:${it.name}"))) }
+
     implementation(libs.bundles.compose)
     implementation(libs.coreKtx)
     implementation(libs.composeActivity)

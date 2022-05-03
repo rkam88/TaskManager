@@ -23,7 +23,7 @@ internal fun Drawer(
     Column {
         for (item in items) {
             when (item) {
-                is DrawerItem.ListTypeWithCount -> ListTypeWithCount(item, onItemSelected)
+                is DrawerItem.Item -> ListTypeWithCount(item, onItemSelected)
                 DrawerItem.Divider -> Divider()
             }.exhaustive
         }
@@ -32,7 +32,7 @@ internal fun Drawer(
 
 @Composable
 private fun ListTypeWithCount(
-    item: DrawerItem.ListTypeWithCount,
+    item: DrawerItem.Item,
     onItemSelected: (TaskListType) -> Unit,
 ) {
     Row(

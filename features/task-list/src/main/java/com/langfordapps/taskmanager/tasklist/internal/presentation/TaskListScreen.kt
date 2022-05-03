@@ -13,7 +13,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import com.langfordapps.taskmanager.tasklist.internal.presentation.drawer.Drawer
 import com.langfordapps.taskmanager.tasklist.internal.presentation.drawer.DrawerItem
-import com.langfordapps.taskmanager.tasklist.internal.presentation.drawer.DrawerItem.ListTypeWithCount
+import com.langfordapps.taskmanager.tasklist.internal.presentation.drawer.DrawerItem.Item
 import kotlinx.coroutines.launch
 
 @Composable
@@ -32,15 +32,15 @@ internal fun TaskListScreen() {
     var listType: TaskListType by remember { mutableStateOf(TaskListType.Inbox) }
     var drawerItems: List<DrawerItem> by remember {
         mutableStateOf(listOf(
-            ListTypeWithCount(TaskListType.Inbox, 1),
+            Item(TaskListType.Inbox, 1),
             DrawerItem.Divider,
-            ListTypeWithCount(TaskListType.NextActions, 1),
-            ListTypeWithCount(TaskListType.Calendar, 1),
+            Item(TaskListType.NextActions, 1),
+            Item(TaskListType.Calendar, 1),
             DrawerItem.Divider,
-            ListTypeWithCount(TaskListType.WaitingFor, 1),
-            ListTypeWithCount(TaskListType.SomedayMaybe, 1),
+            Item(TaskListType.WaitingFor, 1),
+            Item(TaskListType.SomedayMaybe, 1),
             DrawerItem.Divider,
-            ListTypeWithCount(TaskListType.Completed, 1),
+            Item(TaskListType.Completed, 1),
         ))
     }
     val onDrawerItemClicked: (TaskListType) -> Unit = {

@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name" translatable="false">Task Manager</string>
+    <string name="preferences_name_settings" translatable="false">Settings</string>
+
+    <!--  Tasks display: navigation  -->
+    <string name="inbox">Inbox</string>
+
+    <string name="active">Active</string>
+    <string name="next_actions">Next actions</string>
+    <string name="calendar">Calendar</string>
+    <string name="waiting_for">Waiting for</string>
+
+    <string name="someday_maybe">Someday/maybe</string>
+
+    <string name="completed">Completed</string>
+
+    <!--  Tasks display: UI  -->
+    <string name="complete">Complete</string>
+    <string name="delete">Delete</string>
+    <string name="no_tasks_to_delete_message">There are no tasks to delete!</string>
+
+    <!--  EditActivity  -->
+    <string name="title_new_task">New task</string>
+    <string name="title_existing_task">Edit task</string>
+    <string name="task_name_hint">Enter a name</string>
+    <string name="add_date">Add date</string>
+    <string name="all_day">All day</string>
+    <string name="add_alarm">Add alarm</string>
+    <string name="message_empty_task_name">Please enter name for the task!</string>
+
+    <!--  Dialogs  -->
+    <string name="yes">YES</string>
+    <string name="no">NO</string>
+    <string name="exit_without_saving_warning_dialog_title">Exit without saving?</string>
+    <string name="delete_completed_dialog_title">Delete all completed tasks?</string>
+    <plurals name="delete_tasks_dialog_title">
+        <item quantity="one">Delete %d task?</item>
+        <item quantity="two">Delete %d tasks?</item>
+        <item quantity="few">Delete %d tasks?</item>
+        <item quantity="many">Delete %d tasks?</item>
+        <item quantity="other">Delete %d tasks?</item>
+    </plurals>
+    <plurals name="n_tasks_selected">
+        <item quantity="one">%d task selected</item>
+        <item quantity="two">%d tasks selected</item>
+        <item quantity="few">%d tasks selected</item>
+        <item quantity="many">%d tasks selected</item>
+        <item quantity="other">%d tasks selected</item>
+    </plurals>
+
+    <!--  Notifications -->
+    <string name="reminder">Reminder:</string>
+    <string name="task_alarm_channel_name">Task Manager</string>
+    <string name="task_alarm_channel_description">Notifications channel for Task Manager</string>
+    <string name="task_alarm_task_description_w_date">- %s (%s)</string>
+    <string name="task_alarm_task_description_wo_date">- %s</string>
+
+    <!--  Tutorial tasks  -->
+    <string-array name="tutorial_tasks_array">
+        <item>Welcome! This is your first task, swipe left to mark it as completed</item>
+        <item>Click on a task to modify it or click on the + button below to add a new one</item>
+        <item>Long click on a task to select it for deletion.\nAfter the delete menu opens, just tap on other tasks to select them too</item>
+        <item>Check out the Calendar category to get familiar with how tasks with different dates look like</item>
+        <item>This task is overdue!\nIt also had a reminder</item>
+        <item>This task has matching start and end times</item>
+        <item>This task starts and ends on the same day</item>
+        <item>This task has an active notification alarm set!\nThe notification will show the name of the task and it\'s start time if it has one</item>
+        <item>This task is marked as "all day"</item>
+        <item>Dates for completed tasks are never colored red</item>
+    </string-array>
+
+</resources>

@@ -49,7 +49,9 @@ android {
 }
 
 dependencies {
+    implementation(project(":core:common"))
     implementation(project(":core:compose"))
+    implementation(project(":core:task-storage"))
     implementation(libs.bundles.compose)
     implementation(libs.coreKtx)
     implementation(libs.lifecycleViewmodelKtx)

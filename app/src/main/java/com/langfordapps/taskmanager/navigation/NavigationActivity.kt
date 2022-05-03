@@ -1,8 +1,9 @@
-package com.langfordapps.taskmanager
+package com.langfordapps.taskmanager.navigation
 
 import android.os.Bundle
 import androidx.fragment.app.FragmentActivity
 import androidx.navigation.findNavController
+import com.langfordapps.taskmanager.R
 
 class MainActivity : FragmentActivity() {
 

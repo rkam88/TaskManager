@@ -1,6 +1,21 @@
 # Task Manager
 
-Currently rewriting in Compose. Progress can be seen in branch [feature/compose_remake](https://github.com/rkam88/TaskManager/tree/feature/compose_remake)
+Currently in the process of rewriting the app in Compose. Progress can be seen in branch [feature/compose_remake](https://github.com/rkam88/TaskManager/tree/feature/compose_remake)
+
+The project structure is divided in modules:
+- app: the main application module
+- features:
+    - task-list: used to displays the tasks
+    - edit: edit existing or create new tasks
+- core:
+    - common: extensions, base classes for the whole app
+    - compose: themes, colors, common ui-elements
+    - task-storage: a local storage for tasks (using Room)
+
+
+
+
+
 
 A free and simple task planning app. 
 

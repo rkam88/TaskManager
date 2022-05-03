@@ -49,7 +49,9 @@ android {
 }
 
 dependencies {
+    implementation(project(":core:compose"))
     implementation(libs.bundles.compose)
     implementation(libs.coreKtx)
     implementation(libs.lifecycleViewmodelKtx)
+    implementation(libs.fragmentKtx)
 }

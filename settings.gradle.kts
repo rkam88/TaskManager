@@ -55,9 +55,15 @@ dependencyResolutionManagement {
             library("androidJunit", "androidx.test.ext", "junit").version("1.1.3")
             library("ui-test-junit4", "androidx.compose.ui", "ui-test-junit4").version("1.1.1")
             library("espresso-core", "androidx.test.espresso", "espresso-core").version("3.4.0")
-            bundle("androidTestLibs", listOf("androidJunit","ui-test-junit4","espresso-core"))
+            bundle("androidTestLibs", listOf("androidJunit", "ui-test-junit4", "espresso-core"))
         }
     }
 }
 
 include(":app")
+
+rootDir.listFiles()
+    .filter { it.name == "features" || it.name == "core" }
+    .flatMap { it.listFiles().toList() }
+    .filter { it.isDirectory && it.isHidden.not() }
+    .forEach { include(":${it.parentFile.name}:${it.name}") }

@@ -1,4 +1,4 @@
-package com.langfordapps.taskmanager.list.internal.presentation
+package com.langfordapps.taskmanager.tasklist.internal.presentation
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
@@ -11,13 +11,13 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
-import com.langfordapps.taskmanager.list.internal.presentation.drawer.Drawer
-import com.langfordapps.taskmanager.list.internal.presentation.drawer.DrawerItem
-import com.langfordapps.taskmanager.list.internal.presentation.drawer.DrawerItem.ListTypeWithCount
+import com.langfordapps.taskmanager.tasklist.internal.presentation.drawer.Drawer
+import com.langfordapps.taskmanager.tasklist.internal.presentation.drawer.DrawerItem
+import com.langfordapps.taskmanager.tasklist.internal.presentation.drawer.DrawerItem.ListTypeWithCount
 import kotlinx.coroutines.launch
 
 @Composable
-internal fun ListScreen() {
+internal fun TaskListScreen() {
     val scaffoldState = rememberScaffoldState()
     val scope = rememberCoroutineScope()
 
@@ -29,21 +29,21 @@ internal fun ListScreen() {
 
 
     /* TODO: move to VM state */
-    var listType: ListType by remember { mutableStateOf(ListType.Inbox) }
+    var listType: TaskListType by remember { mutableStateOf(TaskListType.Inbox) }
     var drawerItems: List<DrawerItem> by remember {
         mutableStateOf(listOf(
-            ListTypeWithCount(ListType.Inbox, 1),
+            ListTypeWithCount(TaskListType.Inbox, 1),
             DrawerItem.Divider,
-            ListTypeWithCount(ListType.NextActions, 1),
-            ListTypeWithCount(ListType.Calendar, 1),
+            ListTypeWithCount(TaskListType.NextActions, 1),
+            ListTypeWithCount(TaskListType.Calendar, 1),
             DrawerItem.Divider,
-            ListTypeWithCount(ListType.WaitingFor, 1),
-            ListTypeWithCount(ListType.SomedayMaybe, 1),
+            ListTypeWithCount(TaskListType.WaitingFor, 1),
+            ListTypeWithCount(TaskListType.SomedayMaybe, 1),
             DrawerItem.Divider,
-            ListTypeWithCount(ListType.Completed, 1),
+            ListTypeWithCount(TaskListType.Completed, 1),
         ))
     }
-    val onDrawerItemClicked: (ListType) -> Unit = {
+    val onDrawerItemClicked: (TaskListType) -> Unit = {
         listType = it
         scope.launch { scaffoldState.drawerState.close() }
     }
@@ -100,6 +100,6 @@ private fun ListScreenPreview() {
         color = MaterialTheme.colors.background,
         modifier = Modifier.fillMaxSize()
     ) {
-        ListScreen()
+        TaskListScreen()
     }
 }

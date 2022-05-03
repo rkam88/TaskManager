@@ -1,4 +1,4 @@
-package com.langfordapps.taskmanager.list.api
+package com.langfordapps.taskmanager.tasklist.api
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -13,12 +13,12 @@ import androidx.compose.ui.platform.ComposeView
 import androidx.fragment.app.Fragment
 import com.langfordapps.taskmanager.compose.ui.theme.TaskManagerTheme
 
-class ListFragment : Fragment() {
+class TaskListFragment : Fragment() {
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
-        savedInstanceState: Bundle?
+        savedInstanceState: Bundle?,
     ): View {
         return ComposeView(requireContext()).apply {
             setContent {
@@ -27,7 +27,7 @@ class ListFragment : Fragment() {
                         modifier = Modifier.fillMaxSize(),
                         color = MaterialTheme.colors.background
                     ) {
-                        Text(text = this@ListFragment::class.java.simpleName)
+                        Text(text = this@TaskListFragment::class.java.simpleName)
                     }
                 }
             }

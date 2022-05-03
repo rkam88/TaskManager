@@ -1,4 +1,4 @@
-package com.langfordapps.taskmanager.list.internal.presentation.drawer
+package com.langfordapps.taskmanager.tasklist.internal.presentation.drawer
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
@@ -13,12 +13,12 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.langfordapps.taskmanager.common.api.extensions.exhaustive
-import com.langfordapps.taskmanager.list.internal.presentation.ListType
+import com.langfordapps.taskmanager.tasklist.internal.presentation.TaskListType
 
 @Composable
 internal fun Drawer(
     items: List<DrawerItem>,
-    onItemSelected: (ListType) -> Unit,
+    onItemSelected: (TaskListType) -> Unit,
 ) {
     Column {
         for (item in items) {
@@ -33,7 +33,7 @@ internal fun Drawer(
 @Composable
 private fun ListTypeWithCount(
     item: DrawerItem.ListTypeWithCount,
-    onItemSelected: (ListType) -> Unit,
+    onItemSelected: (TaskListType) -> Unit,
 ) {
     Row(
         verticalAlignment = Alignment.CenterVertically,

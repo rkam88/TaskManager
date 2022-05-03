@@ -6,7 +6,7 @@
 
     <fragment
         android:id="@+id/listFragment"
-        android:name="com.langfordapps.taskmanager.list.api.ListFragment">
+        android:name="com.langfordapps.taskmanager.tasklist.api.TaskListFragment">
 
         <action
             android:id="@+id/action_list_to_new_task"

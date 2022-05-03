@@ -1,3 +1,5 @@
+rootProject.name = "Task Manager"
+
 pluginManagement {
     repositories {
         gradlePluginPortal()
@@ -12,5 +14,5 @@ dependencyResolutionManagement {
         mavenCentral()
     }
 }
-rootProject.name = "Task Manager"
-include ':app'
+
+include(":app")

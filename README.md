@@ -1,5 +1,7 @@
 # Task Manager
 
+Currently rewriting in Compose. Progress can be seen in branch [feature/compose_remake](https://github.com/rkam88/TaskManager/tree/feature/compose_remake)
+
 A free and simple task planning app. 
 
 ### [Install from Google Play](https://play.google.com/store/apps/details?id=com.langfordapps.taskmanager)

@@ -52,6 +52,8 @@ dependencyResolutionManagement {
 
             library("room-compiler", "androidx.room", "room-compiler").versionRef("room")
 
+            version("koin","3.1.6")
+            library("koin", "io.insert-koin","koin-android").versionRef("koin")
 
 
 

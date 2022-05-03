@@ -13,8 +13,12 @@ android {
         applicationId = "com.langfordapps.taskmanager"
         minSdk = 23
         targetSdk = 32
-        versionCode = 1
-        versionName = "1.0"
+
+        val majorVersion = 0
+        val minorVersion = 3
+        val patchVersion = 0
+        versionCode = majorVersion * 10_000 + minorVersion * 100 + patchVersion
+        versionName = "$majorVersion.$minorVersion.$patchVersion"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
 

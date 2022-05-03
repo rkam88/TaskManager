@@ -45,6 +45,13 @@ dependencyResolutionManagement {
             version("fragmentKtx", "1.4.1")
             library("fragmentKtx", "androidx.fragment", "fragment-ktx").versionRef("fragmentKtx")
 
+            version("room","2.4.2")
+            library("room-runtime", "androidx.room", "room-runtime").versionRef("room")
+            library("room-ktx", "androidx.room", "room-ktx").versionRef("room")
+            bundle("room", listOf("room-runtime", "room-ktx"))
+
+            library("room-compiler", "androidx.room", "room-compiler").versionRef("room")
+
 
 
 

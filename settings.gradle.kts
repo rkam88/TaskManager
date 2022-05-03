@@ -25,18 +25,7 @@ dependencyResolutionManagement {
             library("compose-material", "androidx.compose.material", "material").versionRef("compose")
             library("compose-animation", "androidx.compose.animation", "animation").versionRef("compose")
             library("compose-material-icons-core", "androidx.compose.material", "material-icons-core").versionRef("compose")
-            bundle(
-                "compose",
-                listOf(
-                    "compose-ui",
-                    "compose-ui-tooling",
-                    "compose-ui-tooling-preview",
-                    "compose-foundation",
-                    "compose-material",
-                    "compose-animation",
-                    "compose-material-icons-core"
-                )
-            )
+            bundle("compose", listOf("compose-ui", "compose-ui-tooling", "compose-ui-tooling-preview", "compose-foundation", "compose-material", "compose-animation", "compose-material-icons-core"))
 
             version("composeActivity", "1.4.0")
             library("composeActivity", "androidx.activity", "activity-compose").versionRef("composeActivity")
@@ -47,6 +36,17 @@ dependencyResolutionManagement {
             version("lifecycleViewmodelKtx", "2.4.1")
             library("lifecycleViewmodelKtx", "androidx.lifecycle", "lifecycle-viewmodel-ktx"
             ).versionRef("lifecycleViewmodelKtx")
+
+            version("navigationComponent", "2.4.2")
+            library("navigation-fragment-ktx", "androidx.navigation", "navigation-fragment-ktx").versionRef("navigationComponent")
+            library("navigation-ui-ktx", "androidx.navigation", "navigation-ui-ktx").versionRef("navigationComponent")
+            bundle("navigationComponent", listOf("navigation-fragment-ktx", "navigation-ui-ktx"))
+
+            version("fragmentKtx", "1.4.1")
+            library("fragmentKtx", "androidx.fragment", "fragment-ktx").versionRef("fragmentKtx")
+
+
+
 
 
             library("junit", "junit", "junit").version("4.13.2")

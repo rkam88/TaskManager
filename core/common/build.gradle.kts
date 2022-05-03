@@ -1,3 +1,5 @@
+import com.langfordapps.plugins.Constants
+
 plugins {
     id("com.android.library")
     id("org.jetbrains.kotlin.android")
@@ -7,11 +9,11 @@ plugins {
 
 android {
 
-    compileSdk = 32
+    compileSdk = Constants.compileSdk
 
     defaultConfig {
-        minSdk = 23
-        targetSdk = 32
+        minSdk = Constants.minSdk
+        targetSdk = Constants.targetSdk
 
         vectorDrawables { useSupportLibrary = true }
     }
@@ -27,12 +29,12 @@ android {
     }
 
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_1_8
-        targetCompatibility = JavaVersion.VERSION_1_8
+        sourceCompatibility = Constants.jvmCompatibility
+        targetCompatibility = Constants.jvmCompatibility
     }
 
     kotlinOptions {
-        jvmTarget = "1.8"
+        jvmTarget = Constants.jvmTarget
     }
 
     packagingOptions {

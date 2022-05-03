@@ -1,4 +1,5 @@
 import com.android.build.gradle.internal.cxx.configure.gradleLocalProperties
+import com.langfordapps.plugins.Constants
 
 plugins {
     id("com.android.application")
@@ -7,12 +8,12 @@ plugins {
 
 android {
 
-    compileSdk = 32
+    compileSdk = Constants.compileSdk
 
     defaultConfig {
-        applicationId = "com.langfordapps.taskmanager"
-        minSdk = 23
-        targetSdk = 32
+        applicationId = Constants.applicationId
+        minSdk = Constants.minSdk
+        targetSdk = Constants.targetSdk
 
         val majorVersion = 0
         val minorVersion = 3
@@ -46,12 +47,12 @@ android {
     }
 
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_1_8
-        targetCompatibility = JavaVersion.VERSION_1_8
+        sourceCompatibility = Constants.jvmCompatibility
+        targetCompatibility = Constants.jvmCompatibility
     }
 
     kotlinOptions {
-        jvmTarget = "1.8"
+        jvmTarget = Constants.jvmTarget
     }
 
     buildFeatures {

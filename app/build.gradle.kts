@@ -80,6 +80,7 @@ dependencies {
     implementation(libs.coreKtx)
     implementation(libs.composeActivity)
     implementation(libs.lifecycleViewmodelKtx)
+    implementation(libs.bundles.navigationComponent)
 
     testImplementation(libs.bundles.testLibs)
     androidTestImplementation(libs.bundles.androidTestLibs)

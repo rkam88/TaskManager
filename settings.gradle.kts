@@ -6,7 +6,6 @@ pluginManagement {
         google()
         mavenCentral()
     }
-    includeBuild("common-build-logic")
 }
 
 dependencyResolutionManagement {
